@@ -64,8 +64,9 @@
 @layer components {
   /* Vibrant Colorful Button Styles - Responsive */
   .vibrant-button {
-    @apply relative overflow-hidden rounded-xl font-semibold text-white transition-all duration-300 transform hover:scale-105 hover:shadow-2xl;
+    @apply relative overflow-hidden rounded-xl font-bold text-white transition-all duration-300 transform hover:scale-105 hover:shadow-2xl;
     @apply px-4 py-2 text-sm sm:px-6 sm:py-3 sm:text-base md:px-8 md:py-4 md:text-lg;
+    @apply flex items-center justify-center space-x-2;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
     background-size: 300% 300%;
     animation: gradientShift 4s ease infinite;
@@ -94,8 +95,9 @@
 
   /* Secondary Vibrant Button - Responsive */
   .vibrant-button-secondary {
-    @apply relative overflow-hidden rounded-xl font-medium text-white transition-all duration-300 transform hover:scale-105;
+    @apply relative overflow-hidden rounded-xl font-bold text-white transition-all duration-300 transform hover:scale-105;
     @apply px-3 py-2 text-xs sm:px-4 sm:py-2 sm:text-sm md:px-6 md:py-3 md:text-base;
+    @apply flex items-center justify-center space-x-2;
     background: linear-gradient(135deg, #a8edea 0%, #fed6e3 25%, #fad0c4 50%, #ffd1ff 75%, #a8edea 100%);
     background-size: 300% 300%;
     animation: gradientShift 5s ease infinite;
@@ -112,7 +114,7 @@
   /* Colorful Icon Buttons - Responsive */
   .colorful-icon-button {
     @apply relative overflow-hidden rounded-full transition-all duration-300 transform hover:scale-110;
-    @apply p-2 sm:p-3 md:p-4;
+    @apply p-2 sm:p-3 md:p-4 flex items-center justify-center;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     border: 2px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
@@ -370,4 +372,145 @@
   .vibrant-button, .vibrant-button-secondary, .colorful-icon-button {
     @apply min-h-[44px] min-w-[44px];
   }
+}
+
+/* Rich Modern Animations */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes wiggle {
+  0%, 7% { transform: rotateZ(0); }
+  15% { transform: rotateZ(-15deg); }
+  20% { transform: rotateZ(10deg); }
+  25% { transform: rotateZ(-10deg); }
+  30% { transform: rotateZ(6deg); }
+  35% { transform: rotateZ(-4deg); }
+  40%, 100% { transform: rotateZ(0); }
+}
+
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  14% { transform: scale(1.1); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.1); }
+  70% { transform: scale(1); }
+}
+
+.animate-slide-up {
+  animation: slideInUp 0.6s ease-out forwards;
+}
+
+.animate-slide-left {
+  animation: slideInLeft 0.6s ease-out forwards;
+}
+
+.animate-slide-right {
+  animation: slideInRight 0.6s ease-out forwards;
+}
+
+.animate-fade-scale {
+  animation: fadeInScale 0.8s ease-out forwards;
+}
+
+.animate-wiggle {
+  animation: wiggle 1s ease-in-out;
+}
+
+.animate-heartbeat {
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+.animate-pulse-subtle {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-bounce-subtle {
+  animation: bounce 2s infinite;
+}
+
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease-out;
+}
+
+.animate-on-scroll.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered Animation Delays */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+
+/* Hover Animations */
+.hover-lift {
+  transition: all 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.hover-glow {
+  transition: all 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 50px rgba(102, 126, 234, 0.6);
+  transform: scale(1.05);
+}
+
+.hover-rotate {
+  transition: all 0.3s ease;
+}
+
+.hover-rotate:hover {
+  transform: rotate(5deg) scale(1.05);
 }
