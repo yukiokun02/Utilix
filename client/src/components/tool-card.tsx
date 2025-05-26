@@ -23,16 +23,16 @@ export default function ToolCard({ title, description, icon: Icon, href, gradien
   };
 
   return (
-    <div className={`${getCardClass(gradient)} group cursor-pointer p-6`}>
-      <div className="colorful-icon-button mb-4 inline-block">
-        <Icon className="w-6 h-6 text-white" />
+    <div className={`${getCardClass(gradient)} group cursor-pointer`}>
+      <div className="colorful-icon-button mb-3 sm:mb-4 inline-block">
+        <Icon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
       </div>
       
-      <h3 className="text-xl font-semibold mb-3 text-foreground group-hover:text-white transition-colors">
+      <h3 className="text-lg sm:text-xl md:text-2xl font-semibold mb-2 sm:mb-3 text-foreground group-hover:text-white transition-colors">
         {title}
       </h3>
       
-      <p className="text-muted-foreground leading-relaxed mb-6 group-hover:text-gray-200 transition-colors">
+      <p className="text-sm sm:text-base text-muted-foreground leading-relaxed mb-4 sm:mb-6 group-hover:text-gray-200 transition-colors">
         {description}
       </p>
       

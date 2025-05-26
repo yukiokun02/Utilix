@@ -20,44 +20,44 @@ export default function Home() {
         <BackgroundShapes variant="hero" />
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6">
             <span className="gradient-text">Universal</span>
             <br />
             <span className="text-foreground">Web Tools</span>
           </h1>
           
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed px-4">
             Transform, convert, and create with our comprehensive suite of web-based tools. 
             Everything you need, all in one place, completely free.
           </p>
           
-          <div className="flex justify-center mb-16">
+          <div className="flex justify-center mb-8 sm:mb-12 md:mb-16">
             <button 
               className="vibrant-button"
               onClick={() => document.getElementById('tools')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              <RocketIcon className="w-4 h-4 mr-2" />
+              <RocketIcon className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
               Explore Tools
             </button>
           </div>
           
           {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 max-w-4xl mx-auto px-4">
             <div className="text-center">
-              <div className="text-3xl font-bold text-indigo-400">7+</div>
-              <div className="text-muted-foreground text-sm">Tools Available</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-indigo-400">7+</div>
+              <div className="text-muted-foreground text-xs sm:text-sm">Tools Available</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-emerald-400">100%</div>
-              <div className="text-muted-foreground text-sm">Free to Use</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-emerald-400">100%</div>
+              <div className="text-muted-foreground text-xs sm:text-sm">Free to Use</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-purple-400">Client-Side</div>
-              <div className="text-muted-foreground text-sm">Processing</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-purple-400">Client-Side</div>
+              <div className="text-muted-foreground text-xs sm:text-sm">Processing</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-amber-400">No Limits</div>
-              <div className="text-muted-foreground text-sm">Usage</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-amber-400">No Limits</div>
+              <div className="text-muted-foreground text-xs sm:text-sm">Usage</div>
             </div>
           </div>
         </div>

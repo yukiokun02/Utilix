@@ -62,9 +62,10 @@
 }
 
 @layer components {
-  /* Vibrant Colorful Button Styles */
+  /* Vibrant Colorful Button Styles - Responsive */
   .vibrant-button {
-    @apply relative overflow-hidden rounded-xl px-8 py-4 font-semibold text-white transition-all duration-300 transform hover:scale-105 hover:shadow-2xl;
+    @apply relative overflow-hidden rounded-xl font-semibold text-white transition-all duration-300 transform hover:scale-105 hover:shadow-2xl;
+    @apply px-4 py-2 text-sm sm:px-6 sm:py-3 sm:text-base md:px-8 md:py-4 md:text-lg;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
     background-size: 300% 300%;
     animation: gradientShift 4s ease infinite;
@@ -91,9 +92,10 @@
     animation: borderGlow 3s linear infinite;
   }
 
-  /* Secondary Vibrant Button */
+  /* Secondary Vibrant Button - Responsive */
   .vibrant-button-secondary {
-    @apply relative overflow-hidden rounded-xl px-6 py-3 font-medium text-white transition-all duration-300 transform hover:scale-105;
+    @apply relative overflow-hidden rounded-xl font-medium text-white transition-all duration-300 transform hover:scale-105;
+    @apply px-3 py-2 text-xs sm:px-4 sm:py-2 sm:text-sm md:px-6 md:py-3 md:text-base;
     background: linear-gradient(135deg, #a8edea 0%, #fed6e3 25%, #fad0c4 50%, #ffd1ff 75%, #a8edea 100%);
     background-size: 300% 300%;
     animation: gradientShift 5s ease infinite;
@@ -107,9 +109,10 @@
     box-shadow: 0 0 35px rgba(255, 154, 158, 0.6);
   }
 
-  /* Colorful Icon Buttons */
+  /* Colorful Icon Buttons - Responsive */
   .colorful-icon-button {
-    @apply relative overflow-hidden rounded-full p-3 transition-all duration-300 transform hover:scale-110;
+    @apply relative overflow-hidden rounded-full transition-all duration-300 transform hover:scale-110;
+    @apply p-2 sm:p-3 md:p-4;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     border: 2px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
@@ -120,9 +123,10 @@
     box-shadow: 0 0 30px rgba(255, 107, 157, 0.5);
   }
 
-  /* Vibrant Cards */
+  /* Vibrant Cards - Responsive */
   .vibrant-card {
     @apply relative overflow-hidden rounded-2xl border transition-all duration-300 transform hover:scale-[1.02] hover:shadow-2xl;
+    @apply p-4 sm:p-5 md:p-6 lg:p-8;
     background: linear-gradient(135deg, rgba(26, 32, 44, 0.95) 0%, rgba(45, 55, 72, 0.95) 50%, rgba(26, 32, 44, 0.95) 100%);
     border: 2px solid transparent;
     box-shadow: 0 0 30px rgba(102, 126, 234, 0.2);
@@ -209,9 +213,10 @@
     animation: float 8s ease-in-out infinite;
   }
 
-  /* Form Input Enhancements */
+  /* Form Input Enhancements - Responsive */
   .vibrant-input {
-    @apply rounded-xl border-2 bg-gray-900/50 px-4 py-3 text-white transition-all duration-300;
+    @apply rounded-xl border-2 bg-gray-900/50 text-white transition-all duration-300;
+    @apply px-3 py-2 text-sm sm:px-4 sm:py-3 sm:text-base;
     border: 2px solid rgba(102, 126, 234, 0.3);
     box-shadow: 0 0 15px rgba(102, 126, 234, 0.1);
   }
