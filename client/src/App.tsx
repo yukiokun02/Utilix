@@ -11,6 +11,7 @@ import FileConverter from "@/pages/file-converter";
 import TempEmail from "@/pages/temp-email";
 import FontChanger from "@/pages/font-changer";
 import CodeNotepad from "@/pages/code-notepad";
+import Donate from "@/pages/donate";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -23,6 +24,7 @@ function Router() {
       <Route path="/temp-email" component={TempEmail} />
       <Route path="/font-changer" component={FontChanger} />
       <Route path="/code-notepad" component={CodeNotepad} />
+      <Route path="/donate" component={Donate} />
       <Route component={NotFound} />
     </Switch>
   );

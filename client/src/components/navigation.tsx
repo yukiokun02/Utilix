@@ -27,24 +27,24 @@ export default function Navigation() {
           <div className="hidden md:flex items-center space-x-4 lg:space-x-8">
             <div className="relative">
               <button 
-                className="vibrant-button-secondary text-sm font-bold flex items-center space-x-2"
+                className="vibrant-button-secondary text-sm font-bold flex items-center space-x-2 hover:brightness-110 active:scale-95 transition-all duration-200"
                 onMouseEnter={() => setIsToolsDropdownOpen(true)}
                 onMouseLeave={() => setIsToolsDropdownOpen(false)}
               >
                 <span>Tools</span>
-                <ChevronDownIcon className="w-3 h-3" />
+                <ChevronDownIcon className={`w-3 h-3 transition-transform duration-200 ${isToolsDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
               
               {isToolsDropdownOpen && (
                 <div 
-                  className="absolute top-full left-0 mt-2 w-56 vibrant-card rounded-xl shadow-2xl border-2 border-white/20"
+                  className="absolute top-full left-0 mt-2 w-56 vibrant-card rounded-xl shadow-2xl border-2 border-white/20 animate-slide-down origin-top"
                   onMouseEnter={() => setIsToolsDropdownOpen(true)}
                   onMouseLeave={() => setIsToolsDropdownOpen(false)}
                 >
                   <div className="p-2">
                     {tools.map((tool, index) => (
                       <Link key={index} href={tool.href}>
-                        <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-white/10 transition-all duration-200 cursor-pointer">
+                        <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-white/10 hover:scale-105 transition-all duration-300 cursor-pointer transform">
                           <tool.icon className="w-4 h-4 text-white" />
                           <span className="text-sm font-semibold text-white">{tool.name}</span>
                         </div>
@@ -54,6 +54,12 @@ export default function Navigation() {
                 </div>
               )}
             </div>
+            
+            <Link href="/donate">
+              <button className="vibrant-button text-sm font-bold hover:brightness-110 active:scale-95 transition-all duration-200">
+                <span>Donate Us</span>
+              </button>
+            </Link>
           </div>
           
           <button

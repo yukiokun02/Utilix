@@ -69,22 +69,23 @@ export default function EnderHostFooter() {
           </p>
 
           {/* Features Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mb-8 sm:mb-12">
+          <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 md:gap-8 mb-8 sm:mb-12">
             {features.map((feature, index) => (
               <div 
                 key={index} 
-                className="vibrant-card group cursor-pointer animate-on-scroll"
-                style={{ animationDelay: `${index * 0.2}s` }}
+                className="flex items-center space-x-3 bg-gray-800/50 rounded-lg px-4 py-3 border border-gray-700/50 hover:border-emerald-500/50 transition-all duration-300"
               >
-                <div className="colorful-icon-button mb-3 sm:mb-4 mx-auto">
-                  <feature.icon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500 flex items-center justify-center">
+                  <feature.icon className="w-4 h-4 text-white" />
                 </div>
-                <h3 className="text-sm sm:text-base md:text-lg font-bold text-white mb-2">
-                  {feature.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-gray-300">
-                  {feature.description}
-                </p>
+                <div>
+                  <h3 className="text-sm font-bold text-white">
+                    {feature.title}
+                  </h3>
+                  <p className="text-xs text-gray-400">
+                    {feature.description}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
