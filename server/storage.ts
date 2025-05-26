@@ -1,4 +1,7 @@
 import { users, tempEmails, tempEmailMessages, type User, type InsertUser, type TempEmail, type InsertTempEmail, type TempEmailMessage, type InsertTempEmailMessage } from "@shared/schema";
+import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
+import { eq, lt } from "drizzle-orm";
 
 // modify the interface with any CRUD methods
 // you might need
@@ -15,22 +18,12 @@ export interface IStorage {
   cleanupExpiredTempEmails(): Promise<void>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private tempEmails: Map<string, TempEmail>;
-  private tempEmailMessages: Map<number, TempEmailMessage>;
-  private currentUserId: number;
-  private currentTempEmailId: number;
-  private currentMessageId: number;
+// Database connection
+const sql = neon(process.env.DATABASE_URL!);
+const db = drizzle(sql);
 
+export class DatabaseStorage implements IStorage {
   constructor() {
-    this.users = new Map();
-    this.tempEmails = new Map();
-    this.tempEmailMessages = new Map();
-    this.currentUserId = 1;
-    this.currentTempEmailId = 1;
-    this.currentMessageId = 1;
-
     // Start cleanup interval for expired emails
     setInterval(() => {
       this.cleanupExpiredTempEmails();
@@ -38,42 +31,37 @@ export class MemStorage implements IStorage {
   }
 
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+    const result = await db.select().from(users).where(eq(users.id, id)).limit(1);
+    return result[0];
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    const result = await db.select().from(users).where(eq(users.username, username)).limit(1);
+    return result[0];
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.currentUserId++;
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+    const result = await db.insert(users).values(insertUser).returning();
+    return result[0];
   }
 
   async generateTempEmail(): Promise<TempEmail> {
-    const id = this.currentTempEmailId++;
     const randomString = Math.random().toString(36).substring(2, 10);
     const email = `temp_${randomString}@tempmail.dev`;
     const createdAt = new Date();
     const expiresAt = new Date(createdAt.getTime() + 24 * 60 * 60 * 1000); // 24 hours
 
-    const tempEmail: TempEmail = {
-      id,
+    const result = await db.insert(tempEmails).values({
       email,
-      createdAt,
       expiresAt,
-    };
-
-    this.tempEmails.set(email, tempEmail);
-    return tempEmail;
+    }).returning();
+    
+    return result[0];
   }
 
   async getTempEmail(email: string): Promise<TempEmail | undefined> {
-    return this.tempEmails.get(email);
+    const result = await db.select().from(tempEmails).where(eq(tempEmails.email, email)).limit(1);
+    return result[0];
   }
 
   async getTempEmailMessages(email: string): Promise<TempEmailMessage[]> {
@@ -82,52 +70,43 @@ export class MemStorage implements IStorage {
       return [];
     }
 
-    return Array.from(this.tempEmailMessages.values()).filter(
-      (message) => message.tempEmailId === tempEmail.id
-    );
+    const result = await db.select().from(tempEmailMessages).where(eq(tempEmailMessages.tempEmailId, tempEmail.id));
+    return result;
   }
 
   async addTempEmailMessage(insertMessage: InsertTempEmailMessage): Promise<TempEmailMessage> {
-    const id = this.currentMessageId++;
-    const message: TempEmailMessage = {
-      ...insertMessage,
-      id,
-      receivedAt: new Date(),
-    };
-
-    this.tempEmailMessages.set(id, message);
-    return message;
+    const result = await db.insert(tempEmailMessages).values(insertMessage).returning();
+    return result[0];
   }
 
   async deleteTempEmail(email: string): Promise<void> {
-    const tempEmail = this.tempEmails.get(email);
+    const tempEmail = await this.getTempEmail(email);
     if (tempEmail) {
-      this.tempEmails.delete(email);
-      
-      // Delete associated messages
-      const messages = Array.from(this.tempEmailMessages.entries());
-      messages.forEach(([messageId, message]) => {
-        if (message.tempEmailId === tempEmail.id) {
-          this.tempEmailMessages.delete(messageId);
-        }
-      });
+      // Delete associated messages first
+      await db.delete(tempEmailMessages).where(eq(tempEmailMessages.tempEmailId, tempEmail.id));
+      // Delete the temp email
+      await db.delete(tempEmails).where(eq(tempEmails.email, email));
     }
   }
 
   async cleanupExpiredTempEmails(): Promise<void> {
     const now = new Date();
-    const expiredEmails: string[] = [];
+    
+    // Get expired emails
+    const expiredEmails = await db.select().from(tempEmails).where(
+      lt(tempEmails.expiresAt, now)
+    );
 
-    this.tempEmails.forEach((tempEmail, email) => {
-      if (tempEmail.expiresAt < now) {
-        expiredEmails.push(email);
-      }
-    });
-
-    for (const email of expiredEmails) {
-      await this.deleteTempEmail(email);
+    // Delete messages for expired emails
+    for (const tempEmail of expiredEmails) {
+      await db.delete(tempEmailMessages).where(eq(tempEmailMessages.tempEmailId, tempEmail.id));
     }
+
+    // Delete expired emails
+    await db.delete(tempEmails).where(
+      lt(tempEmails.expiresAt, now)
+    );
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
