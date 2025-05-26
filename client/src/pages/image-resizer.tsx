@@ -94,7 +94,9 @@ export default function ImageResizer() {
       }
     } else {
       setWidthPercent(newWidth);
-      setHeightPercent(newWidth);
+      if (maintainRatio) {
+        setHeightPercent(newWidth);
+      }
       if (originalDimensions) {
         setWidth(Math.round(originalDimensions.width * (newWidth / 100)));
         setHeight(Math.round(originalDimensions.height * (newWidth / 100)));
