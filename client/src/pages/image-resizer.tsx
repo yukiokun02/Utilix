@@ -371,6 +371,12 @@ export default function ImageResizer() {
                   <h4 className="text-sm font-medium text-foreground mb-2">Original</h4>
                   <div className="border border-border rounded-xl p-4 bg-background">
                     <img src={previewUrl} alt="Original" className="max-w-full h-auto" />
+                    <div className="mt-3 p-3 bg-gray-800/50 rounded-lg">
+                      <div className="text-xs text-gray-400 space-y-1">
+                        <div>Dimensions: {originalDimensions?.width} × {originalDimensions?.height}px</div>
+                        <div>File Size: <span className="font-semibold text-white">{formatFileSize(originalFileSize)}</span></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
@@ -386,6 +392,21 @@ export default function ImageResizer() {
                   </div>
                   <div className="border border-border rounded-xl p-4 bg-background">
                     <img src={resizedUrl} alt="Resized" className="max-w-full h-auto" />
+                    <div className="mt-3 p-3 bg-gray-800/50 rounded-lg">
+                      <div className="text-xs text-gray-400 space-y-1">
+                        <div>New Dimensions: {width} × {height}px</div>
+                        <div>New File Size: <span className="font-semibold text-white">{formatFileSize(resizedFileSize)}</span></div>
+                        <div>Quality: <span className="font-semibold text-emerald-400">{qualityPercent}%</span></div>
+                        {originalFileSize > 0 && resizedFileSize > 0 && (
+                          <div>
+                            Size Change: 
+                            <span className={`font-semibold ml-1 ${resizedFileSize < originalFileSize ? 'text-green-400' : 'text-orange-400'}`}>
+                              {resizedFileSize < originalFileSize ? '-' : '+'}{Math.abs(((resizedFileSize - originalFileSize) / originalFileSize * 100)).toFixed(1)}%
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
