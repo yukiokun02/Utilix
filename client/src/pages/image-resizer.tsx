@@ -237,31 +237,76 @@ export default function ImageResizer() {
           </Card>
           
           {/* Resize Controls */}
-          <Card className="bg-card/50 backdrop-blur-sm border-border">
+          <Card className="solid-card">
             <CardHeader>
               <CardTitle className="text-foreground">Resize Options</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <Label className="text-foreground">Width (px)</Label>
-                <Input
-                  type="number"
-                  value={width}
-                  onChange={(e) => handleWidthChange(Number(e.target.value))}
-                  className="bg-background border-border text-foreground"
-                  placeholder="800"
-                />
+                <Label className="text-foreground mb-2 block">Resize Method</Label>
+                <Select value={resizeMethod} onValueChange={(value: 'pixels' | 'percent') => setResizeMethod(value)}>
+                  <SelectTrigger className="bg-background border-border text-foreground">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="pixels">Pixels</SelectItem>
+                    <SelectItem value="percent">Percentage</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
-              <div>
-                <Label className="text-foreground">Height (px)</Label>
-                <Input
-                  type="number"
-                  value={height}
-                  onChange={(e) => handleHeightChange(Number(e.target.value))}
-                  className="bg-background border-border text-foreground"
-                  placeholder="600"
-                />
-              </div>
+              
+              {resizeMethod === 'pixels' ? (
+                <>
+                  <div>
+                    <Label className="text-foreground">Width (px)</Label>
+                    <Input
+                      type="number"
+                      value={width}
+                      onChange={(e) => handleWidthChange(Number(e.target.value))}
+                      className="bg-background border-border text-foreground"
+                      placeholder="800"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-foreground">Height (px)</Label>
+                    <Input
+                      type="number"
+                      value={height}
+                      onChange={(e) => handleHeightChange(Number(e.target.value))}
+                      className="bg-background border-border text-foreground"
+                      placeholder="600"
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div>
+                    <Label className="text-foreground">Width (%)</Label>
+                    <Input
+                      type="number"
+                      value={widthPercent}
+                      onChange={(e) => handleWidthChange(Number(e.target.value))}
+                      className="bg-background border-border text-foreground"
+                      placeholder="100"
+                      min="1"
+                      max="500"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-foreground">Height (%)</Label>
+                    <Input
+                      type="number"
+                      value={heightPercent}
+                      onChange={(e) => handleHeightChange(Number(e.target.value))}
+                      className="bg-background border-border text-foreground"
+                      placeholder="100"
+                      min="1"
+                      max="500"
+                    />
+                  </div>
+                </>
+              )}
+              
               <div className="flex items-center space-x-2">
                 <Checkbox
                   id="maintainRatio"
@@ -270,6 +315,22 @@ export default function ImageResizer() {
                 />
                 <Label htmlFor="maintainRatio" className="text-foreground">Maintain aspect ratio</Label>
               </div>
+              
+              <div>
+                <Label className="text-foreground">Target File Size (KB, optional)</Label>
+                <Input
+                  type="number"
+                  value={targetFileSize}
+                  onChange={(e) => setTargetFileSize(Number(e.target.value))}
+                  className="bg-background border-border text-foreground"
+                  placeholder="0 (no limit)"
+                  min="0"
+                />
+                <p className="text-xs text-muted-foreground mt-1">
+                  Leave empty or 0 for no compression limit
+                </p>
+              </div>
+              
               <Button 
                 onClick={handleResize}
                 disabled={!selectedFile || isProcessing}

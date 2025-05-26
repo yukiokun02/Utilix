@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import BackgroundShapes from "@/components/background-shapes";
-import { ArrowLeftIcon, MailIcon, RefreshCwIcon, CopyIcon, ClockIcon } from "lucide-react";
+import { ArrowLeftIcon, MailIcon, RefreshCwIcon, CopyIcon, ClockIcon, InboxIcon } from "lucide-react";
 import { Link } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
@@ -15,11 +15,21 @@ export default function TempEmail() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const { data: messages, isLoading: messagesLoading } = useQuery({
+  const { data: messages, isLoading: messagesLoading, refetch: refetchMessages } = useQuery({
     queryKey: ['/api/temp-email', currentEmail?.email, 'messages'],
     enabled: !!currentEmail?.email,
     refetchInterval: 5000, // Poll every 5 seconds for new messages
   });
+
+  const refreshInbox = () => {
+    if (currentEmail) {
+      refetchMessages();
+      toast({
+        title: "Inbox refreshed",
+        description: "Checking for new messages..."
+      });
+    }
+  };
 
   const generateEmailMutation = useMutation({
     mutationFn: async () => {
@@ -180,7 +190,7 @@ export default function TempEmail() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-blue-400">
-                    {messages?.length || 0}
+                    {Array.isArray(messages) ? messages.length : 0}
                   </div>
                   <div className="text-muted-foreground text-sm">Messages</div>
                 </div>
@@ -204,9 +214,22 @@ export default function TempEmail() {
         </div>
         
         {/* Inbox */}
-        <Card className="bg-card/50 backdrop-blur-sm border-border">
+        <Card className="solid-card">
           <CardHeader>
-            <CardTitle className="text-foreground">Inbox</CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-foreground">Inbox</CardTitle>
+              {currentEmail && (
+                <Button 
+                  onClick={refreshInbox}
+                  size="sm"
+                  variant="outline"
+                  className="pill-button"
+                >
+                  <InboxIcon className="w-4 h-4 mr-2" />
+                  Refresh
+                </Button>
+              )}
+            </div>
           </CardHeader>
           <CardContent>
             {!currentEmail ? (

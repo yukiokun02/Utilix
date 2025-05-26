@@ -8,10 +8,14 @@ import { convertImage } from "@/lib/image-utils";
 import { useToast } from "@/hooks/use-toast";
 
 const SUPPORTED_FORMATS = [
-  { value: 'jpeg', label: 'JPG', mime: 'image/jpeg' },
+  { value: 'jpeg', label: 'JPEG/JPG', mime: 'image/jpeg' },
   { value: 'png', label: 'PNG', mime: 'image/png' },
   { value: 'webp', label: 'WEBP', mime: 'image/webp' },
   { value: 'gif', label: 'GIF', mime: 'image/gif' },
+  { value: 'bmp', label: 'BMP', mime: 'image/bmp' },
+  { value: 'ico', label: 'ICO', mime: 'image/x-icon' },
+  { value: 'tiff', label: 'TIFF', mime: 'image/tiff' },
+  { value: 'svg', label: 'SVG', mime: 'image/svg+xml' },
 ];
 
 export default function ImageConverter() {
@@ -116,9 +120,29 @@ export default function ImageConverter() {
           </Link>
         </div>
         
+        {/* Supported Formats Info */}
+        <Card className="solid-card mb-8">
+          <CardHeader>
+            <CardTitle className="text-foreground">Supported Formats</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {SUPPORTED_FORMATS.map((format) => (
+                <div key={format.value} className="text-center p-3 bg-background rounded-lg border border-border">
+                  <div className="font-medium text-foreground">{format.label}</div>
+                  <div className="text-xs text-muted-foreground">{format.mime.split('/')[1].toUpperCase()}</div>
+                </div>
+              ))}
+            </div>
+            <p className="mt-4 text-sm text-muted-foreground">
+              Convert between any of these popular image formats with high quality preservation.
+            </p>
+          </CardContent>
+        </Card>
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
           {/* Upload */}
-          <Card className="bg-card/50 backdrop-blur-sm border-border">
+          <Card className="solid-card">
             <CardHeader>
               <CardTitle className="text-foreground">Select Image</CardTitle>
             </CardHeader>
@@ -152,7 +176,7 @@ export default function ImageConverter() {
           </Card>
           
           {/* Format Selection */}
-          <Card className="bg-card/50 backdrop-blur-sm border-border">
+          <Card className="solid-card">
             <CardHeader>
               <CardTitle className="text-foreground">Output Format</CardTitle>
             </CardHeader>
@@ -184,7 +208,7 @@ export default function ImageConverter() {
           </Card>
           
           {/* Download */}
-          <Card className="bg-card/50 backdrop-blur-sm border-border">
+          <Card className="solid-card">
             <CardHeader>
               <CardTitle className="text-foreground">Download</CardTitle>
             </CardHeader>
