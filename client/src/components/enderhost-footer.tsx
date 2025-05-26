@@ -63,7 +63,7 @@ export default function EnderHostFooter() {
             </h2>
           </div>
           
-          <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-3xl mx-auto mb-6 sm:mb-8">
+          <p className="text-sm sm:text-base md:text-lg text-gray-300 max-w-3xl mx-auto mb-6 sm:mb-8 font-medium">
             Power your Minecraft server with <span className="font-bold text-emerald-400">EnderHOST</span> - 
             India's premium Minecraft hosting provider with lightning-fast servers and unbeatable support.
           </p>
@@ -118,12 +118,12 @@ export default function EnderHostFooter() {
         <div className="border-t border-gray-700/50 pt-6 sm:pt-8">
           <div className="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
             <div className="text-center sm:text-left">
-              <p className="text-xs sm:text-sm text-muted-foreground">
+              <p className="text-xs sm:text-sm text-gray-400 font-medium">
                 © 2024 <span className="font-bold gradient-text">Utilitix</span>. All rights reserved.
               </p>
             </div>
             <div className="text-center sm:text-right">
-              <p className="text-xs sm:text-sm text-muted-foreground">
+              <p className="text-xs sm:text-sm text-gray-400 font-medium">
                 Powered by <a 
                   href="https://www.enderhost.in" 
                   target="_blank" 
