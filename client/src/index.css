@@ -125,9 +125,9 @@
     box-shadow: 0 0 30px rgba(255, 107, 157, 0.5);
   }
 
-  /* Vibrant Cards - Responsive */
+  /* Vibrant Cards - Enhanced with Better Highlighting */
   .vibrant-card {
-    @apply relative overflow-hidden rounded-2xl border transition-all duration-300 transform hover:scale-[1.02] hover:shadow-2xl;
+    @apply relative overflow-hidden rounded-2xl border transition-all duration-500 transform hover:scale-[1.05] hover:shadow-2xl hover:-translate-y-1;
     @apply p-4 sm:p-5 md:p-6 lg:p-8;
     background: linear-gradient(135deg, rgba(26, 32, 44, 0.95) 0%, rgba(45, 55, 72, 0.95) 50%, rgba(26, 32, 44, 0.95) 100%);
     border: 2px solid transparent;
@@ -144,7 +144,7 @@
     background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
     background-size: 300% 300%;
     animation: gradientShift 6s ease infinite;
-    opacity: 0.1;
+    opacity: 0.15;
     z-index: 0;
   }
 
@@ -154,7 +154,8 @@
   }
 
   .vibrant-card:hover::before {
-    opacity: 0.15;
+    opacity: 0.25;
+    animation-duration: 3s;
   }
 
   /* Tool Cards with Different Color Themes */

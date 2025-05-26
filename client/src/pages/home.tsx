@@ -27,7 +27,7 @@ export default function Home() {
             <span className="text-foreground">Web Tools</span>
           </h1>
           
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed px-4 animate-slide-up stagger-1">
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed px-4 animate-slide-up stagger-1 font-medium">
             Transform, convert, and create with our comprehensive suite of web-based tools. 
             Everything you need, all in one place, completely free.
           </p>
@@ -75,7 +75,7 @@ export default function Home() {
                 Powerful Tools
               </span>
             </h2>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 max-w-2xl mx-auto px-4 font-medium">
               Professional-grade tools that work entirely in your browser. No uploads, no limits, no compromises.
             </p>
           </div>

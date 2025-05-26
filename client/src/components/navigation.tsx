@@ -86,6 +86,12 @@ export default function Navigation() {
                   ))}
                 </div>
               </div>
+              
+              <Link href="/donate">
+                <button className="vibrant-button w-full font-bold" onClick={() => setIsMenuOpen(false)}>
+                  <span>Donate Us</span>
+                </button>
+              </Link>
             </div>
           </div>
         )}
