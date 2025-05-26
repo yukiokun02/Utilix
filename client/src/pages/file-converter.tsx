@@ -171,9 +171,8 @@ export default function FileConverter() {
             <p className="text-muted-foreground">Convert between various file formats</p>
           </div>
           <Link href="/">
-            <Button variant="outline" className="pill-button">
-              <ArrowLeftIcon className="w-4 h-4 mr-2" />
-              Back to Tools
+            <Button variant="outline" size="icon" className="w-10 h-10 rounded-lg">
+              <ArrowLeftIcon className="w-4 h-4" />
             </Button>
           </Link>
         </div>
