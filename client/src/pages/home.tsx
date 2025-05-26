@@ -83,8 +83,8 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             <div className="animate-slide-up stagger-1 hover-lift">
               <ToolCard
-                title="Image Resizer"
-                description="Resize images instantly with drag-and-drop functionality. Maintain quality while optimizing file sizes."
+                title="Image Resizer/Converter"
+                description="Resize, crop, convert, and optimize images with advanced tools. Support for all formats with quality control."
                 icon={ExpandIcon}
                 href="/image-resizer"
                 gradient="from-indigo-500 to-purple-600"
@@ -93,21 +93,11 @@ export default function Home() {
             
             <div className="animate-slide-up stagger-2 hover-lift">
               <ToolCard
-                title="Image Converter"
-                description="Convert between any image format - JPG, PNG, WEBP, GIF, and more. Lightning-fast conversion."
-                icon={RefreshCwIcon}
-                href="/image-converter"
-                gradient="from-emerald-500 to-teal-600"
-              />
-            </div>
-            
-            <div className="animate-slide-up stagger-3 hover-lift">
-              <ToolCard
-                title="File Converter"
+                title="FileType Changer"
                 description="Universal file format converter supporting documents, archives, and multimedia files."
                 icon={FileTextIcon}
                 href="/file-converter"
-                gradient="from-amber-500 to-orange-600"
+                gradient="from-emerald-500 to-teal-600"
               />
             </div>
             
@@ -133,8 +123,8 @@ export default function Home() {
             
             <div className="animate-slide-up stagger-6 hover-lift">
               <ToolCard
-                title="Code Notepad"
-                description="Write, edit, and save code with syntax highlighting. Export in any format - JS, Python, HTML, CSS, and more."
+                title="Text Editor"
+                description="Write, edit, and save text with syntax highlighting. Export in any format - JS, Python, HTML, CSS, and more."
                 icon={CodeIcon}
                 href="/code-notepad"
                 gradient="from-violet-500 to-purple-600"

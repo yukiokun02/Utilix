@@ -6,10 +6,11 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BackgroundShapes from "@/components/background-shapes";
-import { ArrowLeftIcon, CloudUploadIcon, DownloadIcon, XIcon } from "lucide-react";
+import { ArrowLeftIcon, CloudUploadIcon, DownloadIcon, XIcon, CropIcon, RefreshCwIcon } from "lucide-react";
 import { Link } from "wouter";
-import { resizeImage } from "@/lib/image-utils";
+import { resizeImage, convertImage } from "@/lib/image-utils";
 import { useToast } from "@/hooks/use-toast";
 
 export default function ImageResizer() {
@@ -24,6 +25,9 @@ export default function ImageResizer() {
   const [heightPercent, setHeightPercent] = useState<number>(100);
   const [qualityPercent, setQualityPercent] = useState<number>(90);
   const [resizedFileSize, setResizedFileSize] = useState<number>(0);
+  const [outputFormat, setOutputFormat] = useState<string>("png");
+  const [convertedUrl, setConvertedUrl] = useState<string>("");
+  const [activeTab, setActiveTab] = useState<string>("resize");
   const [targetFileSize, setTargetFileSize] = useState<number>(0);
   const [originalDimensions, setOriginalDimensions] = useState<{width: number; height: number} | null>(null);
   const [originalFileSize, setOriginalFileSize] = useState<number>(0);
@@ -190,10 +194,10 @@ export default function ImageResizer() {
           <div>
             <h1 className="text-4xl font-bold mb-2">
               <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
-                Image Resizer
+                Image Resizer/Converter
               </span>
             </h1>
-            <p className="text-muted-foreground">Resize images while maintaining quality</p>
+            <p className="text-gray-300 font-medium">Resize, convert, and optimize images with professional tools</p>
           </div>
           <Link href="/">
             <Button variant="outline" className="pill-button">
