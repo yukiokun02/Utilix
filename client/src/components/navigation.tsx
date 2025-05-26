@@ -11,47 +11,39 @@ export default function Navigation() {
     <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-lg border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
-              <Hammer className="w-4 h-4 text-white" />
+          <Link href="/" className="flex items-center space-x-2 sm:space-x-3">
+            <div className="colorful-icon-button">
+              <Hammer className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
             </div>
-            <span className="text-xl font-bold gradient-text">ToolBox Pro</span>
+            <span className="text-base sm:text-lg md:text-xl font-bold gradient-text">ToolBox Pro</span>
           </Link>
           
-          <div className="hidden md:flex items-center space-x-8">
-            <Link href="/" className={`transition-colors ${location === '/' ? 'text-white' : 'text-muted-foreground hover:text-foreground'}`}>
-              Home
-            </Link>
-            <Link href="/#tools" className="text-muted-foreground hover:text-foreground transition-colors">
+          <div className="hidden md:flex items-center space-x-4 lg:space-x-8">
+            <button className="vibrant-button-secondary text-sm">
               Tools
-            </Link>
-            <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+            </button>
+            <button className="vibrant-button-secondary text-sm">
               Support Us
-            </Link>
+            </button>
           </div>
           
-          <Button
-            variant="ghost"
-            size="sm"
-            className="md:hidden"
+          <button
+            className="colorful-icon-button md:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            <MenuIcon className="w-5 h-5" />
-          </Button>
+            <MenuIcon className="w-4 h-4 text-white" />
+          </button>
         </div>
         
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-border">
-            <div className="flex flex-col space-y-4">
-              <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors">
-                Home
-              </Link>
-              <Link href="/#tools" className="text-muted-foreground hover:text-foreground transition-colors">
+            <div className="flex flex-col space-y-3">
+              <button className="vibrant-button-secondary text-sm w-full" onClick={() => setIsMenuOpen(false)}>
                 Tools
-              </Link>
-              <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+              </button>
+              <button className="vibrant-button-secondary text-sm w-full" onClick={() => setIsMenuOpen(false)}>
                 Support Us
-              </Link>
+              </button>
             </div>
           </div>
         )}

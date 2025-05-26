@@ -307,3 +307,67 @@
 .floating-element:nth-child(3) {
   animation-delay: -4s;
 }
+
+/* Mobile Optimizations */
+@media (max-width: 640px) {
+  .vibrant-button {
+    @apply text-sm px-6 py-3;
+  }
+  
+  .vibrant-button-secondary {
+    @apply text-xs px-4 py-2;
+  }
+  
+  .colorful-icon-button {
+    @apply p-2;
+  }
+  
+  .vibrant-card {
+    @apply p-4;
+  }
+}
+
+/* Tablet Optimizations */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .vibrant-button {
+    @apply text-base px-7 py-3.5;
+  }
+  
+  .vibrant-button-secondary {
+    @apply text-sm px-5 py-2.5;
+  }
+  
+  .colorful-icon-button {
+    @apply p-3;
+  }
+  
+  .vibrant-card {
+    @apply p-6;
+  }
+}
+
+/* Desktop Optimizations */
+@media (min-width: 1025px) {
+  .vibrant-button {
+    @apply text-lg px-8 py-4;
+  }
+  
+  .vibrant-button-secondary {
+    @apply text-base px-6 py-3;
+  }
+  
+  .colorful-icon-button {
+    @apply p-4;
+  }
+  
+  .vibrant-card {
+    @apply p-8;
+  }
+}
+
+/* Touch-friendly interactive elements */
+@media (hover: none) and (pointer: coarse) {
+  .vibrant-button, .vibrant-button-secondary, .colorful-icon-button {
+    @apply min-h-[44px] min-w-[44px];
+  }
+}
