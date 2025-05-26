@@ -129,7 +129,7 @@ export default function TempEmail() {
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Email Generator */}
-          <Card className="bg-card/50 backdrop-blur-sm border-border">
+          <Card className="solid-card">
             <CardHeader>
               <CardTitle className="text-foreground">Your Temporary Email</CardTitle>
             </CardHeader>
@@ -182,7 +182,7 @@ export default function TempEmail() {
           </Card>
           
           {/* Email Stats */}
-          <Card className="bg-card/50 backdrop-blur-sm border-border">
+          <Card className="solid-card">
             <CardHeader>
               <CardTitle className="text-foreground">Inbox Status</CardTitle>
             </CardHeader>
@@ -279,7 +279,7 @@ export default function TempEmail() {
         </Card>
         
         {/* Info */}
-        <Card className="mt-8 bg-card/50 backdrop-blur-sm border-border">
+        <Card className="mt-8 solid-card">
           <CardContent className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="text-center">
