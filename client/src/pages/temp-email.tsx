@@ -247,7 +247,7 @@ export default function TempEmail() {
                   </div>
                 ))}
               </div>
-            ) : messages && messages.length > 0 ? (
+            ) : Array.isArray(messages) && messages.length > 0 ? (
               <div className="space-y-3">
                 {messages.map((message: TempEmailMessage) => (
                   <div key={message.id} className="bg-background border border-border rounded-lg p-4 hover:bg-muted/20 transition-colors cursor-pointer">

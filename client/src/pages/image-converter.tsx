@@ -237,7 +237,7 @@ export default function ImageConverter() {
         
         {/* Preview */}
         {selectedFile && (
-          <Card className="bg-card/50 backdrop-blur-sm border-border">
+          <Card className="solid-card">
             <CardHeader>
               <CardTitle className="text-foreground">Preview</CardTitle>
             </CardHeader>

@@ -343,7 +343,7 @@ export default function ImageResizer() {
         </div>
         
         {/* Preview Area */}
-        <Card className="bg-card/50 backdrop-blur-sm border-border">
+        <Card className="solid-card">
           <CardHeader>
             <CardTitle className="text-foreground">Preview</CardTitle>
           </CardHeader>

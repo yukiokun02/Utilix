@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import BackgroundShapes from "@/components/background-shapes";
-import { ArrowLeftIcon, CodeIcon, SaveIcon, DownloadIcon, CopyIcon, FileTextIcon } from "lucide-react";
+import { ArrowLeftIcon, CodeIcon, SaveIcon, DownloadIcon, CopyIcon, FileTextIcon, PlusIcon } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 
@@ -113,6 +113,7 @@ export default function CodeNotepad() {
   const [language, setLanguage] = useState('javascript');
   const [fileName, setFileName] = useState('untitled');
   const [savedFiles, setSavedFiles] = useState<Array<{name: string, content: string, language: string}>>([]);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const { toast } = useToast();
 
   const getLineNumbers = () => {
@@ -131,10 +132,37 @@ export default function CodeNotepad() {
 
   const handleLanguageChange = (newLanguage: string) => {
     setLanguage(newLanguage);
+    setHasUnsavedChanges(true);
     // Optionally load template for new language
     if (CODE_TEMPLATES[newLanguage as keyof typeof CODE_TEMPLATES] && code === CODE_TEMPLATES[language as keyof typeof CODE_TEMPLATES]) {
       setCode(CODE_TEMPLATES[newLanguage as keyof typeof CODE_TEMPLATES] || '');
     }
+  };
+
+  const handleCodeChange = (newCode: string) => {
+    setCode(newCode);
+    setHasUnsavedChanges(true);
+  };
+
+  const handleAddNew = () => {
+    if (hasUnsavedChanges) {
+      const shouldSave = window.confirm(
+        "You have unsaved changes. Would you like to save the current file before creating a new one?"
+      );
+      if (shouldSave) {
+        handleSave();
+      }
+    }
+    
+    setCode(CODE_TEMPLATES.javascript);
+    setLanguage('javascript');
+    setFileName('untitled');
+    setHasUnsavedChanges(false);
+    
+    toast({
+      title: "New file created",
+      description: "Started with a fresh JavaScript template"
+    });
   };
 
   const handleSave = () => {
@@ -162,6 +190,8 @@ export default function CodeNotepad() {
       }
       return [...prev, newFile];
     });
+
+    setHasUnsavedChanges(false);
 
     toast({
       title: "File saved",
@@ -205,13 +235,49 @@ export default function CodeNotepad() {
   };
 
   const loadFile = (file: {name: string, content: string, language: string}) => {
+    if (hasUnsavedChanges) {
+      const shouldSave = window.confirm(
+        "You have unsaved changes. Would you like to save the current file before loading a new one?"
+      );
+      if (shouldSave) {
+        handleSave();
+      }
+    }
+    
     setCode(file.content);
     setLanguage(file.language);
     setFileName(file.name);
+    setHasUnsavedChanges(false);
     toast({
       title: "File loaded",
       description: `Loaded ${file.name}`
     });
+  };
+
+  const getVerticalGuides = () => {
+    // Different column guidelines for different languages
+    const guides: Record<string, number[]> = {
+      javascript: [80, 120],
+      typescript: [80, 120],
+      python: [79, 99],
+      html: [80, 120],
+      css: [80, 120],
+      json: [80],
+      xml: [80, 120],
+      markdown: [80],
+      sql: [80],
+      php: [80, 120],
+      java: [80, 120],
+      cpp: [80, 120],
+      c: [80, 120],
+      csharp: [80, 120],
+      go: [80, 120],
+      rust: [80, 120],
+      bash: [80],
+      powershell: [80],
+    };
+    
+    return guides[language] || [80];
   };
 
   const stats = getStats();
@@ -275,13 +341,17 @@ export default function CodeNotepad() {
               </div>
               
               <div className="flex items-center gap-2">
+                <Button onClick={handleAddNew} variant="outline" size="sm" className="pill-button">
+                  <PlusIcon className="w-4 h-4 mr-1" />
+                  New
+                </Button>
                 <Button onClick={copyToClipboard} variant="outline" size="sm" className="pill-button">
                   <CopyIcon className="w-4 h-4 mr-1" />
                   Copy
                 </Button>
                 <Button onClick={handleSave} variant="outline" size="sm" className="pill-button">
                   <SaveIcon className="w-4 h-4 mr-1" />
-                  Save
+                  Save{hasUnsavedChanges ? '*' : ''}
                 </Button>
                 <Button onClick={handleDownload} size="sm" className="pill-button bg-gradient-to-r from-violet-500 to-purple-600">
                   <DownloadIcon className="w-4 h-4 mr-1" />
@@ -305,9 +375,21 @@ export default function CodeNotepad() {
                       ))}
                     </div>
                     <div className="flex-1 relative">
+                      {/* Vertical Guidelines */}
+                      {getVerticalGuides().map((column, index) => (
+                        <div
+                          key={column}
+                          className="absolute top-0 bottom-0 w-px bg-slate-600/30 pointer-events-none"
+                          style={{
+                            left: `${column * 0.6}em`, // Approximate character width
+                            marginLeft: '1rem' // Account for padding
+                          }}
+                        />
+                      ))}
+                      
                       <Textarea
                         value={code}
-                        onChange={(e) => setCode(e.target.value)}
+                        onChange={(e) => handleCodeChange(e.target.value)}
                         className="w-full bg-transparent border-0 text-slate-100 font-mono text-sm resize-none outline-none focus:ring-0 min-h-[500px] p-4 leading-6"
                         placeholder="Start coding..."
                         style={{ 
