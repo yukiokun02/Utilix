@@ -31,14 +31,13 @@ export default function Home() {
             Everything you need, all in one place, completely free.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <Button className="pill-button bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700">
+          <div className="flex justify-center mb-16">
+            <Button 
+              className="pill-button bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700"
+              onClick={() => document.getElementById('tools')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               <RocketIcon className="w-4 h-4 mr-2" />
               Explore Tools
-            </Button>
-            <Button variant="outline" className="pill-button">
-              <PlayIcon className="w-4 h-4 mr-2" />
-              Watch Demo
             </Button>
           </div>
           

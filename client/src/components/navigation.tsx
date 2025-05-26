@@ -25,9 +25,9 @@ export default function Navigation() {
             <Link href="/#tools" className="text-muted-foreground hover:text-foreground transition-colors">
               Tools
             </Link>
-            <Button className="pill-button bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700">
-              Get Started
-            </Button>
+            <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+              Support Us
+            </Link>
           </div>
           
           <Button
@@ -49,9 +49,9 @@ export default function Navigation() {
               <Link href="/#tools" className="text-muted-foreground hover:text-foreground transition-colors">
                 Tools
               </Link>
-              <Button className="pill-button bg-gradient-to-r from-indigo-500 to-purple-600 w-full">
-                Get Started
-              </Button>
+              <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                Support Us
+              </Link>
             </div>
           </div>
         )}

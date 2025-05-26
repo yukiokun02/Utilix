@@ -67,11 +67,15 @@
   }
   
   .tool-card {
-    @apply bg-card/50 backdrop-blur-sm border border-border rounded-2xl p-6 hover:border-primary/50 hover:bg-card/70 transition-all duration-300 hover:scale-105;
+    @apply bg-card border border-border rounded-2xl p-6 hover:border-primary/50 hover:bg-card/80 transition-all duration-300 hover:scale-105;
   }
   
   .gradient-text {
     @apply bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent;
+  }
+  
+  .solid-card {
+    @apply bg-card border border-border rounded-2xl;
   }
 }
 

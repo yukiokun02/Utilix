@@ -4,8 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import BackgroundShapes from "@/components/background-shapes";
-import { ArrowLeftIcon, CloudUploadIcon, DownloadIcon } from "lucide-react";
+import { ArrowLeftIcon, CloudUploadIcon, DownloadIcon, XIcon } from "lucide-react";
 import { Link } from "wouter";
 import { resizeImage } from "@/lib/image-utils";
 import { useToast } from "@/hooks/use-toast";
@@ -17,7 +18,12 @@ export default function ImageResizer() {
   const [width, setWidth] = useState<number>(800);
   const [height, setHeight] = useState<number>(600);
   const [maintainRatio, setMaintainRatio] = useState(true);
+  const [resizeMethod, setResizeMethod] = useState<'pixels' | 'percent'>('pixels');
+  const [widthPercent, setWidthPercent] = useState<number>(100);
+  const [heightPercent, setHeightPercent] = useState<number>(100);
+  const [targetFileSize, setTargetFileSize] = useState<number>(0);
   const [originalDimensions, setOriginalDimensions] = useState<{width: number; height: number} | null>(null);
+  const [originalFileSize, setOriginalFileSize] = useState<number>(0);
   const [isProcessing, setIsProcessing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
@@ -33,6 +39,7 @@ export default function ImageResizer() {
     }
 
     setSelectedFile(file);
+    setOriginalFileSize(file.size);
     const url = URL.createObjectURL(file);
     setPreviewUrl(url);
     setResizedUrl("");
@@ -48,6 +55,17 @@ export default function ImageResizer() {
     img.src = url;
   };
 
+  const handleRemoveFile = () => {
+    setSelectedFile(null);
+    setPreviewUrl("");
+    setResizedUrl("");
+    setOriginalDimensions(null);
+    setOriginalFileSize(0);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     const files = e.dataTransfer.files;
@@ -61,19 +79,49 @@ export default function ImageResizer() {
   };
 
   const handleWidthChange = (newWidth: number) => {
-    setWidth(newWidth);
-    if (maintainRatio && originalDimensions) {
-      const ratio = originalDimensions.height / originalDimensions.width;
-      setHeight(Math.round(newWidth * ratio));
+    if (resizeMethod === 'pixels') {
+      setWidth(newWidth);
+      if (maintainRatio && originalDimensions) {
+        const ratio = originalDimensions.height / originalDimensions.width;
+        setHeight(Math.round(newWidth * ratio));
+      }
+    } else {
+      setWidthPercent(newWidth);
+      if (maintainRatio) {
+        setHeightPercent(newWidth);
+      }
+      if (originalDimensions) {
+        setWidth(Math.round(originalDimensions.width * (newWidth / 100)));
+        setHeight(Math.round(originalDimensions.height * (newWidth / 100)));
+      }
     }
   };
 
   const handleHeightChange = (newHeight: number) => {
-    setHeight(newHeight);
-    if (maintainRatio && originalDimensions) {
-      const ratio = originalDimensions.width / originalDimensions.height;
-      setWidth(Math.round(newHeight * ratio));
+    if (resizeMethod === 'pixels') {
+      setHeight(newHeight);
+      if (maintainRatio && originalDimensions) {
+        const ratio = originalDimensions.width / originalDimensions.height;
+        setWidth(Math.round(newHeight * ratio));
+      }
+    } else {
+      setHeightPercent(newHeight);
+      if (maintainRatio) {
+        setWidthPercent(newHeight);
+      }
+      if (originalDimensions) {
+        setWidth(Math.round(originalDimensions.width * (newHeight / 100)));
+        setHeight(Math.round(originalDimensions.height * (newHeight / 100)));
+      }
     }
+  };
+
+  const formatFileSize = (bytes: number) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
   const handleResize = async () => {
@@ -139,34 +187,50 @@ export default function ImageResizer() {
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Upload Area */}
-          <Card className="bg-card/50 backdrop-blur-sm border-border">
+          <Card className="solid-card">
             <CardHeader>
               <CardTitle className="text-foreground">Upload Image</CardTitle>
             </CardHeader>
             <CardContent>
-              <div 
-                className="border-2 border-dashed border-border rounded-xl p-8 text-center hover:border-primary transition-colors cursor-pointer"
-                onDrop={handleDrop}
-                onDragOver={handleDragOver}
-                onClick={() => fileInputRef.current?.click()}
-              >
-                <CloudUploadIcon className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-foreground mb-2">Drag and drop your image here</p>
-                <p className="text-muted-foreground text-sm mb-4">or click to browse</p>
-                <Button className="pill-button bg-gradient-to-r from-indigo-500 to-purple-600">
-                  Choose File
-                </Button>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={(e) => e.target.files?.[0] && handleFileSelect(e.target.files[0])}
-                />
-              </div>
-              {originalDimensions && (
-                <div className="mt-4 text-sm text-muted-foreground">
-                  Original: {originalDimensions.width} × {originalDimensions.height}px
+              {!selectedFile ? (
+                <div 
+                  className="border-2 border-dashed border-border rounded-xl p-8 text-center hover:border-primary transition-colors cursor-pointer"
+                  onDrop={handleDrop}
+                  onDragOver={handleDragOver}
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <CloudUploadIcon className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                  <p className="text-foreground mb-2">Drag and drop your image here</p>
+                  <p className="text-muted-foreground text-sm mb-4">or click to browse</p>
+                  <Button className="pill-button bg-gradient-to-r from-indigo-500 to-purple-600">
+                    Choose File
+                  </Button>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => e.target.files?.[0] && handleFileSelect(e.target.files[0])}
+                  />
+                </div>
+              ) : (
+                <div className="relative">
+                  <div className="border border-border rounded-xl p-4 bg-background">
+                    <img src={previewUrl} alt="Selected" className="max-w-full h-auto max-h-48 mx-auto rounded-lg" />
+                  </div>
+                  <Button 
+                    onClick={handleRemoveFile}
+                    size="sm"
+                    variant="destructive"
+                    className="absolute top-2 right-2 rounded-full w-8 h-8 p-0"
+                  >
+                    <XIcon className="w-4 h-4" />
+                  </Button>
+                  <div className="mt-4 space-y-2 text-sm text-muted-foreground">
+                    <div>Original: {originalDimensions?.width} × {originalDimensions?.height}px</div>
+                    <div>Size: {formatFileSize(originalFileSize)}</div>
+                    <div className="font-medium text-foreground">{selectedFile.name}</div>
+                  </div>
                 </div>
               )}
             </CardContent>
