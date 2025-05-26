@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 240 10% 6%; /* #0F0F23 */
+  --foreground: 210 40% 92%; /* #E2E8F0 */
+  --muted: 240 6% 17%; /* #1A1A2E */
+  --muted-foreground: 215 20% 65%; /* #94A3B8 */
+  --popover: 240 8% 12%; /* #1E1E2E */
+  --popover-foreground: 210 40% 92%; /* #E2E8F0 */
+  --card: 240 8% 12%; /* #1E1E2E */
+  --card-foreground: 210 40% 92%; /* #E2E8F0 */
+  --border: 240 8% 20%; /* #334155 */
+  --input: 240 8% 20%; /* #334155 */
+  --primary: 207 90% 54%; /* #3B82F6 */
+  --primary-foreground: 210 40% 98%; /* #F8FAFC */
+  --secondary: 240 6% 17%; /* #1A1A2E */
+  --secondary-foreground: 210 40% 92%; /* #E2E8F0 */
+  --accent: 240 8% 20%; /* #334155 */
+  --accent-foreground: 210 40% 92%; /* #E2E8F0 */
+  --destructive: 0 84% 60%; /* #EF4444 */
+  --destructive-foreground: 210 40% 98%; /* #F8FAFC */
+  --ring: 207 90% 54%; /* #3B82F6 */
+  --radius: 0.75rem;
+  
+  /* Custom colors for tools */
+  --surface: 240 8% 12%; /* #1E1E2E */
+  --surface-light: 240 6% 20%; /* #252545 */
+}
+
+.dark {
+  --background: 240 10% 6%; /* #0F0F23 */
+  --foreground: 210 40% 92%; /* #E2E8F0 */
+  --muted: 240 6% 17%; /* #1A1A2E */
+  --muted-foreground: 215 20% 65%; /* #94A3B8 */
+  --popover: 240 8% 12%; /* #1E1E2E */
+  --popover-foreground: 210 40% 92%; /* #E2E8F0 */
+  --card: 240 8% 12%; /* #1E1E2E */
+  --card-foreground: 210 40% 92%; /* #E2E8F0 */
+  --border: 240 8% 20%; /* #334155 */
+  --input: 240 8% 20%; /* #334155 */
+  --primary: 207 90% 54%; /* #3B82F6 */
+  --primary-foreground: 210 40% 98%; /* #F8FAFC */
+  --secondary: 240 6% 17%; /* #1A1A2E */
+  --secondary-foreground: 210 40% 92%; /* #E2E8F0 */
+  --accent: 240 8% 20%; /* #334155 */
+  --accent-foreground: 210 40% 92%; /* #E2E8F0 */
+  --destructive: 0 84% 60%; /* #EF4444 */
+  --destructive-foreground: 210 40% 98%; /* #F8FAFC */
+  --ring: 207 90% 54%; /* #3B82F6 */
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground min-h-screen;
+  }
+}
+
+@layer components {
+  .pill-button {
+    @apply px-6 py-3 rounded-full font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg;
+  }
+  
+  .tool-card {
+    @apply bg-card/50 backdrop-blur-sm border border-border rounded-2xl p-6 hover:border-primary/50 hover:bg-card/70 transition-all duration-300 hover:scale-105;
+  }
+  
+  .gradient-text {
+    @apply bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--accent));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary));
+}
