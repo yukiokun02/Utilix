@@ -134,9 +134,22 @@ export default function ImageResizer() {
       return;
     }
 
+    if (width <= 0 || height <= 0) {
+      toast({
+        title: "Invalid dimensions",
+        description: "Width and height must be greater than 0",
+        variant: "destructive"
+      });
+      return;
+    }
+
     setIsProcessing(true);
     try {
       const resizedBlob = await resizeImage(selectedFile, width, height);
+      // Clean up previous URL
+      if (resizedUrl) {
+        URL.revokeObjectURL(resizedUrl);
+      }
       const url = URL.createObjectURL(resizedBlob);
       setResizedUrl(url);
       toast({
@@ -144,6 +157,7 @@ export default function ImageResizer() {
         description: `New dimensions: ${width}x${height}px`
       });
     } catch (error) {
+      console.error('Image resize error:', error);
       toast({
         title: "Error resizing image",
         description: "Failed to resize the image. Please try again.",
