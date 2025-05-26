@@ -32,13 +32,13 @@ export default function Home() {
           </p>
           
           <div className="flex justify-center mb-16">
-            <Button 
-              className="pill-button bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700"
+            <button 
+              className="vibrant-button"
               onClick={() => document.getElementById('tools')?.scrollIntoView({ behavior: 'smooth' })}
             >
               <RocketIcon className="w-4 h-4 mr-2" />
               Explore Tools
-            </Button>
+            </button>
           </div>
           
           {/* Stats */}

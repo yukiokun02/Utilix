@@ -12,20 +12,35 @@ interface ToolCardProps {
 }
 
 export default function ToolCard({ title, description, icon: Icon, href, gradient }: ToolCardProps) {
+  // Map different gradients to different vibrant card classes
+  const getCardClass = (gradient: string) => {
+    if (gradient.includes('indigo')) return 'tool-card-1';
+    if (gradient.includes('emerald')) return 'tool-card-2';
+    if (gradient.includes('pink')) return 'tool-card-3';
+    if (gradient.includes('purple')) return 'tool-card-4';
+    if (gradient.includes('amber')) return 'tool-card-5';
+    return 'tool-card-6';
+  };
+
   return (
-    <Card className="tool-card group">
-      <CardContent className="p-6">
-        <div className={`w-12 h-12 bg-gradient-to-r ${gradient} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-          <Icon className="w-6 h-6 text-white" />
-        </div>
-        <h3 className="text-xl font-semibold mb-3 text-foreground">{title}</h3>
-        <p className="text-muted-foreground mb-6">{description}</p>
-        <Link href={href}>
-          <Button className={`w-full pill-button bg-gradient-to-r ${gradient} hover:shadow-lg transition-all duration-300`}>
-            Open Tool
-          </Button>
-        </Link>
-      </CardContent>
-    </Card>
+    <div className={`${getCardClass(gradient)} group cursor-pointer p-6`}>
+      <div className="colorful-icon-button mb-4 inline-block">
+        <Icon className="w-6 h-6 text-white" />
+      </div>
+      
+      <h3 className="text-xl font-semibold mb-3 text-foreground group-hover:text-white transition-colors">
+        {title}
+      </h3>
+      
+      <p className="text-muted-foreground leading-relaxed mb-6 group-hover:text-gray-200 transition-colors">
+        {description}
+      </p>
+      
+      <Link href={href}>
+        <button className="vibrant-button-secondary w-full">
+          Open Tool
+        </button>
+      </Link>
+    </div>
   );
 }
