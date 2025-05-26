@@ -1,4 +1,4 @@
-export async function resizeImage(file: File, width: number, height: number): Promise<Blob> {
+export async function resizeImage(file: File, width: number, height: number, quality: number = 0.9): Promise<Blob> {
   return new Promise((resolve, reject) => {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
@@ -22,7 +22,7 @@ export async function resizeImage(file: File, width: number, height: number): Pr
             }
           },
           'image/png',
-          0.9
+          quality
         );
       } else {
         reject(new Error('Failed to get canvas context'));

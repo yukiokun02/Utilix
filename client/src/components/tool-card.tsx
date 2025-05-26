@@ -24,8 +24,8 @@ export default function ToolCard({ title, description, icon: Icon, href, gradien
 
   return (
     <div className={`${getCardClass(gradient)} group cursor-pointer`}>
-      <div className="colorful-icon-button mb-3 sm:mb-4 inline-block">
-        <Icon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
+      <div className="colorful-icon-button mb-3 sm:mb-4 inline-flex items-center justify-center">
+        <Icon className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-white font-bold" strokeWidth={2.5} />
       </div>
       
       <h3 className="text-lg sm:text-xl md:text-2xl font-semibold mb-2 sm:mb-3 text-foreground group-hover:text-white transition-colors">

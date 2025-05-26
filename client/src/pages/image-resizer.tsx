@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
 import BackgroundShapes from "@/components/background-shapes";
 import { ArrowLeftIcon, CloudUploadIcon, DownloadIcon, XIcon } from "lucide-react";
 import { Link } from "wouter";
@@ -21,6 +22,8 @@ export default function ImageResizer() {
   const [resizeMethod, setResizeMethod] = useState<'pixels' | 'percent'>('pixels');
   const [widthPercent, setWidthPercent] = useState<number>(100);
   const [heightPercent, setHeightPercent] = useState<number>(100);
+  const [qualityPercent, setQualityPercent] = useState<number>(90);
+  const [resizedFileSize, setResizedFileSize] = useState<number>(0);
   const [targetFileSize, setTargetFileSize] = useState<number>(0);
   const [originalDimensions, setOriginalDimensions] = useState<{width: number; height: number} | null>(null);
   const [originalFileSize, setOriginalFileSize] = useState<number>(0);
@@ -145,7 +148,8 @@ export default function ImageResizer() {
 
     setIsProcessing(true);
     try {
-      const resizedBlob = await resizeImage(selectedFile, width, height);
+      const resizedBlob = await resizeImage(selectedFile, width, height, qualityPercent / 100);
+      setResizedFileSize(resizedBlob.size);
       // Clean up previous URL
       if (resizedUrl) {
         URL.revokeObjectURL(resizedUrl);
@@ -154,7 +158,7 @@ export default function ImageResizer() {
       setResizedUrl(url);
       toast({
         title: "Image resized successfully",
-        description: `New dimensions: ${width}x${height}px`
+        description: `New dimensions: ${width}x${height}px | Size: ${formatFileSize(resizedBlob.size)}`
       });
     } catch (error) {
       console.error('Image resize error:', error);
@@ -293,32 +297,30 @@ export default function ImageResizer() {
                   </div>
                 </>
               ) : (
-                <>
+                <div className="space-y-4">
                   <div>
-                    <Label className="text-foreground">Width (%)</Label>
-                    <Input
-                      type="number"
-                      value={widthPercent}
-                      onChange={(e) => handleWidthChange(Number(e.target.value))}
-                      className="bg-background border-border text-foreground"
-                      placeholder="100"
-                      min="1"
-                      max="500"
+                    <Label className="text-foreground mb-2 block">Size Percentage: {widthPercent}%</Label>
+                    <Slider
+                      value={[widthPercent]}
+                      onValueChange={(value) => {
+                        setWidthPercent(value[0]);
+                        setHeightPercent(value[0]);
+                        if (originalDimensions) {
+                          setWidth(Math.round(originalDimensions.width * (value[0] / 100)));
+                          setHeight(Math.round(originalDimensions.height * (value[0] / 100)));
+                        }
+                      }}
+                      max={200}
+                      min={10}
+                      step={5}
+                      className="w-full"
                     />
+                    <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                      <span>10%</span>
+                      <span>200%</span>
+                    </div>
                   </div>
-                  <div>
-                    <Label className="text-foreground">Height (%)</Label>
-                    <Input
-                      type="number"
-                      value={heightPercent}
-                      onChange={(e) => handleHeightChange(Number(e.target.value))}
-                      className="bg-background border-border text-foreground"
-                      placeholder="100"
-                      min="1"
-                      max="500"
-                    />
-                  </div>
-                </>
+                </div>
               )}
               
               <div className="flex items-center space-x-2">
@@ -331,18 +333,19 @@ export default function ImageResizer() {
               </div>
               
               <div>
-                <Label className="text-foreground">Target File Size (KB, optional)</Label>
-                <Input
-                  type="number"
-                  value={targetFileSize}
-                  onChange={(e) => setTargetFileSize(Number(e.target.value))}
-                  className="bg-background border-border text-foreground"
-                  placeholder="0 (no limit)"
-                  min="0"
+                <Label className="text-foreground mb-2 block">Image Quality: {qualityPercent}%</Label>
+                <Slider
+                  value={[qualityPercent]}
+                  onValueChange={(value) => setQualityPercent(value[0])}
+                  max={100}
+                  min={10}
+                  step={5}
+                  className="w-full"
                 />
-                <p className="text-xs text-muted-foreground mt-1">
-                  Leave empty or 0 for no compression limit
-                </p>
+                <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                  <span>10% (Smallest)</span>
+                  <span>100% (Best Quality)</span>
+                </div>
               </div>
               
               <Button 
