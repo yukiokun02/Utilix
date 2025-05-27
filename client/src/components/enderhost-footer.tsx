@@ -117,23 +117,35 @@ export default function EnderHostFooter() {
 
         {/* Bottom Section */}
         <div className="border-t border-gray-700/50 pt-6 sm:pt-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
-            <div className="text-center sm:text-left">
-              <p className="text-xs sm:text-sm text-gray-400 font-medium">
-                © 2024 <span className="font-bold gradient-text">Utilitix</span>. All rights reserved.
-              </p>
+          <div className="flex flex-col space-y-4">
+            {/* Legal Links */}
+            <div className="flex flex-wrap items-center justify-center space-x-4 text-xs text-gray-400">
+              <Link href="/about" className="hover:text-white transition-colors">About Us</Link>
+              <span>•</span>
+              <Link href="/terms" className="hover:text-white transition-colors">Terms of Use</Link>
+              <span>•</span>
+              <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
             </div>
-            <div className="text-center sm:text-right">
-              <p className="text-xs sm:text-sm text-gray-400 font-medium">
-                Powered by <a 
-                  href="https://www.enderhost.in" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="font-bold text-emerald-400 hover:text-emerald-300 transition-colors"
-                >
-                  EnderHOST
-                </a>
-              </p>
+            
+            {/* Copyright and Branding */}
+            <div className="flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0">
+              <div className="text-center sm:text-left">
+                <p className="text-xs sm:text-sm text-gray-400 font-medium">
+                  © 2024 <span className="font-bold gradient-text">Utilitix</span>. All rights reserved.
+                </p>
+              </div>
+              <div className="text-center sm:text-right">
+                <p className="text-xs sm:text-sm text-gray-400 font-medium">
+                  Powered by <a 
+                    href="https://www.enderhost.in" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="font-bold text-emerald-400 hover:text-emerald-300 transition-colors"
+                  >
+                    EnderHOST
+                  </a>
+                </p>
+              </div>
             </div>
           </div>
         </div>
