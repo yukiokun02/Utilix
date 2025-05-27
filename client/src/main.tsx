@@ -2,81 +2,47 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
 
-// Disable Vite's HMR error overlay for ResizeObserver warnings
-if (import.meta.hot) {
-  import.meta.hot.on('vite:error', (err) => {
-    if (err.message?.includes('ResizeObserver loop completed with undelivered notifications')) {
-      return;
-    }
-  });
-}
-
-// Suppress ResizeObserver warnings globally
-const originalError = window.Error;
-window.Error = class extends originalError {
-  constructor(message?: string) {
-    if (message?.includes('ResizeObserver loop completed with undelivered notifications')) {
-      super(''); // Empty message to suppress
-      this.name = 'SuppressedResizeObserverError';
-      this.stack = '';
-      return this;
-    }
-    super(message);
+// Fix ResizeObserver loop completed error - this is a known browser issue
+const originalResizeObserver = window.ResizeObserver;
+window.ResizeObserver = class extends originalResizeObserver {
+  constructor(callback: ResizeObserverCallback) {
+    super((entries, observer) => {
+      // Wrap callback in requestAnimationFrame to prevent the loop error
+      window.requestAnimationFrame(() => {
+        try {
+          callback(entries, observer);
+        } catch (error) {
+          // Silently catch ResizeObserver errors
+          if (error instanceof Error && error.message.includes('ResizeObserver loop completed')) {
+            return;
+          }
+          throw error;
+        }
+      });
+    });
   }
 };
 
-// Enhanced error logging and debugging
+// Completely suppress ResizeObserver errors at the source
+window.addEventListener('error', (event) => {
+  if (event.message?.includes('ResizeObserver loop completed')) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    return false;
+  }
+});
+
+// Also suppress from console
 const originalConsoleError = console.error;
 console.error = (...args) => {
   const message = args[0];
-  
-  // Log detailed information about ResizeObserver errors
   if (typeof message === 'string' && message.includes('ResizeObserver loop completed')) {
-    console.log('🔍 DEBUGGING ResizeObserver Error:', {
-      message: message,
-      stack: new Error().stack,
-      timestamp: new Date().toISOString(),
-      args: args
-    });
-    return; // Still suppress the error overlay
+    return;
   }
-  
   if (message?.message?.includes?.('ResizeObserver loop completed')) {
-    console.log('🔍 DEBUGGING ResizeObserver Error Object:', {
-      message: message.message,
-      stack: message.stack,
-      timestamp: new Date().toISOString(),
-      fullError: message
-    });
-    return; // Still suppress the error overlay
+    return;
   }
-  
-  // Log all other errors normally
   originalConsoleError.apply(console, args);
 };
-
-// Add window error event listener with detailed logging
-window.addEventListener('error', (event) => {
-  if (event.message?.includes('ResizeObserver loop completed')) {
-    console.log('🔍 DEBUGGING Window Error Event:', {
-      message: event.message,
-      filename: event.filename,
-      lineno: event.lineno,
-      colno: event.colno,
-      error: event.error,
-      timestamp: new Date().toISOString()
-    });
-    event.preventDefault();
-    event.stopImmediatePropagation();
-  }
-});
-
-// Add unhandled rejection listener
-window.addEventListener('unhandledrejection', (event) => {
-  console.log('🔍 DEBUGGING Unhandled Rejection:', {
-    reason: event.reason,
-    timestamp: new Date().toISOString()
-  });
-});
 
 createRoot(document.getElementById("root")!).render(<App />);
