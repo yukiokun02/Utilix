@@ -10,7 +10,11 @@ import {
   FileTextIcon, 
   MailIcon, 
   TypeIcon, 
-  CodeIcon 
+  CodeIcon,
+  ZapIcon,
+  ShieldIcon,
+  SmartphoneIcon,
+  GlobeIcon
 } from "lucide-react";
 
 export default function Home() {
@@ -22,14 +26,13 @@ export default function Home() {
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 animate-fade-scale">
-            <span className="gradient-text">Universal</span>
+            <span className="gradient-text">UTILITIX</span>
             <br />
-            <span className="text-foreground">Web Tools</span>
+            <span className="text-foreground">Free Online Tools for Everyday Tasks</span>
           </h1>
           
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed px-4 animate-slide-up stagger-1 font-medium">
-            Transform, convert, and create with our comprehensive suite of web-based tools. 
-            Everything you need, all in one place, completely free.
+            Convert, resize, crop, edit, text editor, change font and generate with powerful tools – all in one place, 100% free and mobile-friendly.
           </p>
           
           <div className="flex justify-center mb-8 sm:mb-12 md:mb-16 animate-slide-up stagger-2">
@@ -45,7 +48,7 @@ export default function Home() {
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 max-w-4xl mx-auto px-4">
             <div className="text-center animate-slide-up stagger-3 hover-lift">
-              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-indigo-400">7+</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-indigo-400">6+</div>
               <div className="text-muted-foreground text-xs sm:text-sm">Tools Available</div>
             </div>
             <div className="text-center animate-slide-up stagger-4 hover-lift">
@@ -83,7 +86,7 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             <div className="animate-slide-up stagger-1 hover-lift">
               <ToolCard
-                title="Image Resizer/Converter"
+                title="Image Tool"
                 description="Resize, crop, convert, and optimize images with advanced tools. Support for all formats with quality control."
                 icon={ExpandIcon}
                 href="/image-resizer"
@@ -103,16 +106,6 @@ export default function Home() {
             
             <div className="animate-slide-up stagger-4 hover-lift">
               <ToolCard
-                title="Temporary Email"
-                description="Generate temporary email addresses with full inbox functionality. Perfect for testing and privacy."
-                icon={MailIcon}
-                href="/temp-email"
-                gradient="from-blue-500 to-cyan-600"
-              />
-            </div>
-            
-            <div className="animate-slide-up stagger-5 hover-lift">
-              <ToolCard
                 title="Font Changer"
                 description="Transform text with hundreds of beautiful fonts. Preview and apply typography styles instantly."
                 icon={TypeIcon}
@@ -121,7 +114,7 @@ export default function Home() {
               />
             </div>
             
-            <div className="animate-slide-up stagger-6 hover-lift">
+            <div className="animate-slide-up stagger-5 hover-lift">
               <ToolCard
                 title="Text Editor"
                 description="Write, edit, and save text with syntax highlighting. Export in any format - JS, Python, HTML, CSS, and more."

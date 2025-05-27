@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BackgroundShapes from "@/components/background-shapes";
-import { ArrowLeftIcon, CloudUploadIcon, DownloadIcon, XIcon, CropIcon, RotateCcwIcon } from "lucide-react";
+import { ArrowLeftIcon, CloudUploadIcon, DownloadIcon, XIcon, CropIcon, RotateCcwIcon, SquareIcon, RectangleHorizontalIcon, RectangleVerticalIcon, MonitorIcon, SmartphoneIcon, CreditCardIcon, BookOpenIcon, ImageIcon } from "lucide-react";
 import { Link } from "wouter";
 import { resizeImage, convertImage } from "@/lib/image-utils";
 import { useToast } from "@/hooks/use-toast";
@@ -169,6 +169,13 @@ export default function ImageTool() {
       case '16:9': return 16/9;
       case '4:3': return 4/3;
       case '3:2': return 3/2;
+      case '9:16': return 9/16;
+      case '21:9': return 21/9;
+      case '2:3': return 2/3;
+      case '5:4': return 5/4;
+      case '16:10': return 16/10;
+      case '3:4': return 3/4;
+      case '8.5:11': return 8.5/11;
       default: return null;
     }
   };
@@ -463,11 +470,18 @@ export default function ImageTool() {
   };
 
   const aspectRatios = [
-    { value: 'freeform', label: 'Freeform' },
-    { value: '1:1', label: '1:1 (Square)' },
-    { value: '4:3', label: '4:3' },
-    { value: '16:9', label: '16:9' },
-    { value: '3:2', label: '3:2' },
+    { value: 'freeform', label: 'Freeform', icon: CropIcon, desc: 'Any size' },
+    { value: '1:1', label: 'Square', icon: SquareIcon, desc: 'Instagram post' },
+    { value: '16:9', label: 'Widescreen', icon: MonitorIcon, desc: 'YouTube thumbnail' },
+    { value: '4:3', label: 'Standard', icon: RectangleHorizontalIcon, desc: 'Classic photo' },
+    { value: '3:2', label: 'Photo', icon: ImageIcon, desc: 'DSLR format' },
+    { value: '9:16', label: 'Story', icon: SmartphoneIcon, desc: 'Instagram story' },
+    { value: '21:9', label: 'Ultrawide', icon: RectangleHorizontalIcon, desc: 'Cinema banner' },
+    { value: '2:3', label: 'Portrait', icon: RectangleVerticalIcon, desc: 'Book cover' },
+    { value: '5:4', label: 'Print', icon: BookOpenIcon, desc: 'Photo print' },
+    { value: '16:10', label: 'Display', icon: MonitorIcon, desc: 'Laptop screen' },
+    { value: '3:4', label: 'Mobile', icon: SmartphoneIcon, desc: 'Phone wallpaper' },
+    { value: '8.5:11', label: 'Letter', icon: BookOpenIcon, desc: 'Document page' },
   ];
 
   return (
@@ -633,16 +647,29 @@ export default function ImageTool() {
                     <CardTitle className="text-foreground">Select Aspect Ratio</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
                       {aspectRatios.map((ratio) => (
-                        <Button
+                        <div
                           key={ratio.value}
-                          variant={cropAspectRatio === ratio.value ? "default" : "outline"}
                           onClick={() => handleCropAspectRatioChange(ratio.value)}
-                          className={`text-sm ${cropAspectRatio === ratio.value ? 'bg-blue-500 text-white' : 'text-foreground hover:bg-blue-500/20'}`}
+                          className={`p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 hover:scale-105 ${
+                            cropAspectRatio === ratio.value 
+                              ? 'border-blue-500 bg-blue-500/10 shadow-lg' 
+                              : 'border-border hover:border-blue-300 bg-background'
+                          }`}
                         >
-                          {ratio.label}
-                        </Button>
+                          <div className="flex flex-col items-center space-y-2">
+                            <ratio.icon className={`w-6 h-6 ${cropAspectRatio === ratio.value ? 'text-blue-500' : 'text-muted-foreground'}`} />
+                            <div className="text-center">
+                              <div className={`text-sm font-medium ${cropAspectRatio === ratio.value ? 'text-blue-500' : 'text-foreground'}`}>
+                                {ratio.label}
+                              </div>
+                              <div className="text-xs text-muted-foreground">
+                                {ratio.desc}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       ))}
                     </div>
                   </CardContent>
