@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import BackgroundShapes from "@/components/background-shapes";
-import { ArrowLeftIcon, FileArchiveIcon, PlusIcon, XIcon, DownloadIcon, LockIcon } from "lucide-react";
+import { ArrowLeftIcon, FileArchiveIcon, PlusIcon, XIcon, DownloadIcon, LockIcon, PackageIcon, ArchiveIcon } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 import JSZip from "jszip";
@@ -17,10 +17,10 @@ interface FileItem {
 }
 
 const COMPRESSION_FORMATS = [
-  { value: 'zip', label: 'ZIP', description: 'Most compatible format' },
-  { value: '7z', label: '7ZIP', description: 'Best compression ratio' },
-  { value: 'tar.gz', label: 'TAR.GZ', description: 'Unix/Linux standard' },
-  { value: 'tar.bz2', label: 'TAR.BZ2', description: 'Better compression than gzip' },
+  { value: 'zip', label: 'ZIP', description: 'Most compatible format', icon: PackageIcon },
+  { value: '7z', label: '7ZIP', description: 'Best compression ratio', icon: ArchiveIcon },
+  { value: 'tar.gz', label: 'TAR.GZ', description: 'Unix/Linux standard', icon: FileArchiveIcon },
+  { value: 'tar.bz2', label: 'TAR.BZ2', description: 'Better compression than gzip', icon: FileArchiveIcon },
 ];
 
 export default function FileCompressor() {
@@ -30,6 +30,7 @@ export default function FileCompressor() {
   const [usePassword, setUsePassword] = useState(false);
   const [password, setPassword] = useState('');
   const [isCompressing, setIsCompressing] = useState(false);
+  const [compressedFile, setCompressedFile] = useState<{url: string, size: number} | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
@@ -101,13 +102,10 @@ export default function FileCompressor() {
         });
 
         const url = URL.createObjectURL(content);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `${fileName}.${compressionFormat}`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
+        setCompressedFile({
+          url: url,
+          size: content.size
+        });
 
         toast({
           title: "Compression Complete!",
@@ -134,6 +132,17 @@ export default function FileCompressor() {
 
   const getTotalSize = () => {
     return files.reduce((total, fileItem) => total + fileItem.file.size, 0);
+  };
+
+  const handleDownload = () => {
+    if (compressedFile) {
+      const link = document.createElement('a');
+      link.href = compressedFile.url;
+      link.download = `${fileName}.${compressionFormat}`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
 
   return (
@@ -243,22 +252,30 @@ export default function FileCompressor() {
                 </div>
 
                 <div>
-                  <Label className="text-foreground">Compression Format</Label>
-                  <Select value={compressionFormat} onValueChange={setCompressionFormat}>
-                    <SelectTrigger className="bg-background border-border text-foreground">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {COMPRESSION_FORMATS.map((format) => (
-                        <SelectItem key={format.value} value={format.value}>
-                          <div>
-                            <div className="font-medium">{format.label}</div>
-                            <div className="text-xs text-muted-foreground">{format.description}</div>
+                  <Label className="text-foreground mb-3 block">Compression Format</Label>
+                  <div className="grid grid-cols-2 gap-3">
+                    {COMPRESSION_FORMATS.map((format) => {
+                      const Icon = format.icon;
+                      return (
+                        <Button
+                          key={format.value}
+                          variant={compressionFormat === format.value ? "default" : "outline"}
+                          className={`h-auto p-3 flex flex-col gap-2 ${
+                            compressionFormat === format.value 
+                              ? 'bg-orange-500 hover:bg-orange-600 text-white' 
+                              : 'hover:bg-gray-800'
+                          }`}
+                          onClick={() => setCompressionFormat(format.value)}
+                        >
+                          <Icon className="w-5 h-5" />
+                          <div className="text-center">
+                            <div className="font-medium text-sm">{format.label}</div>
+                            <div className="text-xs opacity-80">{format.description}</div>
                           </div>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                        </Button>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 <div className="flex items-center space-x-2">
@@ -302,73 +319,87 @@ export default function FileCompressor() {
             </Card>
           </div>
 
-          {/* Preview and Info */}
+          {/* Download Section */}
           <div className="space-y-6">
-            <Card className="solid-card">
-              <CardHeader>
-                <CardTitle className="text-foreground">Compression Preview</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="p-4 bg-background rounded-lg border border-border">
-                    <div className="text-sm text-muted-foreground mb-2">Output File:</div>
-                    <div className="font-semibold text-foreground text-lg">
-                      {fileName}.{compressionFormat}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="p-3 bg-gray-800/50 rounded-lg">
-                      <div className="text-xs text-muted-foreground">Files Count</div>
-                      <div className="text-lg font-semibold text-foreground">{files.length}</div>
-                    </div>
-                    <div className="p-3 bg-gray-800/50 rounded-lg">
-                      <div className="text-xs text-muted-foreground">Total Size</div>
-                      <div className="text-lg font-semibold text-foreground">{formatFileSize(getTotalSize())}</div>
-                    </div>
-                  </div>
-
-                  {usePassword && (
-                    <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg">
-                      <div className="flex items-center space-x-2">
-                        <LockIcon className="w-4 h-4 text-amber-400" />
-                        <span className="text-sm text-amber-300">Password protection enabled</span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="solid-card">
-              <CardHeader>
-                <CardTitle className="text-foreground">Format Comparison</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {COMPRESSION_FORMATS.map((format) => (
-                    <div 
-                      key={format.value}
-                      className={`p-3 rounded-lg border transition-colors ${
-                        compressionFormat === format.value 
-                          ? 'border-orange-500 bg-orange-500/10' 
-                          : 'border-border bg-background'
-                      }`}
-                    >
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <div className="font-medium text-foreground">{format.label}</div>
-                          <div className="text-xs text-muted-foreground">{format.description}</div>
+            {compressedFile ? (
+              <Card className="solid-card">
+                <CardHeader>
+                  <CardTitle className="text-foreground">Download Ready</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center">
+                          <FileArchiveIcon className="w-5 h-5 text-white" />
                         </div>
-                        {compressionFormat === format.value && (
-                          <div className="w-2 h-2 rounded-full bg-orange-500"></div>
-                        )}
+                        <div className="flex-1">
+                          <div className="font-semibold text-foreground">{fileName}.{compressionFormat}</div>
+                          <div className="text-sm text-muted-foreground">
+                            Compressed Size: {formatFileSize(compressedFile.size)}
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="p-3 bg-gray-800/50 rounded-lg">
+                        <div className="text-xs text-muted-foreground">Original Size</div>
+                        <div className="text-lg font-semibold text-foreground">{formatFileSize(getTotalSize())}</div>
+                      </div>
+                      <div className="p-3 bg-gray-800/50 rounded-lg">
+                        <div className="text-xs text-muted-foreground">Files Count</div>
+                        <div className="text-lg font-semibold text-foreground">{files.length}</div>
+                      </div>
+                    </div>
+
+                    <Button 
+                      onClick={handleDownload}
+                      className="w-full pill-button bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
+                    >
+                      <DownloadIcon className="w-4 h-4 mr-2" />
+                      Download {fileName}.{compressionFormat}
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ) : (
+              <Card className="solid-card">
+                <CardHeader>
+                  <CardTitle className="text-foreground">Ready to Compress</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="p-4 bg-background rounded-lg border border-border">
+                      <div className="text-sm text-muted-foreground mb-2">Output File:</div>
+                      <div className="font-semibold text-foreground text-lg">
+                        {fileName}.{compressionFormat}
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="p-3 bg-gray-800/50 rounded-lg">
+                        <div className="text-xs text-muted-foreground">Files Count</div>
+                        <div className="text-lg font-semibold text-foreground">{files.length}</div>
+                      </div>
+                      <div className="p-3 bg-gray-800/50 rounded-lg">
+                        <div className="text-xs text-muted-foreground">Total Size</div>
+                        <div className="text-lg font-semibold text-foreground">{formatFileSize(getTotalSize())}</div>
+                      </div>
+                    </div>
+
+                    {usePassword && (
+                      <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg">
+                        <div className="flex items-center space-x-2">
+                          <LockIcon className="w-4 h-4 text-amber-400" />
+                          <span className="text-sm text-amber-300">Password protection enabled</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
 
