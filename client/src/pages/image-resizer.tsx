@@ -550,23 +550,55 @@ export default function ImageTool() {
       <BackgroundShapes />
       
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 space-y-4 sm:space-y-0">
-          <div className="flex-1 min-w-0">
-            <h1 className="text-xl sm:text-2xl font-bold mb-2">
-              <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
-                Image Tool
-              </span>
-            </h1>
-            <p className="text-gray-300 font-medium text-sm sm:text-base">Resize, convert, crop, and optimize images with professional tools</p>
-          </div>
-          <div className="flex-shrink-0 self-start sm:self-center">
-            <Link href="/">
-              <Button variant="outline" size="icon" className="w-10 h-10 rounded-lg">
-                <ArrowLeftIcon className="w-4 h-4" />
-              </Button>
-            </Link>
+        {/* Top Mobile Ad Banner */}
+        <div className="block lg:hidden mb-6">
+          <div className="bg-gray-800/30 rounded-lg p-3 text-center text-gray-400 border border-gray-600/30">
+            <div className="h-12 flex items-center justify-center text-xs">
+              Mobile Ad Space (320x50)
+            </div>
           </div>
         </div>
+        
+        {/* Top Desktop Ad Banner */}
+        <div className="hidden lg:block mb-6">
+          <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
+            <div className="h-24 flex items-center justify-center text-sm">
+              Desktop Ad Space (728x90)
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Left Sidebar Ad (Desktop Only) */}
+          <div className="hidden lg:block">
+            <div className="sticky top-4">
+              <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
+                <div className="h-60 flex items-center justify-center text-xs">
+                  Sidebar Ad<br />160x600
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Main Content */}
+          <div className="lg:col-span-2">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 space-y-4 sm:space-y-0">
+                <div className="flex-1 min-w-0">
+                  <h1 className="text-xl sm:text-2xl font-bold mb-2">
+                    <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+                      Image Tool
+                    </span>
+                  </h1>
+                  <p className="text-gray-300 font-medium text-sm sm:text-base">Resize, convert, crop, and optimize images with professional tools</p>
+                </div>
+                <div className="flex-shrink-0 self-start sm:self-center">
+                  <Link href="/">
+                    <Button variant="outline" size="icon" className="w-10 h-10 rounded-lg">
+                      <ArrowLeftIcon className="w-4 h-4" />
+                    </Button>
+                  </Link>
+                </div>
+              </div>
         
         {/* Upload Area */}
         <Card className="solid-card mb-8">
@@ -743,8 +775,8 @@ export default function ImageTool() {
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => setZoomLevel(Math.max(0.5, zoomLevel - 0.1))}
-                            disabled={zoomLevel <= 0.5}
+                            onClick={() => setZoomLevel(Math.max(0.1, zoomLevel - 0.1))}
+                            disabled={zoomLevel <= 0.1}
                           >
                             -
                           </Button>
@@ -810,7 +842,7 @@ export default function ImageTool() {
                               );
                               if (lastTouchDistance > 0) {
                                 const scale = distance / lastTouchDistance;
-                                const newZoom = Math.max(0.5, Math.min(3, initialZoom * scale));
+                                const newZoom = Math.max(0.1, Math.min(3, initialZoom * scale));
                                 setZoomLevel(newZoom);
                               }
                             }
@@ -819,7 +851,7 @@ export default function ImageTool() {
                             if (e.ctrlKey || e.metaKey) {
                               e.preventDefault();
                               const delta = e.deltaY > 0 ? -0.1 : 0.1;
-                              setZoomLevel(prev => Math.max(0.5, Math.min(3, prev + delta)));
+                              setZoomLevel(prev => Math.max(0.1, Math.min(3, prev + delta)));
                             }
                           }}
                         >
@@ -827,20 +859,33 @@ export default function ImageTool() {
                             ref={cropImageRef}
                             src={previewUrl} 
                             alt="Original" 
-                            className="absolute select-none pointer-events-none max-w-none max-h-none"
+                            className="absolute select-none pointer-events-none"
                             draggable={false}
                             style={{
                               left: '50%',
                               top: '50%',
+                              maxWidth: 'none',
+                              maxHeight: 'none',
+                              width: 'auto',
+                              height: 'auto',
                               transform: `translate(-50%, -50%) scale(${zoomLevel}) translate(${imagePosition.x}px, ${imagePosition.y}px)`
                             }}
                             onLoad={() => {
-                              // Initialize crop area after image loads
+                              // Initialize crop area and fit image after image loads
                               setTimeout(() => {
-                                if (cropContainerRef.current && !cropArea) {
+                                if (cropContainerRef.current && cropImageRef.current && !cropArea) {
                                   const container = cropContainerRef.current;
+                                  const image = cropImageRef.current;
                                   const containerRect = container.getBoundingClientRect();
-                                  const size = Math.min(containerRect.width, containerRect.height) * 0.5;
+                                  
+                                  // Calculate zoom to fit image in container
+                                  const scaleX = containerRect.width / image.naturalWidth;
+                                  const scaleY = containerRect.height / image.naturalHeight;
+                                  const fitScale = Math.min(scaleX, scaleY) * 0.9; // 90% to leave some margin
+                                  
+                                  setZoomLevel(fitScale);
+                                  
+                                  const size = Math.min(containerRect.width, containerRect.height) * 0.4;
                                   setCropArea({
                                     x: (containerRect.width - size) / 2,
                                     y: (containerRect.height - size) / 2,
@@ -1165,7 +1210,38 @@ export default function ImageTool() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Mobile Bottom Ad */}
+        <div className="block lg:hidden mt-8">
+          <div className="bg-gray-800/30 rounded-lg p-3 text-center text-gray-400 border border-gray-600/30">
+            <div className="h-12 flex items-center justify-center text-xs">
+              Mobile Bottom Ad (320x50)
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Right Sidebar Ad (Desktop Only) */}
+      <div className="hidden lg:block">
+        <div className="sticky top-4">
+          <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
+            <div className="h-60 flex items-center justify-center text-xs">
+              Right Sidebar Ad<br />160x600
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+
+    {/* Desktop Bottom Ad */}
+    <div className="hidden lg:block mt-8">
+      <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
+        <div className="h-24 flex items-center justify-center text-sm">
+          Bottom Desktop Ad (728x90)
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
   );
 }
