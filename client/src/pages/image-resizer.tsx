@@ -785,9 +785,42 @@ export default function ImageTool() {
                           ref={cropContainerRef} 
                           className="relative bg-gray-900 overflow-hidden w-full touch-manipulation"
                           style={{ 
-                            touchAction: 'pan-x pan-y pinch-zoom',
-                            height: '60vh',
-                            minHeight: '400px'
+                            touchAction: 'manipulation',
+                            height: '70vh',
+                            minHeight: '500px',
+                            userSelect: 'none'
+                          }}
+                          onTouchStart={(e) => {
+                            if (e.touches.length === 2) {
+                              e.preventDefault();
+                              const distance = Math.sqrt(
+                                Math.pow(e.touches[1].clientX - e.touches[0].clientX, 2) + 
+                                Math.pow(e.touches[1].clientY - e.touches[0].clientY, 2)
+                              );
+                              setLastTouchDistance(distance);
+                              setInitialZoom(zoomLevel);
+                            }
+                          }}
+                          onTouchMove={(e) => {
+                            if (e.touches.length === 2) {
+                              e.preventDefault();
+                              const distance = Math.sqrt(
+                                Math.pow(e.touches[1].clientX - e.touches[0].clientX, 2) + 
+                                Math.pow(e.touches[1].clientY - e.touches[0].clientY, 2)
+                              );
+                              if (lastTouchDistance > 0) {
+                                const scale = distance / lastTouchDistance;
+                                const newZoom = Math.max(0.5, Math.min(3, initialZoom * scale));
+                                setZoomLevel(newZoom);
+                              }
+                            }
+                          }}
+                          onWheel={(e) => {
+                            if (e.ctrlKey || e.metaKey) {
+                              e.preventDefault();
+                              const delta = e.deltaY > 0 ? -0.1 : 0.1;
+                              setZoomLevel(prev => Math.max(0.5, Math.min(3, prev + delta)));
+                            }
                           }}
                         >
                           <img 
