@@ -118,41 +118,25 @@ export default function Home() {
         <BackgroundShapes variant="tools" />
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Ad Banner Above Tools */}
-          <div className="mb-8">
-            {/* Mobile Ad */}
-            <div className="block lg:hidden">
-              <div className="bg-gray-800/30 rounded-lg p-3 text-center text-gray-400 border border-gray-600/30">
-                <div className="h-12 flex items-center justify-center text-xs">
-                  Mobile Tools Ad (320x50 - Adsterra)
-                </div>
-              </div>
-            </div>
-            {/* Desktop Ad */}
-            <div className="hidden lg:block">
-              <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
-                <div className="h-24 flex items-center justify-center text-sm">
-                  Desktop Tools Ad (728x90 - Google AdSense)
-                </div>
+          {/* Mobile Ad */}
+          <div className="block lg:hidden mb-8">
+            <div className="bg-gray-800/30 rounded-lg p-3 text-center text-gray-400 border border-gray-600/30">
+              <div className="h-12 flex items-center justify-center text-xs">
+                Mobile Tools Ad (320x50 - Adsterra)
               </div>
             </div>
           </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            {/* Left Sidebar Ad (Desktop Only) */}
-            <div className="hidden lg:block">
-              <div className="sticky top-4">
-                <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
-                  <div className="h-60 flex items-center justify-center text-xs">
-                    Left Sidebar<br />160x600<br />Adsterra
-                  </div>
-                </div>
+          
+          {/* Desktop Ad */}
+          <div className="hidden lg:block mb-8">
+            <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
+              <div className="h-24 flex items-center justify-center text-sm">
+                Desktop Tools Ad (728x90 - Google AdSense)
               </div>
             </div>
-
-            {/* Main Tools Content */}
-            <div className="lg:col-span-2">
-              <div className="text-center mb-8 sm:mb-12 md:mb-16">
+          </div>
+          
+          <div className="text-center mb-8 sm:mb-12 md:mb-16">
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">
               <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
                 Powerful Tools
@@ -214,36 +198,6 @@ export default function Home() {
               />
             </div>
           </div>
-          
-          {/* Right Sidebar Ad (Desktop Only) */}
-          <div className="hidden lg:block">
-            <div className="sticky top-4">
-              <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
-                <div className="h-60 flex items-center justify-center text-xs">
-                  Right Sidebar<br />160x600<br />Google AdSense
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Mobile Ad */}
-        <div className="block lg:hidden mt-8">
-          <div className="bg-gray-800/30 rounded-lg p-3 text-center text-gray-400 border border-gray-600/30">
-            <div className="h-12 flex items-center justify-center text-xs">
-              Mobile Bottom Ad (320x50 - Adsterra)
-            </div>
-          </div>
-        </div>
-
-        {/* Desktop Bottom Ad */}
-        <div className="hidden lg:block mt-8">
-          <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
-            <div className="h-24 flex items-center justify-center text-sm">
-              Desktop Bottom Ad (728x90 - Google AdSense)
-            </div>
-          </div>
-        </div>
         </div>
       </section>
 
