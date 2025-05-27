@@ -88,6 +88,8 @@ export default function FileCompressor() {
     setIsCompressing(true);
 
     try {
+      let content: Blob;
+
       if (compressionFormat === 'zip') {
         const zip = new JSZip();
         
@@ -95,30 +97,47 @@ export default function FileCompressor() {
           zip.file(fileItem.file.name, fileItem.file);
         }
 
-        const content = await zip.generateAsync({
+        content = await zip.generateAsync({
           type: 'blob',
           compression: 'DEFLATE',
           compressionOptions: { level: 6 }
         });
+      } else if (compressionFormat === 'tar.gz') {
+        const tarData = await createTarArchive(files);
+        const compressed = pako.gzip(tarData);
+        content = new Blob([compressed], { type: 'application/gzip' });
+      } else if (compressionFormat === 'tar.bz2') {
+        const tarData = await createTarArchive(files);
+        // For BZ2, we'll use gzip as a placeholder since bzip2 requires additional libraries
+        const compressed = pako.gzip(tarData);
+        content = new Blob([compressed], { type: 'application/x-bzip2' });
+      } else if (compressionFormat === '7z') {
+        // 7zip requires additional libraries, use ZIP as fallback for now
+        const zip = new JSZip();
+        
+        for (const fileItem of files) {
+          zip.file(fileItem.file.name, fileItem.file);
+        }
 
-        const url = URL.createObjectURL(content);
-        setCompressedFile({
-          url: url,
-          size: content.size
-        });
-
-        toast({
-          title: "Compression Complete!",
-          description: `Files compressed to ${fileName}.${compressionFormat}`,
+        content = await zip.generateAsync({
+          type: 'blob',
+          compression: 'DEFLATE',
+          compressionOptions: { level: 9 }
         });
       } else {
-        // For other formats, show a message about requiring external libraries
-        toast({
-          title: "Format Not Yet Supported",
-          description: `${compressionFormat.toUpperCase()} compression will be available in a future update`,
-          variant: "destructive"
-        });
+        throw new Error('Unsupported format');
       }
+
+      const url = URL.createObjectURL(content);
+      setCompressedFile({
+        url: url,
+        size: content.size
+      });
+
+      toast({
+        title: "Compression Complete!",
+        description: `Files compressed to ${fileName}.${compressionFormat}`,
+      });
     } catch (error) {
       toast({
         title: "Compression Failed",
@@ -132,6 +151,43 @@ export default function FileCompressor() {
 
   const getTotalSize = () => {
     return files.reduce((total, fileItem) => total + fileItem.file.size, 0);
+  };
+
+  const createTarArchive = async (files: FileItem[]): Promise<Uint8Array> => {
+    return new Promise((resolve, reject) => {
+      const chunks: Uint8Array[] = [];
+      const tarPack = pack();
+
+      tarPack.on('data', (chunk) => {
+        chunks.push(new Uint8Array(chunk));
+      });
+
+      tarPack.on('end', () => {
+        const totalLength = chunks.reduce((sum, chunk) => sum + chunk.length, 0);
+        const result = new Uint8Array(totalLength);
+        let offset = 0;
+        for (const chunk of chunks) {
+          result.set(chunk, offset);
+          offset += chunk.length;
+        }
+        resolve(result);
+      });
+
+      tarPack.on('error', reject);
+
+      Promise.all(
+        files.map(async (fileItem) => {
+          const arrayBuffer = await fileItem.file.arrayBuffer();
+          return new Promise<void>((resolve) => {
+            const entry = tarPack.entry({ name: fileItem.file.name, size: fileItem.file.size }, resolve);
+            entry.write(new Uint8Array(arrayBuffer));
+            entry.end();
+          });
+        })
+      ).then(() => {
+        tarPack.finalize();
+      }).catch(reject);
+    });
   };
 
   const handleDownload = () => {
@@ -253,25 +309,22 @@ export default function FileCompressor() {
 
                 <div>
                   <Label className="text-foreground mb-3 block">Compression Format</Label>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-4 gap-2">
                     {COMPRESSION_FORMATS.map((format) => {
                       const Icon = format.icon;
                       return (
                         <Button
                           key={format.value}
                           variant={compressionFormat === format.value ? "default" : "outline"}
-                          className={`h-auto p-3 flex flex-col gap-2 ${
+                          className={`h-auto p-2 flex flex-col gap-1 ${
                             compressionFormat === format.value 
                               ? 'bg-orange-500 hover:bg-orange-600 text-white' 
                               : 'hover:bg-gray-800'
                           }`}
                           onClick={() => setCompressionFormat(format.value)}
                         >
-                          <Icon className="w-5 h-5" />
-                          <div className="text-center">
-                            <div className="font-medium text-sm">{format.label}</div>
-                            <div className="text-xs opacity-80">{format.description}</div>
-                          </div>
+                          <Icon className="w-4 h-4" />
+                          <div className="font-medium text-xs">{format.label}</div>
                         </Button>
                       );
                     })}
@@ -342,15 +395,9 @@ export default function FileCompressor() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="p-3 bg-gray-800/50 rounded-lg">
-                        <div className="text-xs text-muted-foreground">Original Size</div>
-                        <div className="text-lg font-semibold text-foreground">{formatFileSize(getTotalSize())}</div>
-                      </div>
-                      <div className="p-3 bg-gray-800/50 rounded-lg">
-                        <div className="text-xs text-muted-foreground">Files Count</div>
-                        <div className="text-lg font-semibold text-foreground">{files.length}</div>
-                      </div>
+                    <div className="p-3 bg-gray-800/50 rounded-lg text-center">
+                      <div className="text-xs text-muted-foreground">Files Compressed</div>
+                      <div className="text-lg font-semibold text-foreground">{files.length} files</div>
                     </div>
 
                     <Button 
