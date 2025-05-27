@@ -239,21 +239,25 @@ letter-spacing: ${letterSpacing[0]}px;`;
                 <label className="text-sm font-medium text-foreground mb-2 block">Font Family</label>
                 <Select 
                   value={fontFamily} 
-                  onValueChange={(value) => {
-                    if (value && FONT_FAMILIES.some(f => f.value === value)) {
-                      setFontFamily(value);
-                    }
-                  }}
+                  onValueChange={setFontFamily}
                 >
                   <SelectTrigger className="bg-background border-border text-foreground">
                     <SelectValue>
                       {selectedFont.label}
                     </SelectValue>
                   </SelectTrigger>
-                  <SelectContent className="max-h-60">
+                  <SelectContent 
+                    className="max-h-48 overflow-y-auto"
+                    position="popper"
+                    sideOffset={4}
+                  >
                     {FONT_FAMILIES.map((font) => (
-                      <SelectItem key={font.value} value={font.value}>
-                        <span>{font.label}</span>
+                      <SelectItem 
+                        key={font.value} 
+                        value={font.value}
+                        className="cursor-pointer"
+                      >
+                        {font.label}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -278,13 +282,15 @@ letter-spacing: ${letterSpacing[0]}px;`;
               {/* Font Weight */}
               <div>
                 <label className="text-sm font-medium text-foreground mb-2 block">Font Weight</label>
-                <Select value={fontWeight} onValueChange={(value) => value && setFontWeight(value)}>
+                <Select value={fontWeight} onValueChange={setFontWeight}>
                   <SelectTrigger className="bg-background border-border text-foreground">
-                    <SelectValue placeholder="Select font weight" />
+                    <SelectValue>
+                      {FONT_WEIGHTS.find(w => w.value === fontWeight)?.label || 'Regular'}
+                    </SelectValue>
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent position="popper" sideOffset={4}>
                     {FONT_WEIGHTS.map((weight) => (
-                      <SelectItem key={weight.value} value={weight.value}>
+                      <SelectItem key={weight.value} value={weight.value} className="cursor-pointer">
                         {weight.label}
                       </SelectItem>
                     ))}
@@ -295,13 +301,15 @@ letter-spacing: ${letterSpacing[0]}px;`;
               {/* Font Style */}
               <div>
                 <label className="text-sm font-medium text-foreground mb-2 block">Font Style</label>
-                <Select value={fontStyle} onValueChange={(value) => value && setFontStyle(value)}>
+                <Select value={fontStyle} onValueChange={setFontStyle}>
                   <SelectTrigger className="bg-background border-border text-foreground">
-                    <SelectValue placeholder="Select font style" />
+                    <SelectValue>
+                      {FONT_STYLES.find(s => s.value === fontStyle)?.label || 'Normal'}
+                    </SelectValue>
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent position="popper" sideOffset={4}>
                     {FONT_STYLES.map((style) => (
-                      <SelectItem key={style.value} value={style.value}>
+                      <SelectItem key={style.value} value={style.value} className="cursor-pointer">
                         {style.label}
                       </SelectItem>
                     ))}
@@ -312,13 +320,15 @@ letter-spacing: ${letterSpacing[0]}px;`;
               {/* Text Transform */}
               <div>
                 <label className="text-sm font-medium text-foreground mb-2 block">Text Transform</label>
-                <Select value={textTransform} onValueChange={(value) => value && setTextTransform(value)}>
+                <Select value={textTransform} onValueChange={setTextTransform}>
                   <SelectTrigger className="bg-background border-border text-foreground">
-                    <SelectValue placeholder="Select text transform" />
+                    <SelectValue>
+                      {TEXT_TRANSFORMS.find(t => t.value === textTransform)?.label || 'None'}
+                    </SelectValue>
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent position="popper" sideOffset={4}>
                     {TEXT_TRANSFORMS.map((transform) => (
-                      <SelectItem key={transform.value} value={transform.value}>
+                      <SelectItem key={transform.value} value={transform.value} className="cursor-pointer">
                         {transform.label}
                       </SelectItem>
                     ))}
