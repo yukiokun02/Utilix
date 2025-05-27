@@ -11,6 +11,7 @@ import {
   MailIcon, 
   TypeIcon, 
   CodeIcon,
+  PaletteIcon,
   ZapIcon,
   ShieldIcon,
   SmartphoneIcon,
@@ -68,7 +69,7 @@ export default function Home() {
           <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6 max-w-4xl mx-auto px-4">
             <div className="flex items-center space-x-3 bg-gray-800/50 rounded-lg px-4 py-3 border border-gray-700/50 hover:border-emerald-500/50 transition-all duration-300 hover:scale-105 animate-slide-up stagger-1">
               <div className="w-8 h-8 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 flex items-center justify-center">
-                <span className="text-white text-sm font-bold">7+</span>
+                <span className="text-white text-sm font-bold">8+</span>
               </div>
               <div>
                 <h3 className="text-sm font-bold text-white">Tools Available</h3>

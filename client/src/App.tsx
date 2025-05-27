@@ -14,6 +14,8 @@ import FileConverter from "@/pages/file-converter";
 import FileCompressor from "@/pages/file-compressor";
 import FontChanger from "@/pages/font-changer";
 import CodeNotepad from "@/pages/code-notepad";
+import ColorPicker from "@/pages/color-picker";
+import TempEmail from "@/pages/temp-email";
 import About from "@/pages/about";
 import Terms from "@/pages/terms";
 import Privacy from "@/pages/privacy";
