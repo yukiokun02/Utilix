@@ -534,12 +534,21 @@ export default function ImageTool() {
     const downloadUrl = url || resizedUrl || croppedUrl || convertedUrl || optimizedUrl;
     if (!downloadUrl) return;
     
-    const link = document.createElement('a');
-    link.href = downloadUrl;
-    link.download = `processed-image.${outputFormat}`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const filename = `processed-image.${outputFormat}`;
+    setPendingDownload({ url: downloadUrl, filename });
+    setShowDownloadPopup(true);
+  };
+
+  const executeDownload = () => {
+    if (pendingDownload) {
+      const link = document.createElement('a');
+      link.href = pendingDownload.url;
+      link.download = pendingDownload.filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setPendingDownload(null);
+    }
   };
 
   const formatFileSize = (bytes: number): string => {
@@ -1262,6 +1271,14 @@ export default function ImageTool() {
           </div>
         </div>
       </div>
+      
+      {/* Download Popup with Ads and Timer */}
+      <DownloadPopup
+        isOpen={showDownloadPopup}
+        onClose={() => setShowDownloadPopup(false)}
+        onDownload={executeDownload}
+        filename={pendingDownload?.filename || "processed-image.png"}
+      />
     </div>
   );
 }
