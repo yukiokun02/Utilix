@@ -5,7 +5,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import BackgroundShapes from "@/components/background-shapes";
-import { ArrowLeftIcon, TypeIcon, CopyIcon, CodeIcon } from "lucide-react";
+import DownloadPopup from "@/components/download-popup";
+import { ArrowLeftIcon, TypeIcon, CopyIcon, CodeIcon, DownloadIcon } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 
