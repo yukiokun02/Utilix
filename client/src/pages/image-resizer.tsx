@@ -291,14 +291,14 @@ export default function ImageTool() {
   };
 
   const handleMove = useCallback((clientX: number, clientY: number) => {
-    if (!dragStart || !cropArea || !cropImageRef.current) return;
+    if (!dragStart || !cropArea || !cropContainerRef.current) return;
     
-    const containerRect = cropImageRef.current.getBoundingClientRect();
+    const containerRect = cropContainerRef.current.getBoundingClientRect();
     const deltaX = clientX - dragStart.x;
     const deltaY = clientY - dragStart.y;
     
     if (isDragging) {
-      // Move crop area
+      // Move crop area within container bounds
       const newX = Math.max(0, Math.min(containerRect.width - cropArea.width, cropArea.x + deltaX));
       const newY = Math.max(0, Math.min(containerRect.height - cropArea.height, cropArea.y + deltaY));
       
@@ -319,7 +319,7 @@ export default function ImageTool() {
       if (resizeHandle.includes('left')) {
         const widthChange = -deltaX;
         newWidth = Math.max(50, cropArea.width + widthChange);
-        newX = cropArea.x - widthChange;
+        newX = Math.max(0, cropArea.x - widthChange);
       }
       if (resizeHandle.includes('bottom')) {
         newHeight = Math.max(50, Math.min(containerRect.height - cropArea.y, cropArea.height + deltaY));
@@ -327,7 +327,7 @@ export default function ImageTool() {
       if (resizeHandle.includes('top')) {
         const heightChange = -deltaY;
         newHeight = Math.max(50, cropArea.height + heightChange);
-        newY = cropArea.y - heightChange;
+        newY = Math.max(0, cropArea.y - heightChange);
       }
       
       // Maintain aspect ratio if set
