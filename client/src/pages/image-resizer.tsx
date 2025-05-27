@@ -1063,11 +1063,11 @@ export default function ImageTool() {
                       <Label className="text-foreground mb-2 block">Output Format</Label>
                       <div className="grid grid-cols-3 gap-2">
                         {[
-                          { format: 'jpeg', label: 'JPEG', icon: FileImageIcon },
+                          { format: 'jpeg', label: 'JPEG', icon: ImageIcon },
                           { format: 'png', label: 'PNG', icon: ImageIcon },
-                          { format: 'webp', label: 'WebP', icon: ZapIcon },
+                          { format: 'webp', label: 'WebP', icon: ImageIcon },
                           { format: 'gif', label: 'GIF', icon: PaletteIcon },
-                          { format: 'bmp', label: 'BMP', icon: FileImageIcon }
+                          { format: 'bmp', label: 'BMP', icon: ImageIcon }
                         ].map(({ format, label, icon: Icon }) => (
                           <Button
                             key={format}

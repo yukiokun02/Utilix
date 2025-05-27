@@ -32,6 +32,8 @@ export default function FileCompressor() {
   const [password, setPassword] = useState('');
   const [isCompressing, setIsCompressing] = useState(false);
   const [compressedFile, setCompressedFile] = useState<{url: string, size: number} | null>(null);
+  const [showDownloadPopup, setShowDownloadPopup] = useState(false);
+  const [pendingDownload, setPendingDownload] = useState<{url: string, filename: string} | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
@@ -147,12 +149,26 @@ export default function FileCompressor() {
 
   const handleDownload = () => {
     if (compressedFile) {
+      const filename = `${fileName}.${compressionFormat}`;
+      setPendingDownload({ url: compressedFile.url, filename });
+      setShowDownloadPopup(true);
+    }
+  };
+
+  const executeDownload = () => {
+    if (pendingDownload) {
       const link = document.createElement('a');
-      link.href = compressedFile.url;
-      link.download = `${fileName}.${compressionFormat}`;
+      link.href = pendingDownload.url;
+      link.download = pendingDownload.filename;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      setPendingDownload(null);
+      
+      toast({
+        title: "Downloaded!",
+        description: `File saved as ${pendingDownload.filename}`,
+      });
     }
   };
 

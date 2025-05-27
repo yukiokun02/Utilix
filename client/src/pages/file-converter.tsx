@@ -40,6 +40,8 @@ export default function FileConverter() {
   const [outputFormat, setOutputFormat] = useState<string>("");
   const [convertedUrl, setConvertedUrl] = useState<string>("");
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showDownloadPopup, setShowDownloadPopup] = useState(false);
+  const [pendingDownload, setPendingDownload] = useState<{url: string, filename: string} | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
