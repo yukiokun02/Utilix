@@ -163,7 +163,16 @@ export default function FileConverter() {
     <div className="min-h-screen pt-20 relative">
       <BackgroundShapes />
       
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Top Ad Banner */}
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <div className="bg-gray-800/30 rounded-lg p-3 text-center text-gray-400 border border-gray-600/30 mb-6">
+          <div className="h-16 sm:h-20 flex items-center justify-center text-xs sm:text-sm">
+            Top Ad Banner (728x90 / 320x50)
+          </div>
+        </div>
+      </div>
+
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-4xl font-bold mb-2">

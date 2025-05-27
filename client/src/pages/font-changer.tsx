@@ -319,6 +319,15 @@ letter-spacing: ${letterSpacing[0]}px;`;
             </CardContent>
           </Card>
 
+          {/* Middle Ad Between Font Control and Live Preview */}
+          <div className="my-8">
+            <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
+              <div className="h-24 flex items-center justify-center text-sm">
+                Middle Ad Area (728x90)
+              </div>
+            </div>
+          </div>
+
           {/* Preview */}
           <Card className="solid-card">
             <CardHeader>
