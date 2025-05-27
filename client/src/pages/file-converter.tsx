@@ -147,12 +147,26 @@ export default function FileConverter() {
   const handleDownload = () => {
     if (!convertedUrl || !selectedFile) return;
     
-    const fileName = selectedFile.name.replace(/\.[^/.]+$/, "") + '.' + outputFormat;
-    
-    const a = document.createElement('a');
-    a.href = convertedUrl;
-    a.download = fileName;
-    a.click();
+    const filename = selectedFile.name.replace(/\.[^/.]+$/, "") + '.' + outputFormat;
+    setPendingDownload({ url: convertedUrl, filename });
+    setShowDownloadPopup(true);
+  };
+
+  const executeDownload = () => {
+    if (pendingDownload) {
+      const link = document.createElement('a');
+      link.href = pendingDownload.url;
+      link.download = pendingDownload.filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setPendingDownload(null);
+      
+      toast({
+        title: "Downloaded!",
+        description: `File saved as ${pendingDownload.filename}`,
+      });
+    }
   };
 
   const getAllFormats = () => {
@@ -187,6 +201,15 @@ export default function FileConverter() {
               <ArrowLeftIcon className="w-4 h-4" />
             </Button>
           </Link>
+        </div>
+
+        {/* Middle Ad Between Output and Download */}
+        <div className="my-8">
+          <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
+            <div className="h-24 flex items-center justify-center text-sm">
+              Middle Ad Area (728x90)
+            </div>
+          </div>
         </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
@@ -269,7 +292,12 @@ export default function FileConverter() {
                 <DownloadIcon className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
                 {convertedUrl ? (
                   <>
-                    <p className="text-foreground mb-4">Converted file ready</p>
+                    <p className="text-foreground mb-2">Converted file ready</p>
+                    {selectedFile && (
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Size: {(selectedFile.size / 1024).toFixed(2)} KB
+                      </p>
+                    )}
                     <Button 
                       onClick={handleDownload}
                       className="pill-button bg-gradient-to-r from-amber-500 to-orange-600"
@@ -368,7 +396,24 @@ export default function FileConverter() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Bottom Ad */}
+        <div className="mt-8">
+          <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
+            <div className="h-24 flex items-center justify-center text-sm">
+              Bottom Ad Area (728x90)
+            </div>
+          </div>
+        </div>
       </div>
+
+      {/* Download Popup */}
+      <DownloadPopup
+        isOpen={showDownloadPopup}
+        onClose={() => setShowDownloadPopup(false)}
+        onDownload={executeDownload}
+        filename={pendingDownload?.filename || "converted-file.txt"}
+      />
     </div>
   );
 }
