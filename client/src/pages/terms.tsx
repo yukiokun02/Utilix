@@ -98,6 +98,15 @@ export default function Terms() {
                 </p>
               </section>
 
+              {/* Middle Ad Between Sections */}
+              <div className="my-8">
+                <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
+                  <div className="h-20 sm:h-24 lg:h-28 flex items-center justify-center text-sm">
+                    Middle Ad Area (728x90 / 320x100)
+                  </div>
+                </div>
+              </div>
+
               <section>
                 <h2 className="text-lg sm:text-xl font-bold mb-4 text-blue-400">7. Changes to These Terms</h2>
                 <p className="leading-relaxed">
