@@ -88,18 +88,6 @@ export default function ImageTool() {
         // Set optimization sliders based on file size
         const fileSizeKB = file.size / 1024;
         setTargetSizeSlider(Math.min(fileSizeKB * 0.7, 100)); // 70% of original size or max 100KB
-        
-        // Initialize crop area to center of image
-        if (cropImageRef.current) {
-          const containerRect = cropImageRef.current.getBoundingClientRect();
-          const cropSize = Math.min(containerRect.width, containerRect.height) * 0.6;
-          setCropArea({
-            x: (containerRect.width - cropSize) / 2,
-            y: (containerRect.height - cropSize) / 2,
-            width: cropSize,
-            height: cropSize
-          });
-        }
       };
       img.src = url;
     };
@@ -234,12 +222,12 @@ export default function ImageTool() {
     setDragStart({ x: e.clientX, y: e.clientY });
   };
 
-  const handleMouseMove = useCallback((e: MouseEvent) => {
+  const handleMove = useCallback((clientX: number, clientY: number) => {
     if (!dragStart || !cropArea || !cropImageRef.current) return;
     
     const containerRect = cropImageRef.current.getBoundingClientRect();
-    const deltaX = e.clientX - dragStart.x;
-    const deltaY = e.clientY - dragStart.y;
+    const deltaX = clientX - dragStart.x;
+    const deltaY = clientY - dragStart.y;
     
     if (isDragging) {
       // Move crop area
@@ -247,7 +235,7 @@ export default function ImageTool() {
       const newY = Math.max(0, Math.min(containerRect.height - cropArea.height, cropArea.y + deltaY));
       
       setCropArea({ ...cropArea, x: newX, y: newY });
-      setDragStart({ x: e.clientX, y: e.clientY });
+      setDragStart({ x: clientX, y: clientY });
     } else if (isResizing) {
       // Resize crop area
       let newWidth = cropArea.width;
@@ -288,9 +276,22 @@ export default function ImageTool() {
       newY = Math.max(0, Math.min(containerRect.height - newHeight, newY));
       
       setCropArea({ x: newX, y: newY, width: newWidth, height: newHeight });
-      setDragStart({ x: e.clientX, y: e.clientY });
+      setDragStart({ x: clientX, y: clientY });
     }
   }, [isDragging, isResizing, dragStart, cropArea, resizeHandle, cropAspectRatio]);
+
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    e.preventDefault();
+    handleMove(e.clientX, e.clientY);
+  }, [handleMove]);
+
+  const handleTouchMove = useCallback((e: TouchEvent) => {
+    e.preventDefault();
+    if (e.touches.length === 1) {
+      const touch = e.touches[0];
+      handleMove(touch.clientX, touch.clientY);
+    }
+  }, [handleMove]);
 
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
@@ -301,9 +302,10 @@ export default function ImageTool() {
 
   useEffect(() => {
     if (isDragging || isResizing) {
-      document.addEventListener('mousemove', handleMouseMove);
+      const options = { passive: false };
+      document.addEventListener('mousemove', handleMouseMove, options);
       document.addEventListener('mouseup', handleMouseUp);
-      document.addEventListener('touchmove', handleTouchMove);
+      document.addEventListener('touchmove', handleTouchMove, options);
       document.addEventListener('touchend', handleMouseUp);
       
       return () => {
@@ -313,18 +315,7 @@ export default function ImageTool() {
         document.removeEventListener('touchend', handleMouseUp);
       };
     }
-  }, [isDragging, isResizing, handleMouseMove, handleMouseUp]);
-
-  const handleTouchMove = (e: TouchEvent) => {
-    if (e.touches.length === 1) {
-      const touch = e.touches[0];
-      handleMouseMove({
-        clientX: touch.clientX,
-        clientY: touch.clientY,
-        preventDefault: () => e.preventDefault()
-      } as any);
-    }
-  };
+  }, [isDragging, isResizing, handleMouseMove, handleTouchMove, handleMouseUp]);
 
   const applyCrop = async () => {
     if (!selectedFile || !cropArea || !cropImageRef.current) return;
@@ -635,133 +626,201 @@ export default function ImageTool() {
             </TabsContent>
 
             <TabsContent value="crop" className="mt-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {/* Crop Controls */}
+              <div className="space-y-6">
+                {/* Aspect Ratio Selection */}
                 <Card className="solid-card">
                   <CardHeader>
-                    <CardTitle className="text-foreground">Crop Options</CardTitle>
+                    <CardTitle className="text-foreground">Select Aspect Ratio</CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div>
-                      <Label className="text-foreground mb-2 block">Aspect Ratio</Label>
-                      <Select value={cropAspectRatio} onValueChange={handleCropAspectRatioChange}>
-                        <SelectTrigger className="bg-background border-border text-foreground">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {aspectRatios.map((ratio) => (
-                            <SelectItem key={ratio.value} value={ratio.value}>
-                              {ratio.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Button 
-                        onClick={applyCrop}
-                        disabled={isProcessing || !cropArea}
-                        className="w-full pill-button bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700"
-                      >
-                        {isProcessing ? "Cropping..." : "Apply Crop"}
-                      </Button>
-                      
-                      <p className="text-xs text-muted-foreground text-center">
-                        Drag the crop area to move, drag corners to resize
-                      </p>
+                  <CardContent>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                      {aspectRatios.map((ratio) => (
+                        <Button
+                          key={ratio.value}
+                          variant={cropAspectRatio === ratio.value ? "default" : "outline"}
+                          onClick={() => handleCropAspectRatioChange(ratio.value)}
+                          className={`text-sm ${cropAspectRatio === ratio.value ? 'bg-blue-500 text-white' : 'text-foreground hover:bg-blue-500/20'}`}
+                        >
+                          {ratio.label}
+                        </Button>
+                      ))}
                     </div>
                   </CardContent>
                 </Card>
 
-                {/* Crop Preview */}
+                {/* Crop Area */}
                 <Card className="solid-card">
                   <CardHeader>
                     <CardTitle className="text-foreground">
-                      {croppedUrl ? "Cropped Result" : "Select Crop Area"}
+                      {croppedUrl ? "Cropped Result" : "Drag to Crop"}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="border border-border rounded-xl p-4 bg-background relative">
-                      {croppedUrl ? (
-                        <div>
-                          <img src={croppedUrl} alt="Cropped" className="max-w-full h-auto" />
-                          <div className="mt-3 flex justify-center">
-                            <Button onClick={() => handleDownload(croppedUrl)} size="sm" className="pill-button bg-white text-black hover:bg-gray-200">
-                              <DownloadIcon className="w-4 h-4 mr-2" />
-                              <span className="text-black font-medium">Download</span>
-                            </Button>
-                          </div>
+                    {croppedUrl ? (
+                      <div className="space-y-4">
+                        <div className="border border-border rounded-xl p-4 bg-background">
+                          <img src={croppedUrl} alt="Cropped" className="max-w-full h-auto mx-auto" />
                         </div>
-                      ) : (
-                        <div ref={cropContainerRef} className="relative touch-none">
+                        <div className="flex justify-center space-x-3">
+                          <Button onClick={() => handleDownload(croppedUrl)} className="pill-button bg-white text-black hover:bg-gray-200">
+                            <DownloadIcon className="w-4 h-4 mr-2" />
+                            <span className="text-black font-medium">Download</span>
+                          </Button>
+                          <Button onClick={() => setCroppedUrl("")} variant="outline">
+                            Crop Again
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="space-y-4">
+                        <div 
+                          ref={cropContainerRef} 
+                          className="relative border border-border rounded-xl p-4 bg-background overflow-hidden"
+                          style={{ touchAction: 'none' }}
+                        >
                           <img 
                             ref={cropImageRef}
                             src={previewUrl} 
                             alt="Original" 
-                            className="max-w-full h-auto select-none"
+                            className="max-w-full h-auto select-none pointer-events-none"
                             draggable={false}
+                            onLoad={() => {
+                              // Initialize crop area after image loads
+                              setTimeout(() => {
+                                if (cropImageRef.current && !cropArea) {
+                                  const img = cropImageRef.current;
+                                  const rect = img.getBoundingClientRect();
+                                  const size = Math.min(rect.width, rect.height) * 0.6;
+                                  setCropArea({
+                                    x: (rect.width - size) / 2,
+                                    y: (rect.height - size) / 2,
+                                    width: size,
+                                    height: size
+                                  });
+                                }
+                              }, 100);
+                            }}
                           />
-                          {cropArea && (
+                          {cropArea && cropImageRef.current && (
                             <div 
-                              className="absolute border-2 border-blue-500 bg-blue-500/20 cursor-move touch-none"
+                              className="absolute border-2 border-blue-500 bg-blue-500/10 cursor-move select-none"
                               style={{
                                 left: cropArea.x,
                                 top: cropArea.y,
                                 width: cropArea.width,
                                 height: cropArea.height,
+                                touchAction: 'none'
                               }}
                               onMouseDown={(e) => handleMouseDown(e)}
                               onTouchStart={(e) => {
+                                e.preventDefault();
                                 const touch = e.touches[0];
-                                handleMouseDown({
-                                  preventDefault: () => e.preventDefault(),
-                                  stopPropagation: () => e.stopPropagation(),
-                                  clientX: touch.clientX,
-                                  clientY: touch.clientY
-                                } as any);
+                                if (touch) {
+                                  handleMouseDown({
+                                    preventDefault: () => {},
+                                    stopPropagation: () => {},
+                                    clientX: touch.clientX,
+                                    clientY: touch.clientY
+                                  } as any);
+                                }
                               }}
                             >
-                              {/* Resize handles */}
+                              {/* Corner handles - larger for mobile */}
                               <div 
-                                className="absolute w-3 h-3 bg-blue-500 -top-1 -left-1 cursor-nw-resize"
-                                onMouseDown={(e) => handleMouseDown(e, 'top-left')}
+                                className="absolute w-4 h-4 sm:w-3 sm:h-3 bg-blue-500 border border-white -top-2 -left-2 cursor-nw-resize touch-manipulation"
+                                onMouseDown={(e) => {
+                                  e.stopPropagation();
+                                  handleMouseDown(e, 'top-left');
+                                }}
+                                onTouchStart={(e) => {
+                                  e.stopPropagation();
+                                  e.preventDefault();
+                                  const touch = e.touches[0];
+                                  if (touch) {
+                                    setIsResizing(true);
+                                    setResizeHandle('top-left');
+                                    setDragStart({ x: touch.clientX, y: touch.clientY });
+                                  }
+                                }}
                               />
                               <div 
-                                className="absolute w-3 h-3 bg-blue-500 -top-1 -right-1 cursor-ne-resize"
-                                onMouseDown={(e) => handleMouseDown(e, 'top-right')}
+                                className="absolute w-4 h-4 sm:w-3 sm:h-3 bg-blue-500 border border-white -top-2 -right-2 cursor-ne-resize touch-manipulation"
+                                onMouseDown={(e) => {
+                                  e.stopPropagation();
+                                  handleMouseDown(e, 'top-right');
+                                }}
+                                onTouchStart={(e) => {
+                                  e.stopPropagation();
+                                  e.preventDefault();
+                                  const touch = e.touches[0];
+                                  if (touch) {
+                                    setIsResizing(true);
+                                    setResizeHandle('top-right');
+                                    setDragStart({ x: touch.clientX, y: touch.clientY });
+                                  }
+                                }}
                               />
                               <div 
-                                className="absolute w-3 h-3 bg-blue-500 -bottom-1 -left-1 cursor-sw-resize"
-                                onMouseDown={(e) => handleMouseDown(e, 'bottom-left')}
+                                className="absolute w-4 h-4 sm:w-3 sm:h-3 bg-blue-500 border border-white -bottom-2 -left-2 cursor-sw-resize touch-manipulation"
+                                onMouseDown={(e) => {
+                                  e.stopPropagation();
+                                  handleMouseDown(e, 'bottom-left');
+                                }}
+                                onTouchStart={(e) => {
+                                  e.stopPropagation();
+                                  e.preventDefault();
+                                  const touch = e.touches[0];
+                                  if (touch) {
+                                    setIsResizing(true);
+                                    setResizeHandle('bottom-left');
+                                    setDragStart({ x: touch.clientX, y: touch.clientY });
+                                  }
+                                }}
                               />
                               <div 
-                                className="absolute w-3 h-3 bg-blue-500 -bottom-1 -right-1 cursor-se-resize"
-                                onMouseDown={(e) => handleMouseDown(e, 'bottom-right')}
+                                className="absolute w-4 h-4 sm:w-3 sm:h-3 bg-blue-500 border border-white -bottom-2 -right-2 cursor-se-resize touch-manipulation"
+                                onMouseDown={(e) => {
+                                  e.stopPropagation();
+                                  handleMouseDown(e, 'bottom-right');
+                                }}
+                                onTouchStart={(e) => {
+                                  e.stopPropagation();
+                                  e.preventDefault();
+                                  const touch = e.touches[0];
+                                  if (touch) {
+                                    setIsResizing(true);
+                                    setResizeHandle('bottom-right');
+                                    setDragStart({ x: touch.clientX, y: touch.clientY });
+                                  }
+                                }}
                               />
                               
-                              {/* Edge handles */}
-                              <div 
-                                className="absolute w-3 h-1 bg-blue-500 -top-1 left-1/2 transform -translate-x-1/2 cursor-n-resize"
-                                onMouseDown={(e) => handleMouseDown(e, 'top')}
-                              />
-                              <div 
-                                className="absolute w-1 h-3 bg-blue-500 -right-1 top-1/2 transform -translate-y-1/2 cursor-e-resize"
-                                onMouseDown={(e) => handleMouseDown(e, 'right')}
-                              />
-                              <div 
-                                className="absolute w-3 h-1 bg-blue-500 -bottom-1 left-1/2 transform -translate-x-1/2 cursor-s-resize"
-                                onMouseDown={(e) => handleMouseDown(e, 'bottom')}
-                              />
-                              <div 
-                                className="absolute w-1 h-3 bg-blue-500 -left-1 top-1/2 transform -translate-y-1/2 cursor-w-resize"
-                                onMouseDown={(e) => handleMouseDown(e, 'left')}
-                              />
+                              {/* Grid lines for better visibility */}
+                              <div className="absolute inset-0 pointer-events-none">
+                                <div className="absolute left-1/3 top-0 bottom-0 w-px bg-blue-400/50"></div>
+                                <div className="absolute left-2/3 top-0 bottom-0 w-px bg-blue-400/50"></div>
+                                <div className="absolute top-1/3 left-0 right-0 h-px bg-blue-400/50"></div>
+                                <div className="absolute top-2/3 left-0 right-0 h-px bg-blue-400/50"></div>
+                              </div>
                             </div>
                           )}
                         </div>
-                      )}
-                    </div>
+                        
+                        <div className="flex justify-center">
+                          <Button 
+                            onClick={applyCrop}
+                            disabled={isProcessing || !cropArea}
+                            className="pill-button bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700"
+                          >
+                            {isProcessing ? "Cropping..." : "Apply Crop"}
+                          </Button>
+                        </div>
+                        
+                        <p className="text-xs text-muted-foreground text-center">
+                          Drag the blue area to move • Drag corners to resize
+                        </p>
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               </div>
