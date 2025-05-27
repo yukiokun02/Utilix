@@ -1233,15 +1233,15 @@ export default function ImageTool() {
       </div>
     </div>
 
-    {/* Desktop Bottom Ad */}
-    <div className="hidden lg:block mt-8">
-      <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
-        <div className="h-24 flex items-center justify-center text-sm">
-          Bottom Desktop Ad (728x90)
+        {/* Desktop Bottom Ad */}
+        <div className="hidden lg:block mt-8">
+          <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
+            <div className="h-24 flex items-center justify-center text-sm">
+              Bottom Desktop Ad (728x90)
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
   );
 }
