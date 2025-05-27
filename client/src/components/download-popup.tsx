@@ -48,9 +48,12 @@ export default function DownloadPopup({ isOpen, onClose, onDownload, filename }:
         <DialogHeader className="p-4 pb-2">
           <div className="flex items-center justify-between">
             <DialogTitle className="text-white text-lg">Preparing Download</DialogTitle>
-            <Button variant="ghost" size="icon" onClick={onClose} className="h-6 w-6">
+            <button
+              onClick={onClose}
+              className="bg-red-600 hover:bg-red-700 text-white font-bold rounded-full w-8 h-8 flex items-center justify-center transition-colors"
+            >
               <XIcon className="h-4 w-4" />
-            </Button>
+            </button>
           </div>
         </DialogHeader>
         
