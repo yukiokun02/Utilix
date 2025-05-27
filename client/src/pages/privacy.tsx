@@ -15,7 +15,16 @@ export default function Privacy() {
     <div className="min-h-screen pt-20 relative">
       <BackgroundShapes />
       
-      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Top Ad Banner */}
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <div className="bg-gray-800/30 rounded-lg p-3 text-center text-gray-400 border border-gray-600/30 mb-6">
+          <div className="h-16 sm:h-20 lg:h-24 flex items-center justify-center text-xs sm:text-sm">
+            Top Ad Banner (728x90 / 320x50)
+          </div>
+        </div>
+      </div>
+
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 space-y-4 sm:space-y-0">
           <div className="flex-1 min-w-0">
             <h1 className="text-xl sm:text-2xl font-bold mb-2">
@@ -94,6 +103,15 @@ export default function Privacy() {
                 </p>
               </section>
 
+              {/* Middle Ad Between Sections */}
+              <div className="my-8">
+                <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
+                  <div className="h-20 sm:h-24 lg:h-28 flex items-center justify-center text-sm">
+                    Middle Ad Area (728x90 / 320x100)
+                  </div>
+                </div>
+              </div>
+
               <section>
                 <h2 className="text-lg sm:text-xl font-bold mb-4 text-emerald-400">7. Changes to This Policy</h2>
                 <p className="leading-relaxed">
@@ -110,6 +128,15 @@ export default function Privacy() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Bottom Ad */}
+        <div className="mt-8">
+          <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
+            <div className="h-20 sm:h-24 lg:h-28 flex items-center justify-center text-sm">
+              Bottom Ad Area (728x90 / 320x100)
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
