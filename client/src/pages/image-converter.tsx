@@ -2,7 +2,8 @@ import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import BackgroundShapes from "@/components/background-shapes";
-import { ArrowLeftIcon, ImageIcon, DownloadIcon } from "lucide-react";
+import DownloadPopup from "@/components/download-popup";
+import { ArrowLeftIcon, ImageIcon, DownloadIcon, FileImageIcon, PaletteIcon, ZapIcon } from "lucide-react";
 import { Link } from "wouter";
 import { convertImage } from "@/lib/image-utils";
 import { useToast } from "@/hooks/use-toast";
@@ -23,6 +24,8 @@ export default function ImageConverter() {
   const [selectedFormat, setSelectedFormat] = useState<string>('jpeg');
   const [convertedUrl, setConvertedUrl] = useState<string>("");
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showDownloadPopup, setShowDownloadPopup] = useState(false);
+  const [pendingDownload, setPendingDownload] = useState<{url: string, filename: string} | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 

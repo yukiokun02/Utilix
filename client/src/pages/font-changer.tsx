@@ -64,6 +64,8 @@ export default function FontChanger() {
   const [textTransform, setTextTransform] = useState('none');
   const [lineHeight, setLineHeight] = useState([1.5]);
   const [letterSpacing, setLetterSpacing] = useState([0]);
+  const [showDownloadPopup, setShowDownloadPopup] = useState(false);
+  const [pendingDownload, setPendingDownload] = useState<{url: string, filename: string} | null>(null);
   const { toast } = useToast();
 
   const selectedFont = FONT_FAMILIES.find(f => f.value === fontFamily);
