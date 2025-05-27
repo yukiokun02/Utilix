@@ -1061,18 +1061,26 @@ export default function ImageTool() {
                   <CardContent className="space-y-4">
                     <div>
                       <Label className="text-foreground mb-2 block">Output Format</Label>
-                      <Select value={outputFormat} onValueChange={setOutputFormat}>
-                        <SelectTrigger className="bg-background border-border text-foreground">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="jpeg">JPEG</SelectItem>
-                          <SelectItem value="png">PNG</SelectItem>
-                          <SelectItem value="webp">WebP</SelectItem>
-                          <SelectItem value="gif">GIF</SelectItem>
-                          <SelectItem value="bmp">BMP</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <div className="grid grid-cols-3 gap-2">
+                        {[
+                          { format: 'jpeg', label: 'JPEG', icon: FileImageIcon },
+                          { format: 'png', label: 'PNG', icon: ImageIcon },
+                          { format: 'webp', label: 'WebP', icon: ZapIcon },
+                          { format: 'gif', label: 'GIF', icon: PaletteIcon },
+                          { format: 'bmp', label: 'BMP', icon: FileImageIcon }
+                        ].map(({ format, label, icon: Icon }) => (
+                          <Button
+                            key={format}
+                            onClick={() => setOutputFormat(format)}
+                            variant={outputFormat === format ? "default" : "outline"}
+                            size="sm"
+                            className="h-12 flex-col gap-1"
+                          >
+                            <Icon className="w-4 h-4" />
+                            <span className="text-xs">{label}</span>
+                          </Button>
+                        ))}
+                      </div>
                     </div>
                     
                     <Button 

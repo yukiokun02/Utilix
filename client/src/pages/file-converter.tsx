@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import BackgroundShapes from "@/components/background-shapes";
+import DownloadPopup from "@/components/download-popup";
 import { ArrowLeftIcon, FileTextIcon, DownloadIcon, FileIcon } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
