@@ -87,16 +87,7 @@ export default function FileCompressor() {
     setIsCompressing(true);
 
     try {
-      // Note: This is a simplified implementation for demonstration
-      // Real compression would require libraries like JSZip, node-7z, etc.
-      
       if (compressionFormat === 'zip') {
-        // Simulate ZIP compression with JSZip (would need to be installed)
-        const JSZip = (window as any).JSZip;
-        if (!JSZip) {
-          throw new Error('ZIP compression library not available');
-        }
-
         const zip = new JSZip();
         
         for (const fileItem of files) {
