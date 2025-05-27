@@ -122,6 +122,53 @@ letter-spacing: ${letterSpacing[0]}px;`;
     }
   };
 
+  const handleDownload = () => {
+    const styledText = `
+      <html>
+      <head>
+        <style>
+          body {
+            font-family: ${selectedFont?.css || 'serif'};
+            font-size: ${fontSize[0]}px;
+            font-weight: ${fontWeight};
+            font-style: ${fontStyle};
+            text-transform: ${textTransform};
+            line-height: ${lineHeight[0]};
+            letter-spacing: ${letterSpacing[0]}px;
+            margin: 20px;
+          }
+        </style>
+      </head>
+      <body>
+        ${text.replace(/\n/g, '<br>')}
+      </body>
+      </html>
+    `;
+    
+    const blob = new Blob([styledText], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    setPendingDownload({ url, filename: 'styled-text.html' });
+    setShowDownloadPopup(true);
+  };
+
+  const executeDownload = () => {
+    if (pendingDownload) {
+      const link = document.createElement('a');
+      link.href = pendingDownload.url;
+      link.download = pendingDownload.filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(pendingDownload.url);
+      setPendingDownload(null);
+      
+      toast({
+        title: "Downloaded!",
+        description: "Styled text saved as HTML file",
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen pt-20 relative">
       <BackgroundShapes />
@@ -393,7 +440,24 @@ letter-spacing: ${letterSpacing[0]}px;`;
             </div>
           </CardContent>
         </Card>
+
+        {/* Bottom Ad */}
+        <div className="mt-8">
+          <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
+            <div className="h-24 flex items-center justify-center text-sm">
+              Bottom Ad Area (728x90)
+            </div>
+          </div>
+        </div>
       </div>
+
+      {/* Download Popup */}
+      <DownloadPopup
+        isOpen={showDownloadPopup}
+        onClose={() => setShowDownloadPopup(false)}
+        onDownload={executeDownload}
+        filename={pendingDownload?.filename || "styled-text.html"}
+      />
     </div>
   );
 }
