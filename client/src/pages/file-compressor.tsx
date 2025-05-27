@@ -9,6 +9,7 @@ import BackgroundShapes from "@/components/background-shapes";
 import { ArrowLeftIcon, FileArchiveIcon, PlusIcon, XIcon, DownloadIcon, LockIcon } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
+import JSZip from "jszip";
 
 interface FileItem {
   file: File;
@@ -273,7 +274,7 @@ export default function FileCompressor() {
                   <Checkbox 
                     id="password-protection" 
                     checked={usePassword}
-                    onCheckedChange={setUsePassword}
+                    onCheckedChange={(checked) => setUsePassword(checked === true)}
                   />
                   <Label htmlFor="password-protection" className="text-foreground">Password protect archive</Label>
                 </div>

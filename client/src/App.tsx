@@ -23,7 +23,7 @@ function Router() {
       <Route path="/image-resizer" component={ImageResizer} />
       <Route path="/image-converter" component={ImageConverter} />
       <Route path="/file-converter" component={FileConverter} />
-
+      <Route path="/file-compressor" component={FileCompressor} />
       <Route path="/font-changer" component={FontChanger} />
       <Route path="/code-notepad" component={CodeNotepad} />
       <Route path="/about" component={About} />
