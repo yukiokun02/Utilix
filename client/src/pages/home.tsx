@@ -46,103 +46,51 @@ export default function Home() {
           </div>
           
           {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 max-w-4xl mx-auto px-4">
-            <div className="text-center animate-slide-up stagger-3 hover-lift">
-              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-indigo-400">6+</div>
-              <div className="text-muted-foreground text-xs sm:text-sm">Tools Available</div>
+          <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6 max-w-4xl mx-auto px-4">
+            <div className="flex items-center space-x-3 bg-gray-800/50 rounded-lg px-4 py-3 border border-gray-700/50 hover:border-emerald-500/50 transition-all duration-300 hover:scale-105 animate-slide-up stagger-1">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 flex items-center justify-center">
+                <span className="text-white text-sm font-bold">6+</span>
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-white">Tools Available</h3>
+                <p className="text-xs text-gray-400">Ready to Use</p>
+              </div>
             </div>
-            <div className="text-center animate-slide-up stagger-4 hover-lift">
-              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-emerald-400">100%</div>
-              <div className="text-muted-foreground text-xs sm:text-sm">Free to Use</div>
+
+            <div className="flex items-center space-x-3 bg-gray-800/50 rounded-lg px-4 py-3 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300 hover:scale-105 animate-slide-up stagger-3">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center">
+                <span className="text-white text-xs font-bold">100%</span>
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-white">Free to Use</h3>
+                <p className="text-xs text-gray-400">Always Free</p>
+              </div>
             </div>
-            <div className="text-center animate-slide-up stagger-5 hover-lift">
-              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-purple-400">Client-Side</div>
-              <div className="text-muted-foreground text-xs sm:text-sm">Processing</div>
+
+            <div className="flex items-center space-x-3 bg-gray-800/50 rounded-lg px-4 py-3 border border-gray-700/50 hover:border-purple-500/50 transition-all duration-300 hover:scale-105 animate-slide-up stagger-4">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+                <ZapIcon className="w-4 h-4 text-white" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-white">Client-Side</h3>
+                <p className="text-xs text-gray-400">Processing</p>
+              </div>
             </div>
-            <div className="text-center animate-slide-up stagger-6 hover-lift">
-              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-amber-400">No Limits</div>
-              <div className="text-muted-foreground text-xs sm:text-sm">Usage</div>
+
+            <div className="flex items-center space-x-3 bg-gray-800/50 rounded-lg px-4 py-3 border border-gray-700/50 hover:border-amber-500/50 transition-all duration-300 hover:scale-105 animate-slide-up stagger-6">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 flex items-center justify-center">
+                <span className="text-white text-xs font-bold">∞</span>
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-white">No Limits</h3>
+                <p className="text-xs text-gray-400">Usage</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Key Features Section */}
-      <section className="relative py-16 sm:py-20 bg-gradient-to-b from-background to-gray-900/50 overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div 
-            className="absolute top-10 left-10 w-32 h-32 rounded-full floating-element"
-            style={{
-              background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-              opacity: 0.3,
-              filter: "blur(2px)",
-              animationDelay: "0s"
-            }}
-          />
-          <div 
-            className="absolute bottom-10 right-10 w-24 h-24 rounded-full floating-element"
-            style={{
-              background: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
-              opacity: 0.4,
-              filter: "blur(2px)",
-              animationDelay: "2s"
-            }}
-          />
-        </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black gradient-text mb-4">
-              Why Choose Utilitix?
-            </h2>
-            <p className="text-sm sm:text-base md:text-lg text-gray-300 max-w-3xl mx-auto font-medium">
-              Experience the perfect blend of power and simplicity with our feature-rich toolkit
-            </p>
-          </div>
-
-          <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8">
-            <div className="flex items-center space-x-4 bg-gray-800/50 rounded-lg px-6 py-4 border border-gray-700/50 hover:border-blue-500/50 transition-all duration-300 hover:scale-105">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center">
-                <ZapIcon className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h3 className="text-sm font-bold text-white">Lightning Fast</h3>
-                <p className="text-xs text-gray-400">Instant Processing</p>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-4 bg-gray-800/50 rounded-lg px-6 py-4 border border-gray-700/50 hover:border-emerald-500/50 transition-all duration-300 hover:scale-105">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 flex items-center justify-center">
-                <ShieldIcon className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h3 className="text-sm font-bold text-white">100% Secure</h3>
-                <p className="text-xs text-gray-400">No Data Upload</p>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-4 bg-gray-800/50 rounded-lg px-6 py-4 border border-gray-700/50 hover:border-purple-500/50 transition-all duration-300 hover:scale-105">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
-                <SmartphoneIcon className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h3 className="text-sm font-bold text-white">Mobile Friendly</h3>
-                <p className="text-xs text-gray-400">Works Everywhere</p>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-4 bg-gray-800/50 rounded-lg px-6 py-4 border border-gray-700/50 hover:border-orange-500/50 transition-all duration-300 hover:scale-105">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center">
-                <GlobeIcon className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h3 className="text-sm font-bold text-white">Always Free</h3>
-                <p className="text-xs text-gray-400">No Hidden Costs</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Tools Section */}
       <section id="tools" className="py-10 sm:py-16 md:py-20 relative">

@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import BackgroundShapes from "@/components/background-shapes";
-import { ArrowLeftIcon, TypeIcon, CopyIcon, DownloadIcon } from "lucide-react";
+import { ArrowLeftIcon, TypeIcon, CopyIcon, CodeIcon } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 
@@ -55,308 +55,341 @@ const TEXT_TRANSFORMS = [
 ];
 
 export default function FontChanger() {
-  const [text, setText] = useState("The quick brown fox jumps over the lazy dog. This pangram contains every letter of the alphabet.");
-  const [fontFamily, setFontFamily] = useState("inter");
+  const [text, setText] = useState("Transform your text with beautiful fonts!");
+  const [fontFamily, setFontFamily] = useState('inter');
   const [fontSize, setFontSize] = useState([16]);
-  const [fontWeight, setFontWeight] = useState("400");
-  const [fontStyle, setFontStyle] = useState("normal");
-  const [textTransform, setTextTransform] = useState("none");
+  const [fontWeight, setFontWeight] = useState('400');
+  const [fontStyle, setFontStyle] = useState('normal');
+  const [textTransform, setTextTransform] = useState('none');
   const [lineHeight, setLineHeight] = useState([1.5]);
   const [letterSpacing, setLetterSpacing] = useState([0]);
   const { toast } = useToast();
 
-  const getPreviewStyle = () => {
-    const selectedFont = FONT_FAMILIES.find(f => f.value === fontFamily);
-    return {
-      fontFamily: selectedFont?.css || 'sans-serif',
-      fontSize: `${fontSize[0]}px`,
-      fontWeight: fontWeight,
-      fontStyle: fontStyle,
-      textTransform: textTransform as any,
-      lineHeight: lineHeight[0],
-      letterSpacing: `${letterSpacing[0]}px`,
-    };
+  const selectedFont = FONT_FAMILIES.find(f => f.value === fontFamily);
+  
+  const previewStyle = {
+    fontFamily: selectedFont?.css || 'serif',
+    fontSize: `${fontSize[0]}px`,
+    fontWeight: fontWeight,
+    fontStyle: fontStyle,
+    textTransform: textTransform as any,
+    lineHeight: lineHeight[0],
+    letterSpacing: `${letterSpacing[0]}px`,
   };
 
-  const copyToClipboard = async (content: string) => {
+  const generateCSS = () => {
+    return `font-family: ${selectedFont?.css || 'serif'};
+font-size: ${fontSize[0]}px;
+font-weight: ${fontWeight};
+font-style: ${fontStyle};
+text-transform: ${textTransform};
+line-height: ${lineHeight[0]};
+letter-spacing: ${letterSpacing[0]}px;`;
+  };
+
+  const handleCopyText = async () => {
     try {
-      await navigator.clipboard.writeText(content);
+      await navigator.clipboard.writeText(text);
       toast({
-        title: "Copied to clipboard",
-        description: "CSS styles copied successfully"
+        title: "Text Copied!",
+        description: "Styled text copied to clipboard",
       });
     } catch (error) {
       toast({
-        title: "Failed to copy",
-        description: "Could not copy to clipboard",
+        title: "Error",
+        description: "Failed to copy text",
         variant: "destructive"
       });
     }
   };
 
-  const generateCSS = () => {
-    const selectedFont = FONT_FAMILIES.find(f => f.value === fontFamily);
-    return `.custom-text {
-  font-family: ${selectedFont?.css || 'sans-serif'};
-  font-size: ${fontSize[0]}px;
-  font-weight: ${fontWeight};
-  font-style: ${fontStyle};
-  text-transform: ${textTransform};
-  line-height: ${lineHeight[0]};
-  letter-spacing: ${letterSpacing[0]}px;
-}`;
-  };
-
-  const downloadCSS = () => {
-    const css = generateCSS();
-    const blob = new Blob([css], { type: 'text/css' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'font-styles.css';
-    a.click();
-    URL.revokeObjectURL(url);
+  const handleCopyCSS = async () => {
+    try {
+      await navigator.clipboard.writeText(generateCSS());
+      toast({
+        title: "CSS Copied!",
+        description: "Font styles copied as CSS",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to copy CSS",
+        variant: "destructive"
+      });
+    }
   };
 
   return (
-    <>
-      {/* Load Google Fonts */}
-      <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Fira+Code:wght@300;400;500;600;700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet"
-      />
+    <div className="min-h-screen pt-20 relative">
+      <BackgroundShapes />
       
-      <div className="min-h-screen pt-20 relative">
-        <BackgroundShapes />
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h1 className="text-4xl font-bold mb-2">
-                <span className="bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent">
-                  Font Changer
-                </span>
-              </h1>
-              <p className="text-muted-foreground">Transform text with beautiful fonts and typography</p>
-            </div>
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 space-y-4 sm:space-y-0">
+          <div className="flex-1 min-w-0">
+            <h1 className="text-xl sm:text-2xl font-bold mb-2">
+              <span className="bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent">
+                Font Changer
+              </span>
+            </h1>
+            <p className="text-gray-300 font-medium text-sm sm:text-base">Transform text with beautiful fonts and typography styles</p>
+          </div>
+          <div className="flex-shrink-0 self-start sm:self-center">
             <Link href="/">
-              <Button variant="outline" className="pill-button">
-                <ArrowLeftIcon className="w-4 h-4 mr-2" />
-                Back to Tools
+              <Button variant="outline" size="icon" className="w-10 h-10 rounded-lg">
+                <ArrowLeftIcon className="w-4 h-4" />
               </Button>
             </Link>
           </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Text Input */}
-            <Card className="bg-card/50 backdrop-blur-sm border-border">
-              <CardHeader>
-                <CardTitle className="text-foreground">Your Text</CardTitle>
-              </CardHeader>
-              <CardContent>
+        </div>
+
+        {/* How to Use Section */}
+        <Card className="solid-card mb-8">
+          <CardHeader>
+            <CardTitle className="text-foreground">How to Use Font Changer</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <h3 className="font-semibold text-foreground mb-3">Getting Started</h3>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>• Type your text in the input area</li>
+                  <li>• Choose from 17+ font families</li>
+                  <li>• Adjust size, weight, and style settings</li>
+                  <li>• Copy styled text or CSS code</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground mb-3">Advanced Options</h3>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>• Fine-tune line height for readability</li>
+                  <li>• Adjust letter spacing for emphasis</li>
+                  <li>• Apply text transforms (uppercase, etc.)</li>
+                  <li>• Real-time preview of all changes</li>
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Controls */}
+          <Card className="solid-card">
+            <CardHeader>
+              <CardTitle className="text-foreground">Font Controls</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Text Input */}
+              <div>
+                <label className="text-sm font-medium text-foreground mb-2 block">Your Text</label>
                 <Textarea
                   value={text}
                   onChange={(e) => setText(e.target.value)}
+                  className="bg-background border-border text-foreground"
                   placeholder="Enter your text here..."
-                  className="min-h-32 bg-background border-border text-foreground resize-none"
+                  rows={3}
                 />
-              </CardContent>
-            </Card>
-            
-            {/* Font Controls */}
-            <Card className="bg-card/50 backdrop-blur-sm border-border">
-              <CardHeader>
-                <CardTitle className="text-foreground">Font Settings</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div>
-                  <label className="text-sm font-medium text-foreground mb-2 block">Font Family</label>
-                  <Select value={fontFamily} onValueChange={setFontFamily}>
-                    <SelectTrigger className="bg-background border-border text-foreground">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {FONT_FAMILIES.map((font) => (
-                        <SelectItem key={font.value} value={font.value}>
-                          <span style={{ fontFamily: font.css }}>{font.label}</span>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                
-                <div>
-                  <label className="text-sm font-medium text-foreground mb-2 block">
-                    Font Size: {fontSize[0]}px
-                  </label>
-                  <Slider
-                    value={fontSize}
-                    onValueChange={setFontSize}
-                    min={8}
-                    max={72}
-                    step={1}
-                    className="w-full"
-                  />
-                </div>
-                
-                <div>
-                  <label className="text-sm font-medium text-foreground mb-2 block">Font Weight</label>
-                  <Select value={fontWeight} onValueChange={setFontWeight}>
-                    <SelectTrigger className="bg-background border-border text-foreground">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {FONT_WEIGHTS.map((weight) => (
-                        <SelectItem key={weight.value} value={weight.value}>
-                          {weight.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                
-                <div>
-                  <label className="text-sm font-medium text-foreground mb-2 block">Font Style</label>
-                  <Select value={fontStyle} onValueChange={setFontStyle}>
-                    <SelectTrigger className="bg-background border-border text-foreground">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {FONT_STYLES.map((style) => (
-                        <SelectItem key={style.value} value={style.value}>
-                          {style.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                
-                <div>
-                  <label className="text-sm font-medium text-foreground mb-2 block">Text Transform</label>
-                  <Select value={textTransform} onValueChange={setTextTransform}>
-                    <SelectTrigger className="bg-background border-border text-foreground">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {TEXT_TRANSFORMS.map((transform) => (
-                        <SelectItem key={transform.value} value={transform.value}>
-                          {transform.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </CardContent>
-            </Card>
-            
-            {/* Advanced Controls */}
-            <Card className="bg-card/50 backdrop-blur-sm border-border">
-              <CardHeader>
-                <CardTitle className="text-foreground">Advanced Settings</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div>
-                  <label className="text-sm font-medium text-foreground mb-2 block">
-                    Line Height: {lineHeight[0]}
-                  </label>
-                  <Slider
-                    value={lineHeight}
-                    onValueChange={setLineHeight}
-                    min={0.8}
-                    max={3}
-                    step={0.1}
-                    className="w-full"
-                  />
-                </div>
-                
-                <div>
-                  <label className="text-sm font-medium text-foreground mb-2 block">
-                    Letter Spacing: {letterSpacing[0]}px
-                  </label>
-                  <Slider
-                    value={letterSpacing}
-                    onValueChange={setLetterSpacing}
-                    min={-2}
-                    max={10}
-                    step={0.1}
-                    className="w-full"
-                  />
-                </div>
-                
-                <div className="space-y-3 pt-4">
-                  <Button
-                    onClick={() => copyToClipboard(generateCSS())}
-                    className="w-full pill-button bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700"
-                  >
-                    <CopyIcon className="w-4 h-4 mr-2" />
-                    Copy CSS
-                  </Button>
-                  
-                  <Button
-                    onClick={downloadCSS}
-                    variant="outline"
-                    className="w-full pill-button"
-                  >
-                    <DownloadIcon className="w-4 h-4 mr-2" />
-                    Download CSS
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-          
+              </div>
+
+              {/* Font Family */}
+              <div>
+                <label className="text-sm font-medium text-foreground mb-2 block">Font Family</label>
+                <Select value={fontFamily} onValueChange={setFontFamily}>
+                  <SelectTrigger className="bg-background border-border text-foreground">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {FONT_FAMILIES.map((font) => (
+                      <SelectItem key={font.value} value={font.value}>
+                        <span style={{ fontFamily: font.css }}>{font.label}</span>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Font Size */}
+              <div>
+                <label className="text-sm font-medium text-foreground mb-2 block">
+                  Font Size: {fontSize[0]}px
+                </label>
+                <Slider
+                  value={fontSize}
+                  onValueChange={setFontSize}
+                  max={72}
+                  min={8}
+                  step={1}
+                  className="w-full"
+                />
+              </div>
+
+              {/* Font Weight */}
+              <div>
+                <label className="text-sm font-medium text-foreground mb-2 block">Font Weight</label>
+                <Select value={fontWeight} onValueChange={setFontWeight}>
+                  <SelectTrigger className="bg-background border-border text-foreground">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {FONT_WEIGHTS.map((weight) => (
+                      <SelectItem key={weight.value} value={weight.value}>
+                        {weight.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Font Style */}
+              <div>
+                <label className="text-sm font-medium text-foreground mb-2 block">Font Style</label>
+                <Select value={fontStyle} onValueChange={setFontStyle}>
+                  <SelectTrigger className="bg-background border-border text-foreground">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {FONT_STYLES.map((style) => (
+                      <SelectItem key={style.value} value={style.value}>
+                        {style.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Text Transform */}
+              <div>
+                <label className="text-sm font-medium text-foreground mb-2 block">Text Transform</label>
+                <Select value={textTransform} onValueChange={setTextTransform}>
+                  <SelectTrigger className="bg-background border-border text-foreground">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {TEXT_TRANSFORMS.map((transform) => (
+                      <SelectItem key={transform.value} value={transform.value}>
+                        {transform.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Line Height */}
+              <div>
+                <label className="text-sm font-medium text-foreground mb-2 block">
+                  Line Height: {lineHeight[0]}
+                </label>
+                <Slider
+                  value={lineHeight}
+                  onValueChange={setLineHeight}
+                  max={3}
+                  min={0.5}
+                  step={0.1}
+                  className="w-full"
+                />
+              </div>
+
+              {/* Letter Spacing */}
+              <div>
+                <label className="text-sm font-medium text-foreground mb-2 block">
+                  Letter Spacing: {letterSpacing[0]}px
+                </label>
+                <Slider
+                  value={letterSpacing}
+                  onValueChange={setLetterSpacing}
+                  max={10}
+                  min={-2}
+                  step={0.5}
+                  className="w-full"
+                />
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex space-x-3 pt-4">
+                <Button 
+                  onClick={handleCopyText}
+                  className="flex-1 pill-button bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700"
+                >
+                  <CopyIcon className="w-4 h-4 mr-2" />
+                  Copy Text
+                </Button>
+                <Button 
+                  onClick={handleCopyCSS}
+                  variant="outline"
+                  className="flex-1"
+                >
+                  <CodeIcon className="w-4 h-4 mr-2" />
+                  Copy CSS
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Preview */}
-          <Card className="mt-8 bg-card/50 backdrop-blur-sm border-border">
+          <Card className="solid-card">
             <CardHeader>
               <CardTitle className="text-foreground">Live Preview</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="bg-background border border-border rounded-xl p-8">
-                <div style={getPreviewStyle()} className="text-foreground">
-                  {text || "Enter some text to see the preview"}
+              <div className="border border-border rounded-xl p-6 bg-background min-h-[300px] flex items-center justify-center">
+                <div 
+                  style={previewStyle}
+                  className="text-center break-words text-foreground"
+                >
+                  {text}
                 </div>
               </div>
-            </CardContent>
-          </Card>
-          
-          {/* CSS Output */}
-          <Card className="mt-8 bg-card/50 backdrop-blur-sm border-border">
-            <CardHeader>
-              <CardTitle className="text-foreground">Generated CSS</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="bg-background border border-border rounded-xl p-4">
-                <pre className="text-sm text-foreground font-mono overflow-x-auto">
+              
+              <div className="mt-6 p-4 bg-gray-800/50 rounded-lg">
+                <h3 className="text-sm font-semibold text-foreground mb-2">Generated CSS:</h3>
+                <pre className="text-xs text-gray-300 font-mono whitespace-pre-wrap break-all">
                   {generateCSS()}
                 </pre>
               </div>
             </CardContent>
           </Card>
-          
-          {/* Font Showcase */}
-          <Card className="mt-8 bg-card/50 backdrop-blur-sm border-border">
-            <CardHeader>
-              <CardTitle className="text-foreground">Font Showcase</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {FONT_FAMILIES.slice(0, 12).map((font) => (
-                  <div
-                    key={font.value}
-                    className="p-4 bg-background border border-border rounded-lg hover:bg-muted/20 transition-colors cursor-pointer"
-                    onClick={() => setFontFamily(font.value)}
-                  >
-                    <h4 className="text-sm font-medium text-foreground mb-2">{font.label}</h4>
-                    <p style={{ fontFamily: font.css }} className="text-foreground">
-                      The quick brown fox jumps over the lazy dog.
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
         </div>
+
+        {/* Information Section */}
+        <Card className="solid-card mt-8">
+          <CardHeader>
+            <CardTitle className="text-foreground">About Font Changer</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4 text-muted-foreground">
+              <p>
+                The Font Changer tool helps you experiment with typography and create beautifully styled text. 
+                Perfect for designers, developers, and content creators who want to preview font combinations and generate CSS code.
+              </p>
+              <div className="grid md:grid-cols-2 gap-6 mt-6">
+                <div>
+                  <h3 className="font-semibold text-foreground mb-2">Key Features:</h3>
+                  <ul className="space-y-1 text-sm">
+                    <li>• 17+ professional font families</li>
+                    <li>• Complete typography controls</li>
+                    <li>• Real-time preview updates</li>
+                    <li>• Copy styled text instantly</li>
+                    <li>• Generate ready-to-use CSS code</li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground mb-2">Perfect For:</h3>
+                  <ul className="space-y-1 text-sm">
+                    <li>• Web design projects</li>
+                    <li>• Social media content</li>
+                    <li>• Typography experiments</li>
+                    <li>• CSS code generation</li>
+                    <li>• Font combination testing</li>
+                  </ul>
+                </div>
+              </div>
+              <p className="text-sm">
+                <strong>Tip:</strong> Use the Copy CSS button to get the complete CSS code for your typography settings. 
+                This makes it easy to apply the same styling to your websites and projects.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
       </div>
-    </>
+    </div>
   );
 }

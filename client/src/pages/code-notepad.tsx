@@ -2,499 +2,248 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import BackgroundShapes from "@/components/background-shapes";
-import { ArrowLeftIcon, CodeIcon, SaveIcon, DownloadIcon, CopyIcon, FileTextIcon, PlusIcon } from "lucide-react";
+import { ArrowLeftIcon, SaveIcon, DownloadIcon, CopyIcon, FileTextIcon, PlusIcon, TrashIcon } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 
-const LANGUAGES = [
-  { value: 'javascript', label: 'JavaScript', extension: 'js', mime: 'text/javascript' },
-  { value: 'typescript', label: 'TypeScript', extension: 'ts', mime: 'text/typescript' },
-  { value: 'python', label: 'Python', extension: 'py', mime: 'text/x-python' },
-  { value: 'html', label: 'HTML', extension: 'html', mime: 'text/html' },
-  { value: 'css', label: 'CSS', extension: 'css', mime: 'text/css' },
-  { value: 'json', label: 'JSON', extension: 'json', mime: 'application/json' },
-  { value: 'xml', label: 'XML', extension: 'xml', mime: 'application/xml' },
-  { value: 'markdown', label: 'Markdown', extension: 'md', mime: 'text/markdown' },
-  { value: 'sql', label: 'SQL', extension: 'sql', mime: 'text/x-sql' },
-  { value: 'php', label: 'PHP', extension: 'php', mime: 'text/x-php' },
-  { value: 'java', label: 'Java', extension: 'java', mime: 'text/x-java' },
-  { value: 'cpp', label: 'C++', extension: 'cpp', mime: 'text/x-c++src' },
-  { value: 'c', label: 'C', extension: 'c', mime: 'text/x-csrc' },
-  { value: 'csharp', label: 'C#', extension: 'cs', mime: 'text/x-csharp' },
-  { value: 'go', label: 'Go', extension: 'go', mime: 'text/x-go' },
-  { value: 'rust', label: 'Rust', extension: 'rs', mime: 'text/x-rustsrc' },
-  { value: 'bash', label: 'Bash', extension: 'sh', mime: 'text/x-sh' },
-  { value: 'powershell', label: 'PowerShell', extension: 'ps1', mime: 'text/x-powershell' },
-];
-
-const CODE_TEMPLATES = {
-  javascript: `// JavaScript Example
-function greetUser(name) {
-    const greeting = \`Hello, \${name}!\`;
-    console.log(greeting);
-    return greeting;
-}
-
-// Call the function
-greetUser('Developer');
-
-// TODO: Add more functionality`,
-  
-  python: `# Python Example
-def greet_user(name):
-    greeting = f"Hello, {name}!"
-    print(greeting)
-    return greeting
-
-# Call the function
-greet_user('Developer')
-
-# TODO: Add more functionality`,
-
-  html: `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Web Page</title>
-</head>
-<body>
-    <h1>Hello, World!</h1>
-    <p>This is a sample HTML document.</p>
-</body>
-</html>`,
-
-  css: `/* CSS Example */
-body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 20px;
-    background-color: #f5f5f5;
-}
-
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-    color: #333;
-    text-align: center;
-}`,
-
-  json: `{
-  "name": "My Project",
-  "version": "1.0.0",
-  "description": "A sample JSON configuration",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "test": "jest"
-  },
-  "dependencies": {
-    "express": "^4.18.0",
-    "lodash": "^4.17.21"
-  },
-  "author": "Developer",
-  "license": "MIT"
-}`,
-};
-
 export default function CodeNotepad() {
-  const [code, setCode] = useState(CODE_TEMPLATES.javascript);
-  const [language, setLanguage] = useState('javascript');
+  const [code, setCode] = useState('Input your text here');
   const [fileName, setFileName] = useState('untitled');
-  const [savedFiles, setSavedFiles] = useState<Array<{name: string, content: string, language: string}>>([]);
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [extension, setExtension] = useState('txt');
   const { toast } = useToast();
+
+  const fullFileName = `${fileName}.${extension}`;
+
+  const handleNewFile = () => {
+    setCode('Input your text here');
+    setFileName('untitled');
+    setExtension('txt');
+    toast({
+      title: "New File Created",
+      description: "Ready to start writing!",
+    });
+  };
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      toast({
+        title: "Copied!",
+        description: "Text copied to clipboard",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to copy text",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleDownload = () => {
+    const blob = new Blob([code], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fullFileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    
+    toast({
+      title: "Downloaded!",
+      description: `File saved as ${fullFileName}`,
+    });
+  };
+
+  const handleClear = () => {
+    setCode('Input your text here');
+    toast({
+      title: "Cleared",
+      description: "Text area cleared",
+    });
+  };
 
   const getLineNumbers = () => {
     const lines = code.split('\n').length;
     return Array.from({ length: lines }, (_, i) => i + 1);
   };
 
-  const getStats = () => {
-    const lines = code.split('\n').length;
-    const words = code.trim() ? code.trim().split(/\s+/).length : 0;
-    const characters = code.length;
-    const charactersNoSpaces = code.replace(/\s/g, '').length;
-
-    return { lines, words, characters, charactersNoSpaces };
-  };
-
-  const handleLanguageChange = (newLanguage: string) => {
-    setLanguage(newLanguage);
-    setHasUnsavedChanges(true);
-    // Optionally load template for new language
-    if (CODE_TEMPLATES[newLanguage as keyof typeof CODE_TEMPLATES] && code === CODE_TEMPLATES[language as keyof typeof CODE_TEMPLATES]) {
-      setCode(CODE_TEMPLATES[newLanguage as keyof typeof CODE_TEMPLATES] || '');
-    }
-  };
-
-  const handleCodeChange = (newCode: string) => {
-    setCode(newCode);
-    setHasUnsavedChanges(true);
-  };
-
-  const handleAddNew = () => {
-    if (hasUnsavedChanges) {
-      const shouldSave = window.confirm(
-        "You have unsaved changes. Would you like to save the current file before creating a new one?"
-      );
-      if (shouldSave) {
-        handleSave();
-      }
-    }
-    
-    setCode(CODE_TEMPLATES.javascript);
-    setLanguage('javascript');
-    setFileName('untitled');
-    setHasUnsavedChanges(false);
-    
-    toast({
-      title: "New file created",
-      description: "Started with a fresh JavaScript template"
-    });
-  };
-
-  const handleSave = () => {
-    if (!fileName.trim()) {
-      toast({
-        title: "Invalid filename",
-        description: "Please enter a valid filename",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    const newFile = {
-      name: fileName,
-      content: code,
-      language: language,
-    };
-
-    setSavedFiles(prev => {
-      const existingIndex = prev.findIndex(f => f.name === fileName);
-      if (existingIndex >= 0) {
-        const updated = [...prev];
-        updated[existingIndex] = newFile;
-        return updated;
-      }
-      return [...prev, newFile];
-    });
-
-    setHasUnsavedChanges(false);
-
-    toast({
-      title: "File saved",
-      description: `Saved as ${fileName}`
-    });
-  };
-
-  const handleDownload = () => {
-    const selectedLang = LANGUAGES.find(l => l.value === language);
-    const extension = selectedLang?.extension || 'txt';
-    const fullFileName = fileName.includes('.') ? fileName : `${fileName}.${extension}`;
-    
-    const blob = new Blob([code], { type: selectedLang?.mime || 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = fullFileName;
-    a.click();
-    URL.revokeObjectURL(url);
-
-    toast({
-      title: "File downloaded",
-      description: `Downloaded as ${fullFileName}`
-    });
-  };
-
-  const copyToClipboard = async () => {
-    try {
-      await navigator.clipboard.writeText(code);
-      toast({
-        title: "Copied to clipboard",
-        description: "Code copied successfully"
-      });
-    } catch (error) {
-      toast({
-        title: "Failed to copy",
-        description: "Could not copy to clipboard",
-        variant: "destructive"
-      });
-    }
-  };
-
-  const loadFile = (file: {name: string, content: string, language: string}) => {
-    if (hasUnsavedChanges) {
-      const shouldSave = window.confirm(
-        "You have unsaved changes. Would you like to save the current file before loading a new one?"
-      );
-      if (shouldSave) {
-        handleSave();
-      }
-    }
-    
-    setCode(file.content);
-    setLanguage(file.language);
-    setFileName(file.name);
-    setHasUnsavedChanges(false);
-    toast({
-      title: "File loaded",
-      description: `Loaded ${file.name}`
-    });
-  };
-
-  const getVerticalGuides = () => {
-    // Different column guidelines for different languages
-    const guides: Record<string, number[]> = {
-      javascript: [80, 120],
-      typescript: [80, 120],
-      python: [79, 99],
-      html: [80, 120],
-      css: [80, 120],
-      json: [80],
-      xml: [80, 120],
-      markdown: [80],
-      sql: [80],
-      php: [80, 120],
-      java: [80, 120],
-      cpp: [80, 120],
-      c: [80, 120],
-      csharp: [80, 120],
-      go: [80, 120],
-      rust: [80, 120],
-      bash: [80],
-      powershell: [80],
-    };
-    
-    return guides[language] || [80];
-  };
-
-  const stats = getStats();
-
   return (
     <div className="min-h-screen pt-20 relative">
       <BackgroundShapes />
       
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-4xl font-bold mb-2">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 space-y-4 sm:space-y-0">
+          <div className="flex-1 min-w-0">
+            <h1 className="text-xl sm:text-2xl font-bold mb-2">
               <span className="bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">
-                Code Notepad
+                Text Editor
               </span>
             </h1>
-            <p className="text-muted-foreground">Write, edit, and save code with syntax highlighting</p>
+            <p className="text-gray-300 font-medium text-sm sm:text-base">Write, edit, and save text with powerful editing tools</p>
           </div>
-          <Link href="/">
-            <Button variant="outline" size="icon" className="w-10 h-10 rounded-lg">
-              <ArrowLeftIcon className="w-4 h-4" />
-            </Button>
-          </Link>
+          <div className="flex-shrink-0 self-start sm:self-center">
+            <Link href="/">
+              <Button variant="outline" size="icon" className="w-10 h-10 rounded-lg">
+                <ArrowLeftIcon className="w-4 h-4" />
+              </Button>
+            </Link>
+          </div>
         </div>
-        
-        {/* Editor Controls */}
-        <Card className="bg-card/50 backdrop-blur-sm border-border mb-6">
-          <CardContent className="p-4">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <Label className="text-foreground">Language:</Label>
-                  <Select value={language} onValueChange={handleLanguageChange}>
-                    <SelectTrigger className="w-40 bg-background border-border text-foreground">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {LANGUAGES.map((lang) => (
-                        <SelectItem key={lang.value} value={lang.value}>
-                          {lang.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                
-                <div className="flex items-center gap-2">
-                  <Label className="text-foreground">Filename:</Label>
-                  <Input
-                    value={fileName}
-                    onChange={(e) => setFileName(e.target.value)}
-                    className="w-40 bg-background border-border text-foreground"
-                    placeholder="untitled"
-                  />
-                </div>
-                
-                <div className="text-sm text-muted-foreground">
-                  Lines: {stats.lines} | Words: {stats.words} | Characters: {stats.characters}
-                </div>
+
+        {/* How to Use Section */}
+        <Card className="solid-card mb-8">
+          <CardHeader>
+            <CardTitle className="text-foreground">How to Use Text Editor</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <h3 className="font-semibold text-foreground mb-3">Quick Start</h3>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>• Type or paste your text in the editor below</li>
+                  <li>• Set your filename and file extension</li>
+                  <li>• Use toolbar buttons to manage your content</li>
+                  <li>• Download your file when ready</li>
+                </ul>
               </div>
-              
-              <div className="flex items-center gap-2">
-                <Button onClick={handleAddNew} variant="outline" size="sm" className="pill-button">
-                  <PlusIcon className="w-4 h-4 mr-1" />
-                  New
-                </Button>
-                <Button onClick={copyToClipboard} variant="outline" size="sm" className="pill-button">
-                  <CopyIcon className="w-4 h-4 mr-1" />
-                  Copy
-                </Button>
-                <Button onClick={handleSave} variant="outline" size="sm" className="pill-button">
-                  <SaveIcon className="w-4 h-4 mr-1" />
-                  Save{hasUnsavedChanges ? '*' : ''}
-                </Button>
-                <Button onClick={handleDownload} size="sm" className="pill-button bg-gradient-to-r from-violet-500 to-purple-600">
-                  <DownloadIcon className="w-4 h-4 mr-1" />
-                  Download
-                </Button>
+              <div>
+                <h3 className="font-semibold text-foreground mb-3">Features</h3>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>• Line numbers for easy reference</li>
+                  <li>• Copy text to clipboard instantly</li>
+                  <li>• Download in any format you specify</li>
+                  <li>• Clean interface with no distractions</li>
+                </ul>
               </div>
             </div>
           </CardContent>
         </Card>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Code Editor */}
-          <div className="lg:col-span-3">
-            <Card className="bg-card/50 backdrop-blur-sm border-border">
-              <CardContent className="p-0">
-                <div className="bg-slate-900 rounded-lg overflow-hidden">
-                  <div className="flex">
-                    <div className="bg-slate-800 text-slate-500 select-none px-4 py-4 min-w-[3rem] text-right text-sm font-mono border-r border-slate-700">
-                      {getLineNumbers().map((num) => (
-                        <div key={num} className="leading-6">{num}</div>
-                      ))}
-                    </div>
-                    <div className="flex-1 relative">
-                      {/* Vertical Guidelines */}
-                      {getVerticalGuides().map((column, index) => (
-                        <div
-                          key={column}
-                          className="absolute top-0 bottom-0 w-px bg-slate-600/30 pointer-events-none"
-                          style={{
-                            left: `${column * 0.6}em`, // Approximate character width
-                            marginLeft: '1rem' // Account for padding
-                          }}
-                        />
-                      ))}
-                      
-                      <Textarea
-                        value={code}
-                        onChange={(e) => handleCodeChange(e.target.value)}
-                        className="w-full bg-transparent border-0 text-slate-100 font-mono text-sm resize-none outline-none focus:ring-0 min-h-[500px] p-4 leading-6"
-                        placeholder="Start coding..."
-                        style={{ 
-                          fontFamily: '"Fira Code", "Source Code Pro", Consolas, "Courier New", monospace',
-                          lineHeight: '1.5'
-                        }}
-                      />
-                    </div>
-                  </div>
+
+        {/* Editor Controls */}
+        <Card className="solid-card mb-6">
+          <CardHeader>
+            <CardTitle className="text-foreground">Editor Controls</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <Label className="text-foreground">Filename</Label>
+                <Input
+                  value={fileName}
+                  onChange={(e) => setFileName(e.target.value)}
+                  className="bg-background border-border text-foreground"
+                  placeholder="Enter filename"
+                />
+              </div>
+              <div>
+                <Label className="text-foreground">Extension</Label>
+                <Input
+                  value={extension}
+                  onChange={(e) => setExtension(e.target.value)}
+                  className="bg-background border-border text-foreground"
+                  placeholder="txt, js, py, etc."
+                />
+              </div>
+              <div className="flex items-end">
+                <div className="w-full p-3 bg-gray-800/50 rounded-lg border border-border">
+                  <div className="text-sm text-muted-foreground">Output:</div>
+                  <div className="font-semibold text-foreground">{fullFileName}</div>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
-          
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Export Options */}
-            <Card className="bg-card/50 backdrop-blur-sm border-border">
-              <CardHeader>
-                <CardTitle className="text-foreground text-lg">Quick Export</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="grid grid-cols-2 gap-2">
-                  {LANGUAGES.slice(0, 8).map((lang) => (
-                    <Button
-                      key={lang.value}
-                      variant="outline"
-                      size="sm"
-                      className="pill-button text-xs"
-                      onClick={() => {
-                        const blob = new Blob([code], { type: lang.mime });
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = `${fileName}.${lang.extension}`;
-                        a.click();
-                        URL.revokeObjectURL(url);
-                      }}
-                    >
-                      .{lang.extension}
-                    </Button>
+              </div>
+            </div>
+            
+            <div className="flex flex-wrap gap-2">
+              <Button onClick={handleNewFile} size="sm" variant="outline" className="gap-2">
+                <PlusIcon className="w-4 h-4" />
+              </Button>
+              <Button onClick={handleCopy} size="sm" variant="outline" className="gap-2">
+                <CopyIcon className="w-4 h-4" />
+              </Button>
+              <Button onClick={handleDownload} size="sm" className="pill-button bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700">
+                <DownloadIcon className="w-4 h-4" />
+              </Button>
+              <Button onClick={handleClear} size="sm" variant="destructive">
+                <TrashIcon className="w-4 h-4" />
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Text Editor */}
+        <Card className="solid-card">
+          <CardHeader>
+            <CardTitle className="text-foreground">Text Editor</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex border border-border rounded-lg overflow-hidden bg-gray-900">
+              {/* Line Numbers */}
+              <div className="bg-gray-800 p-4 select-none border-r border-border">
+                <div className="text-xs text-gray-500 font-mono leading-6">
+                  {getLineNumbers().map(num => (
+                    <div key={num} className="text-right">{num}</div>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
-            
-            {/* Saved Files */}
-            <Card className="bg-card/50 backdrop-blur-sm border-border">
-              <CardHeader>
-                <CardTitle className="text-foreground text-lg">Saved Files</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {savedFiles.length > 0 ? (
-                  <div className="space-y-2">
-                    {savedFiles.map((file, index) => (
-                      <div
-                        key={index}
-                        className="p-3 bg-background rounded-lg border border-border hover:bg-muted/20 transition-colors cursor-pointer"
-                        onClick={() => loadFile(file)}
-                      >
-                        <div className="flex items-center gap-2">
-                          <FileTextIcon className="w-4 h-4 text-muted-foreground" />
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium text-foreground truncate">{file.name}</p>
-                            <p className="text-xs text-muted-foreground">
-                              {LANGUAGES.find(l => l.value === file.language)?.label}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-sm text-muted-foreground text-center py-4">
-                    No saved files yet
-                  </p>
-                )}
-              </CardContent>
-            </Card>
-            
-            {/* Code Stats */}
-            <Card className="bg-card/50 backdrop-blur-sm border-border">
-              <CardHeader>
-                <CardTitle className="text-foreground text-lg">Statistics</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Lines:</span>
-                  <span className="text-foreground font-medium">{stats.lines}</span>
+              </div>
+              
+              {/* Code Area */}
+              <div className="flex-1">
+                <Textarea
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                  className="min-h-[400px] resize-none border-0 rounded-none bg-gray-900 text-green-400 font-mono text-sm leading-6 focus:ring-0 focus:border-0"
+                  placeholder="Input your text here"
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Information Section */}
+        <Card className="solid-card mt-8">
+          <CardHeader>
+            <CardTitle className="text-foreground">About Text Editor</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4 text-muted-foreground">
+              <p>
+                Our Text Editor is a simple yet powerful tool for writing and editing text content. Whether you're writing code, 
+                taking notes, or creating documents, this editor provides a clean interface with essential features.
+              </p>
+              <div className="grid md:grid-cols-2 gap-6 mt-6">
+                <div>
+                  <h3 className="font-semibold text-foreground mb-2">Key Features:</h3>
+                  <ul className="space-y-1 text-sm">
+                    <li>• Line numbering for easy navigation</li>
+                    <li>• Customizable file names and extensions</li>
+                    <li>• One-click copy to clipboard</li>
+                    <li>• Download files in any format</li>
+                    <li>• Clean, distraction-free interface</li>
+                  </ul>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Words:</span>
-                  <span className="text-foreground font-medium">{stats.words}</span>
+                <div>
+                  <h3 className="font-semibold text-foreground mb-2">Perfect For:</h3>
+                  <ul className="space-y-1 text-sm">
+                    <li>• Writing code snippets</li>
+                    <li>• Creating configuration files</li>
+                    <li>• Taking notes and documentation</li>
+                    <li>• Editing text files</li>
+                    <li>• Quick text formatting</li>
+                  </ul>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Characters:</span>
-                  <span className="text-foreground font-medium">{stats.characters}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Without spaces:</span>
-                  <span className="text-foreground font-medium">{stats.charactersNoSpaces}</span>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+              </div>
+              <p className="text-sm">
+                <strong>Tip:</strong> Use common file extensions like .txt for text, .js for JavaScript, .py for Python, 
+                .html for HTML, .css for CSS, .md for Markdown, and more to organize your files properly.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
