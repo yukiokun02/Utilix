@@ -68,10 +68,10 @@ export default function FontChanger() {
   const [pendingDownload, setPendingDownload] = useState<{url: string, filename: string} | null>(null);
   const { toast } = useToast();
 
-  const selectedFont = FONT_FAMILIES.find(f => f.value === fontFamily);
+  const selectedFont = FONT_FAMILIES.find(f => f.value === fontFamily) || FONT_FAMILIES[0];
   
   const previewStyle = {
-    fontFamily: selectedFont?.css || 'serif',
+    fontFamily: selectedFont.css,
     fontSize: `${fontSize[0]}px`,
     fontWeight: fontWeight,
     fontStyle: fontStyle,
@@ -81,7 +81,8 @@ export default function FontChanger() {
   };
 
   const generateCSS = () => {
-    return `font-family: ${selectedFont?.css || 'serif'};
+    const font = FONT_FAMILIES.find(f => f.value === fontFamily) || FONT_FAMILIES[0];
+    return `font-family: ${font.css};
 font-size: ${fontSize[0]}px;
 font-weight: ${fontWeight};
 font-style: ${fontStyle};
@@ -235,9 +236,9 @@ letter-spacing: ${letterSpacing[0]}px;`;
               {/* Font Family */}
               <div>
                 <label className="text-sm font-medium text-foreground mb-2 block">Font Family</label>
-                <Select value={fontFamily} onValueChange={setFontFamily}>
+                <Select value={fontFamily} onValueChange={(value) => value && setFontFamily(value)}>
                   <SelectTrigger className="bg-background border-border text-foreground">
-                    <SelectValue />
+                    <SelectValue placeholder="Select a font family" />
                   </SelectTrigger>
                   <SelectContent>
                     {FONT_FAMILIES.map((font) => (
@@ -267,9 +268,9 @@ letter-spacing: ${letterSpacing[0]}px;`;
               {/* Font Weight */}
               <div>
                 <label className="text-sm font-medium text-foreground mb-2 block">Font Weight</label>
-                <Select value={fontWeight} onValueChange={setFontWeight}>
+                <Select value={fontWeight} onValueChange={(value) => value && setFontWeight(value)}>
                   <SelectTrigger className="bg-background border-border text-foreground">
-                    <SelectValue />
+                    <SelectValue placeholder="Select font weight" />
                   </SelectTrigger>
                   <SelectContent>
                     {FONT_WEIGHTS.map((weight) => (
@@ -284,9 +285,9 @@ letter-spacing: ${letterSpacing[0]}px;`;
               {/* Font Style */}
               <div>
                 <label className="text-sm font-medium text-foreground mb-2 block">Font Style</label>
-                <Select value={fontStyle} onValueChange={setFontStyle}>
+                <Select value={fontStyle} onValueChange={(value) => value && setFontStyle(value)}>
                   <SelectTrigger className="bg-background border-border text-foreground">
-                    <SelectValue />
+                    <SelectValue placeholder="Select font style" />
                   </SelectTrigger>
                   <SelectContent>
                     {FONT_STYLES.map((style) => (
@@ -301,9 +302,9 @@ letter-spacing: ${letterSpacing[0]}px;`;
               {/* Text Transform */}
               <div>
                 <label className="text-sm font-medium text-foreground mb-2 block">Text Transform</label>
-                <Select value={textTransform} onValueChange={setTextTransform}>
+                <Select value={textTransform} onValueChange={(value) => value && setTextTransform(value)}>
                   <SelectTrigger className="bg-background border-border text-foreground">
-                    <SelectValue />
+                    <SelectValue placeholder="Select text transform" />
                   </SelectTrigger>
                   <SelectContent>
                     {TEXT_TRANSFORMS.map((transform) => (
