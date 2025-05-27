@@ -9,9 +9,8 @@ export default function Navigation() {
   const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
 
   const tools = [
-    { name: "Image Resizer/Converter", icon: ExpandIcon, href: "/image-resizer" },
+    { name: "Image Tool", icon: ExpandIcon, href: "/image-resizer" },
     { name: "FileType Changer", icon: FileIcon, href: "/file-converter" },
-    { name: "Temp Email", icon: MailIcon, href: "/temp-email" },
     { name: "Font Changer", icon: TypeIcon, href: "/font-changer" },
     { name: "Text Editor", icon: CodeIcon, href: "/code-notepad" },
   ];

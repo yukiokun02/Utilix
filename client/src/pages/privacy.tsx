@@ -16,20 +16,22 @@ export default function Privacy() {
       <BackgroundShapes />
       
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-2xl font-bold mb-2">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 space-y-4 sm:space-y-0">
+          <div className="flex-1 min-w-0">
+            <h1 className="text-xl sm:text-2xl font-bold mb-2">
               <span className="bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
                 🔒 Privacy Policy
               </span>
             </h1>
-            <p className="text-gray-300 font-medium">How we protect and handle your information</p>
+            <p className="text-gray-300 font-medium text-sm sm:text-base">How we protect and handle your information</p>
           </div>
-          <Link href="/">
-            <Button variant="outline" size="icon" className="w-10 h-10 rounded-lg">
-              <ArrowLeftIcon className="w-4 h-4" />
-            </Button>
-          </Link>
+          <div className="flex-shrink-0 self-start sm:self-center">
+            <Link href="/">
+              <Button variant="outline" size="icon" className="w-10 h-10 rounded-lg">
+                <ArrowLeftIcon className="w-4 h-4" />
+              </Button>
+            </Link>
+          </div>
         </div>
 
         <Card className="solid-card">
@@ -46,7 +48,7 @@ export default function Privacy() {
               </p>
 
               <section>
-                <h2 className="text-xl font-bold mb-4 text-emerald-400">1. Information We Collect</h2>
+                <h2 className="text-lg sm:text-xl font-bold mb-4 text-emerald-400">1. Information We Collect</h2>
                 <ul className="space-y-3 leading-relaxed ml-6">
                   <li><strong>Personal Info:</strong> Name, email (only when voluntarily submitted).</li>
                   <li><strong>Usage Data:</strong> IP address, browser type, device info, and pages visited.</li>
@@ -55,7 +57,7 @@ export default function Privacy() {
               </section>
 
               <section>
-                <h2 className="text-xl font-bold mb-4 text-emerald-400">2. How We Use Your Information</h2>
+                <h2 className="text-lg sm:text-xl font-bold mb-4 text-emerald-400">2. How We Use Your Information</h2>
                 <ul className="space-y-2 leading-relaxed ml-6">
                   <li>To provide and maintain our services.</li>
                   <li>To analyze website performance.</li>
@@ -65,35 +67,35 @@ export default function Privacy() {
               </section>
 
               <section>
-                <h2 className="text-xl font-bold mb-4 text-emerald-400">3. Google AdSense & Cookies</h2>
+                <h2 className="text-lg sm:text-xl font-bold mb-4 text-emerald-400">3. Google AdSense & Cookies</h2>
                 <p className="leading-relaxed">
                   Third-party vendors, including Google, use cookies to serve ads. Google's use of advertising cookies enables it and its partners to serve ads based on your visit to this and other websites. You can opt out via Google's Ad Settings.
                 </p>
               </section>
 
               <section>
-                <h2 className="text-xl font-bold mb-4 text-emerald-400">4. Sharing Your Information</h2>
+                <h2 className="text-lg sm:text-xl font-bold mb-4 text-emerald-400">4. Sharing Your Information</h2>
                 <p className="leading-relaxed">
                   We do <strong>not</strong> sell or trade your personal information. We may share information with trusted partners for website functionality and analytics.
                 </p>
               </section>
 
               <section>
-                <h2 className="text-xl font-bold mb-4 text-emerald-400">5. Security</h2>
+                <h2 className="text-lg sm:text-xl font-bold mb-4 text-emerald-400">5. Security</h2>
                 <p className="leading-relaxed">
                   We implement reasonable security measures to protect your information. However, no method of transmission is 100% secure.
                 </p>
               </section>
 
               <section>
-                <h2 className="text-xl font-bold mb-4 text-emerald-400">6. Your Choices</h2>
+                <h2 className="text-lg sm:text-xl font-bold mb-4 text-emerald-400">6. Your Choices</h2>
                 <p className="leading-relaxed">
                   You can disable cookies through your browser settings.
                 </p>
               </section>
 
               <section>
-                <h2 className="text-xl font-bold mb-4 text-emerald-400">7. Changes to This Policy</h2>
+                <h2 className="text-lg sm:text-xl font-bold mb-4 text-emerald-400">7. Changes to This Policy</h2>
                 <p className="leading-relaxed">
                   We may update this policy. Please check this page regularly.
                 </p>

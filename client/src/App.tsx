@@ -8,7 +8,7 @@ import Home from "@/pages/home";
 import ImageResizer from "@/pages/image-resizer";
 import ImageConverter from "@/pages/image-converter";
 import FileConverter from "@/pages/file-converter";
-import TempEmail from "@/pages/temp-email";
+
 import FontChanger from "@/pages/font-changer";
 import CodeNotepad from "@/pages/code-notepad";
 import About from "@/pages/about";
@@ -23,7 +23,7 @@ function Router() {
       <Route path="/image-resizer" component={ImageResizer} />
       <Route path="/image-converter" component={ImageConverter} />
       <Route path="/file-converter" component={FileConverter} />
-      <Route path="/temp-email" component={TempEmail} />
+
       <Route path="/font-changer" component={FontChanger} />
       <Route path="/code-notepad" component={CodeNotepad} />
       <Route path="/about" component={About} />
