@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
@@ -68,9 +68,11 @@ export default function FontChanger() {
   const [pendingDownload, setPendingDownload] = useState<{url: string, filename: string} | null>(null);
   const { toast } = useToast();
 
-  const selectedFont = FONT_FAMILIES.find(f => f.value === fontFamily) || FONT_FAMILIES[0];
+  const selectedFont = useMemo(() => {
+    return FONT_FAMILIES.find(f => f.value === fontFamily) || FONT_FAMILIES[0];
+  }, [fontFamily]);
   
-  const previewStyle = {
+  const previewStyle = useMemo(() => ({
     fontFamily: selectedFont.css,
     fontSize: `${fontSize[0]}px`,
     fontWeight: fontWeight,
@@ -78,18 +80,17 @@ export default function FontChanger() {
     textTransform: textTransform as any,
     lineHeight: lineHeight[0],
     letterSpacing: `${letterSpacing[0]}px`,
-  };
+  }), [selectedFont.css, fontSize, fontWeight, fontStyle, textTransform, lineHeight, letterSpacing]);
 
-  const generateCSS = () => {
-    const font = FONT_FAMILIES.find(f => f.value === fontFamily) || FONT_FAMILIES[0];
-    return `font-family: ${font.css};
+  const generateCSS = useCallback(() => {
+    return `font-family: ${selectedFont.css};
 font-size: ${fontSize[0]}px;
 font-weight: ${fontWeight};
 font-style: ${fontStyle};
 text-transform: ${textTransform};
 line-height: ${lineHeight[0]};
 letter-spacing: ${letterSpacing[0]}px;`;
-  };
+  }, [selectedFont.css, fontSize, fontWeight, fontStyle, textTransform, lineHeight, letterSpacing]);
 
   const handleCopyText = async () => {
     try {
@@ -236,14 +237,23 @@ letter-spacing: ${letterSpacing[0]}px;`;
               {/* Font Family */}
               <div>
                 <label className="text-sm font-medium text-foreground mb-2 block">Font Family</label>
-                <Select value={fontFamily} onValueChange={(value) => value && setFontFamily(value)}>
+                <Select 
+                  value={fontFamily} 
+                  onValueChange={(value) => {
+                    if (value && FONT_FAMILIES.some(f => f.value === value)) {
+                      setFontFamily(value);
+                    }
+                  }}
+                >
                   <SelectTrigger className="bg-background border-border text-foreground">
-                    <SelectValue placeholder="Select a font family" />
+                    <SelectValue>
+                      {selectedFont.label}
+                    </SelectValue>
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="max-h-60">
                     {FONT_FAMILIES.map((font) => (
                       <SelectItem key={font.value} value={font.value}>
-                        <span style={{ fontFamily: font.css }}>{font.label}</span>
+                        <span>{font.label}</span>
                       </SelectItem>
                     ))}
                   </SelectContent>
