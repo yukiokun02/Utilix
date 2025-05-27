@@ -9,7 +9,7 @@ import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BackgroundShapes from "@/components/background-shapes";
 import DownloadPopup from "@/components/download-popup";
-import { ArrowLeftIcon, CloudUploadIcon, DownloadIcon, XIcon, CropIcon, RotateCcwIcon, SquareIcon, RectangleHorizontalIcon, RectangleVerticalIcon, MonitorIcon, SmartphoneIcon, CreditCardIcon, BookOpenIcon, ImageIcon } from "lucide-react";
+import { ArrowLeftIcon, CloudUploadIcon, DownloadIcon, XIcon, CropIcon, RotateCcwIcon, SquareIcon, RectangleHorizontalIcon, RectangleVerticalIcon, MonitorIcon, SmartphoneIcon, CreditCardIcon, BookOpenIcon, ImageIcon, Palette } from "lucide-react";
 import { Link } from "wouter";
 import { resizeImage, convertImage } from "@/lib/image-utils";
 import { useToast } from "@/hooks/use-toast";
@@ -1066,7 +1066,7 @@ export default function ImageTool() {
                           { format: 'jpeg', label: 'JPEG', icon: ImageIcon },
                           { format: 'png', label: 'PNG', icon: ImageIcon },
                           { format: 'webp', label: 'WebP', icon: ImageIcon },
-                          { format: 'gif', label: 'GIF', icon: PaletteIcon },
+                          { format: 'gif', label: 'GIF', icon: ImageIcon },
                           { format: 'bmp', label: 'BMP', icon: ImageIcon }
                         ].map(({ format, label, icon: Icon }) => (
                           <Button
