@@ -303,6 +303,59 @@ export default function FileConverter() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Information Section */}
+        <Card className="solid-card mt-8">
+          <CardHeader>
+            <CardTitle className="text-foreground">About File Converter</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4 text-muted-foreground">
+              <p>
+                The File Converter tool helps you convert between various file formats quickly and securely. 
+                All conversions happen in your browser, ensuring your files remain private and never leave your device.
+              </p>
+              <div className="grid md:grid-cols-2 gap-6 mt-6">
+                <div>
+                  <h3 className="font-semibold text-foreground mb-2">How It Works:</h3>
+                  <ul className="space-y-1 text-sm">
+                    <li>• Upload your file using drag & drop or click</li>
+                    <li>• Choose your desired output format</li>
+                    <li>• Click convert to process the file</li>
+                    <li>• Download the converted file instantly</li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground mb-2">Security Features:</h3>
+                  <ul className="space-y-1 text-sm">
+                    <li>• Client-side processing only</li>
+                    <li>• No files uploaded to servers</li>
+                    <li>• Complete privacy protection</li>
+                    <li>• Instant processing and download</li>
+                  </ul>
+                </div>
+              </div>
+              <div className="mt-6">
+                <h3 className="font-semibold text-foreground mb-2">Supported Categories:</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+                  <div>
+                    <strong>Text Files:</strong> TXT, CSV, JSON, XML
+                  </div>
+                  <div>
+                    <strong>Documents:</strong> DOC, PDF, RTF, MD
+                  </div>
+                  <div>
+                    <strong>Data:</strong> JSON, XML, CSV, YAML
+                  </div>
+                </div>
+              </div>
+              <p className="text-sm">
+                <strong>Note:</strong> Basic text-based conversions are fully supported. Advanced document conversions 
+                may have limitations due to client-side processing constraints.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

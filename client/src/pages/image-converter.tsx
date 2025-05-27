@@ -271,6 +271,47 @@ export default function ImageConverter() {
             </CardContent>
           </Card>
         )}
+
+        {/* Information Section */}
+        <Card className="solid-card mt-8">
+          <CardHeader>
+            <CardTitle className="text-foreground">About Image Converter</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4 text-muted-foreground">
+              <p>
+                The Image Converter tool allows you to convert images between different formats quickly and easily. 
+                Whether you need to convert a PNG to JPG, or change a WEBP to PNG, this tool handles it all client-side for maximum privacy.
+              </p>
+              <div className="grid md:grid-cols-2 gap-6 mt-6">
+                <div>
+                  <h3 className="font-semibold text-foreground mb-2">Supported Formats:</h3>
+                  <ul className="space-y-1 text-sm">
+                    <li>• JPEG/JPG - Best for photos and complex images</li>
+                    <li>• PNG - Perfect for graphics with transparency</li>
+                    <li>• WEBP - Modern format with excellent compression</li>
+                    <li>• GIF - Great for simple animations</li>
+                    <li>• BMP - Uncompressed bitmap format</li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground mb-2">Key Features:</h3>
+                  <ul className="space-y-1 text-sm">
+                    <li>• Client-side processing (no upload required)</li>
+                    <li>• Maintains original image quality</li>
+                    <li>• Instant conversion and download</li>
+                    <li>• Support for all common image formats</li>
+                    <li>• Completely free and unlimited usage</li>
+                  </ul>
+                </div>
+              </div>
+              <p className="text-sm">
+                <strong>How it works:</strong> Simply upload your image, choose the output format, and click convert. 
+                The conversion happens entirely in your browser, ensuring your images stay private and secure.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
