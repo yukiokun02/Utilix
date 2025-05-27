@@ -46,6 +46,8 @@ export default function ImageTool() {
   const [imageScale, setImageScale] = useState(1);
   const [zoomLevel, setZoomLevel] = useState(1);
   const [imagePosition, setImagePosition] = useState<{x: number, y: number}>({x: 0, y: 0});
+  const [lastTouchDistance, setLastTouchDistance] = useState<number>(0);
+  const [initialZoom, setInitialZoom] = useState<number>(1);
   
   // Optimization state
   const [qualitySlider, setQualitySlider] = useState<number>(90);
@@ -57,6 +59,63 @@ export default function ImageTool() {
   const cropContainerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { toast } = useToast();
+
+  // Touch gesture functions
+  const getTouchDistance = (touches: TouchList) => {
+    if (touches.length < 2) return 0;
+    const touch1 = touches[0];
+    const touch2 = touches[1];
+    return Math.sqrt(
+      Math.pow(touch2.clientX - touch1.clientX, 2) + 
+      Math.pow(touch2.clientY - touch1.clientY, 2)
+    );
+  };
+
+  const handleTouchStart = useCallback((e: TouchEvent) => {
+    if (e.touches.length === 2) {
+      const distance = getTouchDistance(e.touches);
+      setLastTouchDistance(distance);
+      setInitialZoom(zoomLevel);
+      e.preventDefault();
+    }
+  }, [zoomLevel]);
+
+  const handlePinchZoom = useCallback((e: TouchEvent) => {
+    if (e.touches.length === 2) {
+      const distance = getTouchDistance(e.touches);
+      if (lastTouchDistance > 0) {
+        const scale = distance / lastTouchDistance;
+        const newZoom = Math.max(0.5, Math.min(3, initialZoom * scale));
+        setZoomLevel(newZoom);
+      }
+      e.preventDefault();
+      return;
+    }
+  }, [lastTouchDistance, initialZoom]);
+
+  const handleWheel = useCallback((e: WheelEvent) => {
+    if (e.ctrlKey || e.metaKey) {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? -0.1 : 0.1;
+      setZoomLevel(prev => Math.max(0.5, Math.min(3, prev + delta)));
+    }
+  }, []);
+
+  // Attach event listeners
+  useEffect(() => {
+    const container = cropContainerRef.current;
+    if (container) {
+      container.addEventListener('touchstart', handleTouchStart, { passive: false });
+      container.addEventListener('touchmove', handlePinchZoom, { passive: false });
+      container.addEventListener('wheel', handleWheel, { passive: false });
+      
+      return () => {
+        container.removeEventListener('touchstart', handleTouchStart);
+        container.removeEventListener('touchmove', handlePinchZoom);
+        container.removeEventListener('wheel', handleWheel);
+      };
+    }
+  }, [handleTouchStart, handlePinchZoom, handleWheel]);
 
   const handleFileSelect = (file: File) => {
     if (!file.type.startsWith('image/')) {
@@ -294,7 +353,7 @@ export default function ImageTool() {
     handleMove(e.clientX, e.clientY);
   }, [handleMove]);
 
-  const handleTouchMove = useCallback((e: TouchEvent) => {
+  const handleCropTouchMove = useCallback((e: TouchEvent) => {
     e.preventDefault();
     if (e.touches.length === 1) {
       const touch = e.touches[0];
@@ -314,17 +373,17 @@ export default function ImageTool() {
       const options = { passive: false };
       document.addEventListener('mousemove', handleMouseMove, options);
       document.addEventListener('mouseup', handleMouseUp);
-      document.addEventListener('touchmove', handleTouchMove, options);
+      document.addEventListener('touchmove', handleCropTouchMove, options);
       document.addEventListener('touchend', handleMouseUp);
       
       return () => {
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
-        document.removeEventListener('touchmove', handleTouchMove);
+        document.removeEventListener('touchmove', handleCropTouchMove);
         document.removeEventListener('touchend', handleMouseUp);
       };
     }
-  }, [isDragging, isResizing, handleMouseMove, handleTouchMove, handleMouseUp]);
+  }, [isDragging, isResizing, handleMouseMove, handleCropTouchMove, handleMouseUp]);
 
   const applyCrop = async () => {
     if (!selectedFile || !cropArea || !cropImageRef.current) return;
@@ -724,11 +783,11 @@ export default function ImageTool() {
                       <div className="space-y-0">
                         <div 
                           ref={cropContainerRef} 
-                          className="relative bg-gray-900 overflow-hidden w-full"
+                          className="relative bg-gray-900 overflow-hidden w-full touch-manipulation"
                           style={{ 
-                            touchAction: 'none',
-                            height: '70vh',
-                            minHeight: '500px'
+                            touchAction: 'pan-x pan-y pinch-zoom',
+                            height: '60vh',
+                            minHeight: '400px'
                           }}
                         >
                           <img 
