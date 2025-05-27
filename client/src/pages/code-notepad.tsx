@@ -97,31 +97,14 @@ export default function CodeNotepad() {
         </div>
 
         {/* How to Use Section */}
-        <Card className="solid-card mb-8">
-          <CardHeader>
-            <CardTitle className="text-foreground">How to Use Text Editor</CardTitle>
+        <Card className="solid-card mb-6">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-foreground text-lg">How to Use</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <h3 className="font-semibold text-foreground mb-3">Quick Start</h3>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>• Type or paste your text in the editor below</li>
-                  <li>• Set your filename and file extension</li>
-                  <li>• Use toolbar buttons to manage your content</li>
-                  <li>• Download your file when ready</li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-3">Features</h3>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>• Line numbers for easy reference</li>
-                  <li>• Copy text to clipboard instantly</li>
-                  <li>• Download in any format you specify</li>
-                  <li>• Clean interface with no distractions</li>
-                </ul>
-              </div>
-            </div>
+            <p className="text-sm text-muted-foreground">
+              Type your text, set filename & extension, use toolbar buttons to copy/download your content.
+            </p>
           </CardContent>
         </Card>
 

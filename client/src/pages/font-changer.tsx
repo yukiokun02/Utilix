@@ -143,31 +143,14 @@ letter-spacing: ${letterSpacing[0]}px;`;
         </div>
 
         {/* How to Use Section */}
-        <Card className="solid-card mb-8">
-          <CardHeader>
-            <CardTitle className="text-foreground">How to Use Font Changer</CardTitle>
+        <Card className="solid-card mb-6">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-foreground text-lg">How to Use</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <h3 className="font-semibold text-foreground mb-3">Getting Started</h3>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>• Type your text in the input area</li>
-                  <li>• Choose from 17+ font families</li>
-                  <li>• Adjust size, weight, and style settings</li>
-                  <li>• Copy styled text or CSS code</li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-3">Advanced Options</h3>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>• Fine-tune line height for readability</li>
-                  <li>• Adjust letter spacing for emphasis</li>
-                  <li>• Apply text transforms (uppercase, etc.)</li>
-                  <li>• Real-time preview of all changes</li>
-                </ul>
-              </div>
-            </div>
+            <p className="text-sm text-muted-foreground">
+              Enter your text, choose a font family, adjust styling options, and copy the styled text or CSS code.
+            </p>
           </CardContent>
         </Card>
 

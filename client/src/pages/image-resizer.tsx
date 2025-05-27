@@ -994,6 +994,54 @@ export default function ImageTool() {
             </TabsContent>
           </Tabs>
         )}
+
+        {/* Information Section */}
+        <Card className="solid-card mt-8">
+          <CardHeader>
+            <CardTitle className="text-foreground">About Image Tool</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4 text-muted-foreground">
+              <p>
+                The Image Tool provides comprehensive image editing capabilities including resizing, cropping, format conversion, and optimization. 
+                All processing happens locally in your browser for maximum privacy and speed.
+              </p>
+              <div className="grid md:grid-cols-3 gap-6 mt-6">
+                <div>
+                  <h3 className="font-semibold text-foreground mb-2">Resize Features:</h3>
+                  <ul className="space-y-1 text-sm">
+                    <li>• Custom width and height input</li>
+                    <li>• Maintain aspect ratio option</li>
+                    <li>• Real-time preview updates</li>
+                    <li>• Instant file size calculation</li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground mb-2">Crop Options:</h3>
+                  <ul className="space-y-1 text-sm">
+                    <li>• 12+ aspect ratio presets</li>
+                    <li>• Visual drag-and-drop cropping</li>
+                    <li>• Touch-friendly mobile interface</li>
+                    <li>• Perfect for social media sizes</li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground mb-2">Convert & Optimize:</h3>
+                  <ul className="space-y-1 text-sm">
+                    <li>• Support for JPEG, PNG, WebP, GIF, BMP</li>
+                    <li>• Quality adjustment slider</li>
+                    <li>• File size optimization</li>
+                    <li>• Lossless and lossy compression</li>
+                  </ul>
+                </div>
+              </div>
+              <p className="text-sm">
+                <strong>Privacy Note:</strong> All image processing happens entirely in your browser. Your images are never uploaded 
+                to any server, ensuring complete privacy and security of your files.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

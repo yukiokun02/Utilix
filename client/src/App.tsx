@@ -8,7 +8,7 @@ import Home from "@/pages/home";
 import ImageResizer from "@/pages/image-resizer";
 import ImageConverter from "@/pages/image-converter";
 import FileConverter from "@/pages/file-converter";
-
+import FileCompressor from "@/pages/file-compressor";
 import FontChanger from "@/pages/font-changer";
 import CodeNotepad from "@/pages/code-notepad";
 import About from "@/pages/about";
