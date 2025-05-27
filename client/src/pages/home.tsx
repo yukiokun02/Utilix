@@ -25,13 +25,11 @@ export default function Home() {
       <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
         <BackgroundShapes variant="hero" />
         
-        {/* Top Mobile Ad Banner */}
-        <div className="absolute top-20 left-0 right-0 z-20 block lg:hidden">
-          <div className="max-w-sm mx-auto px-4">
-            <div className="bg-gray-800/30 rounded-lg p-2 text-center text-gray-400 border border-gray-600/30">
-              <div className="h-12 flex items-center justify-center text-xs">
-                Mobile Ad (320x50)
-              </div>
+        {/* Top Mobile Ad Banner - Fixed Position */}
+        <div className="absolute top-4 left-4 right-4 z-20 block lg:hidden">
+          <div className="bg-gray-800/30 rounded-lg p-2 text-center text-gray-400 border border-gray-600/30">
+            <div className="h-12 flex items-center justify-center text-xs">
+              Mobile Ad (320x50)
             </div>
           </div>
         </div>

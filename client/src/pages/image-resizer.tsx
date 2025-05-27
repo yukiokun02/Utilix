@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BackgroundShapes from "@/components/background-shapes";
+import DownloadPopup from "@/components/download-popup";
 import { ArrowLeftIcon, CloudUploadIcon, DownloadIcon, XIcon, CropIcon, RotateCcwIcon, SquareIcon, RectangleHorizontalIcon, RectangleVerticalIcon, MonitorIcon, SmartphoneIcon, CreditCardIcon, BookOpenIcon, ImageIcon } from "lucide-react";
 import { Link } from "wouter";
 import { resizeImage, convertImage } from "@/lib/image-utils";
@@ -48,6 +49,10 @@ export default function ImageTool() {
   const [imagePosition, setImagePosition] = useState<{x: number, y: number}>({x: 0, y: 0});
   const [lastTouchDistance, setLastTouchDistance] = useState<number>(0);
   const [initialZoom, setInitialZoom] = useState<number>(1);
+  
+  // Download popup state
+  const [showDownloadPopup, setShowDownloadPopup] = useState(false);
+  const [pendingDownload, setPendingDownload] = useState<{url: string, filename: string} | null>(null);
   
   // Optimization state
   const [qualitySlider, setQualitySlider] = useState<number>(90);
@@ -394,21 +399,36 @@ export default function ImageTool() {
       const ctx = canvas.getContext('2d')!;
       const img = cropImageRef.current;
       
-      // Calculate scaling factors
-      const scaleX = img.naturalWidth / img.clientWidth;
-      const scaleY = img.naturalHeight / img.clientHeight;
+      // Get container and image bounds
+      const container = cropContainerRef.current!;
+      const containerRect = container.getBoundingClientRect();
+      const imgRect = img.getBoundingClientRect();
+      
+      // Calculate image position relative to container
+      const imageLeft = imgRect.left - containerRect.left;
+      const imageTop = imgRect.top - containerRect.top;
+      
+      // Calculate actual crop position relative to the image
+      const cropX = (cropArea.x - imageLeft) / zoomLevel;
+      const cropY = (cropArea.y - imageTop) / zoomLevel;
+      const cropWidth = cropArea.width / zoomLevel;
+      const cropHeight = cropArea.height / zoomLevel;
+      
+      // Calculate scaling factors from displayed size to natural size
+      const scaleX = img.naturalWidth / (imgRect.width / zoomLevel);
+      const scaleY = img.naturalHeight / (imgRect.height / zoomLevel);
       
       // Set canvas size to crop dimensions
-      canvas.width = cropArea.width * scaleX;
-      canvas.height = cropArea.height * scaleY;
+      canvas.width = cropWidth * scaleX;
+      canvas.height = cropHeight * scaleY;
       
       // Draw cropped portion
       ctx.drawImage(
         img,
-        cropArea.x * scaleX,
-        cropArea.y * scaleY,
-        cropArea.width * scaleX,
-        cropArea.height * scaleY,
+        cropX * scaleX,
+        cropY * scaleY,
+        cropWidth * scaleX,
+        cropHeight * scaleY,
         0,
         0,
         canvas.width,
