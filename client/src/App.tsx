@@ -11,7 +11,9 @@ import FileConverter from "@/pages/file-converter";
 import TempEmail from "@/pages/temp-email";
 import FontChanger from "@/pages/font-changer";
 import CodeNotepad from "@/pages/code-notepad";
-import Donate from "@/pages/donate";
+import About from "@/pages/about";
+import Terms from "@/pages/terms";
+import Privacy from "@/pages/privacy";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -24,7 +26,9 @@ function Router() {
       <Route path="/temp-email" component={TempEmail} />
       <Route path="/font-changer" component={FontChanger} />
       <Route path="/code-notepad" component={CodeNotepad} />
-      <Route path="/donate" component={Donate} />
+      <Route path="/about" component={About} />
+      <Route path="/terms" component={Terms} />
+      <Route path="/privacy" component={Privacy} />
       <Route component={NotFound} />
     </Switch>
   );

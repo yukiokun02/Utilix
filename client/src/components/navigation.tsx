@@ -1,11 +1,12 @@
 import { Link, useLocation } from "wouter";
-import { MenuIcon, ChevronDownIcon, FileIcon, MailIcon, TypeIcon, CodeIcon, ExpandIcon, RefreshCwIcon } from "lucide-react";
+import { MenuIcon, ChevronDownIcon, FileIcon, MailIcon, TypeIcon, CodeIcon, ExpandIcon, RefreshCwIcon, MoreVerticalIcon } from "lucide-react";
 import { useState } from "react";
 
 export default function Navigation() {
   const [location] = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isToolsDropdownOpen, setIsToolsDropdownOpen] = useState(false);
+  const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
 
   const tools = [
     { name: "Image Resizer/Converter", icon: ExpandIcon, href: "/image-resizer" },
@@ -54,11 +55,42 @@ export default function Navigation() {
               )}
             </div>
             
-            <Link href="/donate">
-              <button className="vibrant-button text-sm font-bold hover:brightness-110 active:scale-95 transition-all duration-200">
-                <span>Donate Us</span>
+            <Link href="/about">
+              <button className="vibrant-button-secondary text-sm font-bold hover:brightness-110 active:scale-95 transition-all duration-200">
+                <span>About Us</span>
               </button>
             </Link>
+            
+            <div className="relative">
+              <button 
+                className="vibrant-button-secondary text-sm font-bold flex items-center space-x-2 hover:brightness-110 active:scale-95 transition-all duration-200 px-3"
+                onMouseEnter={() => setIsMoreMenuOpen(true)}
+                onMouseLeave={() => setIsMoreMenuOpen(false)}
+              >
+                <MoreVerticalIcon className="w-4 h-4" />
+              </button>
+              
+              {isMoreMenuOpen && (
+                <div 
+                  className="absolute top-full right-0 mt-2 w-48 vibrant-card rounded-xl shadow-2xl border-2 border-white/20 animate-slide-down origin-top"
+                  onMouseEnter={() => setIsMoreMenuOpen(true)}
+                  onMouseLeave={() => setIsMoreMenuOpen(false)}
+                >
+                  <div className="p-2">
+                    <Link href="/terms">
+                      <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-white/10 hover:scale-105 transition-all duration-300 cursor-pointer transform">
+                        <span className="text-sm font-semibold text-white">Terms of Use</span>
+                      </div>
+                    </Link>
+                    <Link href="/privacy">
+                      <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-white/10 hover:scale-105 transition-all duration-300 cursor-pointer transform">
+                        <span className="text-sm font-semibold text-white">Privacy Policy</span>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
           
           <button
@@ -86,11 +118,27 @@ export default function Navigation() {
                 </div>
               </div>
               
-              <Link href="/donate">
-                <button className="vibrant-button w-full font-bold" onClick={() => setIsMenuOpen(false)}>
-                  <span>Donate Us</span>
+              <Link href="/about">
+                <button className="vibrant-button-secondary w-full font-bold" onClick={() => setIsMenuOpen(false)}>
+                  <span>About Us</span>
                 </button>
               </Link>
+              
+              <div className="vibrant-card rounded-xl p-3">
+                <h3 className="text-sm font-bold text-white mb-3">More</h3>
+                <div className="space-y-2">
+                  <Link href="/terms">
+                    <div className="flex items-center space-x-3 p-2 rounded-lg hover:bg-white/10 transition-all duration-200" onClick={() => setIsMenuOpen(false)}>
+                      <span className="text-sm font-semibold text-white">Terms of Use</span>
+                    </div>
+                  </Link>
+                  <Link href="/privacy">
+                    <div className="flex items-center space-x-3 p-2 rounded-lg hover:bg-white/10 transition-all duration-200" onClick={() => setIsMenuOpen(false)}>
+                      <span className="text-sm font-semibold text-white">Privacy Policy</span>
+                    </div>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         )}

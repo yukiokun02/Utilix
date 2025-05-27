@@ -1,4 +1,5 @@
 import { ServerIcon, ZapIcon, DollarSignIcon, MessageCircleIcon, ExternalLinkIcon } from "lucide-react";
+import { Link } from "wouter";
 
 export default function EnderHostFooter() {
   const features = [
