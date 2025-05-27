@@ -44,6 +44,8 @@ export default function ImageTool() {
   const [dragStart, setDragStart] = useState<{x: number; y: number} | null>(null);
   const [resizeHandle, setResizeHandle] = useState<string>('');
   const [imageScale, setImageScale] = useState(1);
+  const [zoomLevel, setZoomLevel] = useState(1);
+  const [imagePosition, setImagePosition] = useState<{x: number, y: number}>({x: 0, y: 0});
   
   // Optimization state
   const [qualitySlider, setQualitySlider] = useState<number>(90);
@@ -647,26 +649,21 @@ export default function ImageTool() {
                     <CardTitle className="text-foreground">Select Aspect Ratio</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+                    <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 xl:grid-cols-12 gap-2">
                       {aspectRatios.map((ratio) => (
                         <div
                           key={ratio.value}
                           onClick={() => handleCropAspectRatioChange(ratio.value)}
-                          className={`p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 hover:scale-105 ${
+                          className={`p-2 rounded-lg border cursor-pointer transition-all duration-200 hover:scale-105 ${
                             cropAspectRatio === ratio.value 
-                              ? 'border-blue-500 bg-blue-500/10 shadow-lg' 
+                              ? 'border-blue-500 bg-blue-500/10' 
                               : 'border-border hover:border-blue-300 bg-background'
                           }`}
                         >
-                          <div className="flex flex-col items-center space-y-2">
-                            <ratio.icon className={`w-6 h-6 ${cropAspectRatio === ratio.value ? 'text-blue-500' : 'text-muted-foreground'}`} />
-                            <div className="text-center">
-                              <div className={`text-sm font-medium ${cropAspectRatio === ratio.value ? 'text-blue-500' : 'text-foreground'}`}>
-                                {ratio.label}
-                              </div>
-                              <div className="text-xs text-muted-foreground">
-                                {ratio.desc}
-                              </div>
+                          <div className="flex flex-col items-center space-y-1">
+                            <ratio.icon className={`w-4 h-4 ${cropAspectRatio === ratio.value ? 'text-blue-500' : 'text-muted-foreground'}`} />
+                            <div className={`text-xs font-medium ${cropAspectRatio === ratio.value ? 'text-blue-500' : 'text-foreground'}`}>
+                              {ratio.label}
                             </div>
                           </div>
                         </div>
@@ -677,12 +674,37 @@ export default function ImageTool() {
 
                 {/* Crop Area */}
                 <Card className="solid-card">
-                  <CardHeader>
-                    <CardTitle className="text-foreground">
-                      {croppedUrl ? "Cropped Result" : "Drag to Crop"}
-                    </CardTitle>
+                  <CardHeader className="pb-2">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-foreground">
+                        {croppedUrl ? "Cropped Result" : "Drag to Crop"}
+                      </CardTitle>
+                      {!croppedUrl && (
+                        <div className="flex items-center space-x-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setZoomLevel(Math.max(0.5, zoomLevel - 0.1))}
+                            disabled={zoomLevel <= 0.5}
+                          >
+                            -
+                          </Button>
+                          <span className="text-sm text-muted-foreground min-w-[60px] text-center">
+                            {Math.round(zoomLevel * 100)}%
+                          </span>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setZoomLevel(Math.min(3, zoomLevel + 0.1))}
+                            disabled={zoomLevel >= 3}
+                          >
+                            +
+                          </Button>
+                        </div>
+                      )}
+                    </div>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="p-0">
                     {croppedUrl ? (
                       <div className="space-y-4">
                         <div className="border border-border rounded-xl p-4 bg-background">
@@ -699,28 +721,37 @@ export default function ImageTool() {
                         </div>
                       </div>
                     ) : (
-                      <div className="space-y-4">
+                      <div className="space-y-0">
                         <div 
                           ref={cropContainerRef} 
-                          className="relative border border-border rounded-xl p-4 bg-background overflow-hidden"
-                          style={{ touchAction: 'none' }}
+                          className="relative bg-gray-900 overflow-hidden w-full"
+                          style={{ 
+                            touchAction: 'none',
+                            height: '70vh',
+                            minHeight: '500px'
+                          }}
                         >
                           <img 
                             ref={cropImageRef}
                             src={previewUrl} 
                             alt="Original" 
-                            className="max-w-full h-auto select-none pointer-events-none"
+                            className="absolute select-none pointer-events-none max-w-none max-h-none"
                             draggable={false}
+                            style={{
+                              left: '50%',
+                              top: '50%',
+                              transform: `translate(-50%, -50%) scale(${zoomLevel}) translate(${imagePosition.x}px, ${imagePosition.y}px)`
+                            }}
                             onLoad={() => {
                               // Initialize crop area after image loads
                               setTimeout(() => {
-                                if (cropImageRef.current && !cropArea) {
-                                  const img = cropImageRef.current;
-                                  const rect = img.getBoundingClientRect();
-                                  const size = Math.min(rect.width, rect.height) * 0.6;
+                                if (cropContainerRef.current && !cropArea) {
+                                  const container = cropContainerRef.current;
+                                  const containerRect = container.getBoundingClientRect();
+                                  const size = Math.min(containerRect.width, containerRect.height) * 0.5;
                                   setCropArea({
-                                    x: (rect.width - size) / 2,
-                                    y: (rect.height - size) / 2,
+                                    x: (containerRect.width - size) / 2,
+                                    y: (containerRect.height - size) / 2,
                                     width: size,
                                     height: size
                                   });
