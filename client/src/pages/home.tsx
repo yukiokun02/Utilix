@@ -26,24 +26,30 @@ export default function Home() {
       <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
         <BackgroundShapes variant="hero" />
         
-        {/* Top Mobile Ad Banner - Below Navbar */}
+        {/* ==================== MOBILE TOP AD AREA - START ==================== */}
         <div className="absolute top-20 left-4 right-4 z-20 block lg:hidden">
-          <div className="bg-gray-800/30 rounded-lg p-2 text-center text-gray-400 border border-gray-600/30">
-            <div className="h-12 flex items-center justify-center text-xs">
-              Mobile Ad (320x50)
+          {/* REPLACE THIS ENTIRE DIV WITH YOUR GOOGLE ADSENSE CODE */}
+          <div className="bg-yellow-500/20 rounded-lg p-2 text-center text-yellow-300 border-2 border-yellow-500/50">
+            <div className="h-12 flex items-center justify-center text-xs font-bold">
+              📱 MOBILE AD SPACE (320x50) - Replace with AdSense Code
             </div>
           </div>
+          {/* REPLACE ABOVE DIV WITH YOUR GOOGLE ADSENSE CODE */}
         </div>
+        {/* ==================== MOBILE TOP AD AREA - END ==================== */}
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          {/* Desktop Top Ad Banner */}
+          {/* ==================== DESKTOP TOP AD AREA - START ==================== */}
           <div className="hidden lg:block mb-8">
-            <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
-              <div className="h-24 flex items-center justify-center text-sm">
-                Desktop Top Ad (728x90 - Google AdSense)
+            {/* REPLACE THIS ENTIRE DIV WITH YOUR GOOGLE ADSENSE CODE */}
+            <div className="bg-yellow-500/20 rounded-lg p-4 text-center text-yellow-300 border-2 border-yellow-500/50">
+              <div className="h-24 flex items-center justify-center text-sm font-bold">
+                💻 DESKTOP TOP AD SPACE (728x90) - Replace with AdSense Code
               </div>
             </div>
+            {/* REPLACE ABOVE DIV WITH YOUR GOOGLE ADSENSE CODE */}
           </div>
+          {/* ==================== DESKTOP TOP AD AREA - END ==================== */}
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 animate-fade-scale mt-32 lg:mt-0">
             <span className="gradient-text">UTILITIX</span>
@@ -117,23 +123,29 @@ export default function Home() {
         <BackgroundShapes variant="tools" />
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Mobile Ad */}
+          {/* ==================== MOBILE MIDDLE AD AREA - START ==================== */}
           <div className="block lg:hidden mb-8">
-            <div className="bg-gray-800/30 rounded-lg p-3 text-center text-gray-400 border border-gray-600/30">
-              <div className="h-12 flex items-center justify-center text-xs">
-                Mobile Tools Ad (320x50 - Adsterra)
+            {/* REPLACE THIS ENTIRE DIV WITH YOUR GOOGLE ADSENSE CODE */}
+            <div className="bg-yellow-500/20 rounded-lg p-3 text-center text-yellow-300 border-2 border-yellow-500/50">
+              <div className="h-12 flex items-center justify-center text-xs font-bold">
+                📱 MOBILE MIDDLE AD (320x50) - Replace with AdSense Code
               </div>
             </div>
+            {/* REPLACE ABOVE DIV WITH YOUR GOOGLE ADSENSE CODE */}
           </div>
+          {/* ==================== MOBILE MIDDLE AD AREA - END ==================== */}
           
-          {/* Desktop Ad */}
+          {/* ==================== DESKTOP MIDDLE AD AREA - START ==================== */}
           <div className="hidden lg:block mb-8">
-            <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
-              <div className="h-24 flex items-center justify-center text-sm">
-                Desktop Tools Ad (728x90 - Google AdSense)
+            {/* REPLACE THIS ENTIRE DIV WITH YOUR GOOGLE ADSENSE CODE */}
+            <div className="bg-yellow-500/20 rounded-lg p-4 text-center text-yellow-300 border-2 border-yellow-500/50">
+              <div className="h-24 flex items-center justify-center text-sm font-bold">
+                💻 DESKTOP MIDDLE AD (728x90) - Replace with AdSense Code
               </div>
             </div>
+            {/* REPLACE ABOVE DIV WITH YOUR GOOGLE ADSENSE CODE */}
           </div>
+          {/* ==================== DESKTOP MIDDLE AD AREA - END ==================== */}
           
           <div className="text-center mb-8 sm:mb-12 md:mb-16">
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">
