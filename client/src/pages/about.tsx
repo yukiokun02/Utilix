@@ -2,7 +2,8 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import BackgroundShapes from "@/components/background-shapes";
-import AdsterraAd from "@/components/AdsterraAd";
+import AdsterraAdMobile from "@/components/AdsterraAdMobile";
+import AdsterraAdDesktop from "@/components/AdsterraAdDesktop";
 import { ArrowLeftIcon, ImageIcon, FileIcon, TypeIcon, CodeIcon, MailIcon, MessageCircleIcon } from "lucide-react";
 
 export default function About() {
@@ -14,7 +15,8 @@ export default function About() {
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
         <div className="bg-gray-800/30 rounded-lg p-3 text-center text-gray-400 border border-gray-600/30 mb-6">
           <div className="h-16 sm:h-20 lg:h-24 flex items-center justify-center text-xs sm:text-sm">
-            Top Ad Banner (728x90 / 320x50)
+            <AdsterraAdMobile />
+            <AdsterraAdDesktop />
           </div>
         </div>
       </div>
@@ -101,15 +103,14 @@ export default function About() {
             </CardContent>
           </Card>
 
-          {/* ==================== MIDDLE AD AREA - START ==================== */}
-          <div className="my-8">
-            <AdsterraAd 
-              adKey="9713846a01389bccb7945a5638e800ae"
-              width={728}
-              height={90}
-            />
+          <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+            <div className="mb-6 flex justify-center">
+              <div className="w-full max-w-4xl">
+                <AdsterraAdMobile />
+                <AdsterraAdDesktop />
+              </div>
+            </div>
           </div>
-          {/* ==================== MIDDLE AD AREA - END ==================== */}
 
           {/* Our Mission */}
           <Card className="solid-card">
@@ -191,15 +192,14 @@ export default function About() {
           </Card>
         </div>
 
-        {/* ==================== BOTTOM AD AREA - START ==================== */}
-        <div className="mt-8">
-          <AdsterraAd 
-            adKey="9713846a01389bccb7945a5638e800ae"
-            width={728}
-            height={90}
-          />
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+          <div className="mb-6 flex justify-center">
+            <div className="w-full max-w-4xl">
+              <AdsterraAdMobile />
+              <AdsterraAdDesktop />
+            </div>
+          </div>
         </div>
-        {/* ==================== BOTTOM AD AREA - END ==================== */}
       </div>
     </div>
   );
