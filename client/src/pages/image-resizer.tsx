@@ -581,36 +581,21 @@ export default function ImageTool() {
     <div className="min-h-screen pt-20 relative">
       <BackgroundShapes />
       
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* ==================== MOBILE TOP AD AREA - START ==================== */}
-        <div className="block lg:hidden mb-6">
-          <AdsterraAd 
-            adKey="9713846a01389bccb7945a5638e800ae"
-            width={320}
-            height={50}
-          />
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <div className="mb-6 flex justify-center">
+          <div className="w-full max-w-4xl">
+            <AdsterraAdMobile />
+            <AdsterraAdDesktop />
+          </div>
         </div>
-        {/* ==================== MOBILE TOP AD AREA - END ==================== */}
-        
-        {/* ==================== DESKTOP TOP AD AREA - START ==================== */}
-        <div className="hidden lg:block mb-6">
-          <AdsterraAd 
-            adKey="9713846a01389bccb7945a5638e800ae"
-            width={728}
-            height={90}
-          />
-        </div>
-        {/* ==================== DESKTOP TOP AD AREA - END ==================== */}
+      </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* ==================== LEFT SIDEBAR AD AREA - START ==================== */}
           <div className="hidden lg:block">
             <div className="sticky top-4">
-              <AdsterraAd 
-                adKey="9713846a01389bccb7945a5638e800ae"
-                width={160}
-                height={600}
-              />
+              <AdsterraAdMobile />
+              <AdsterraAdDesktop />
             </div>
           </div>
           {/* ==================== LEFT SIDEBAR AD AREA - END ==================== */}
