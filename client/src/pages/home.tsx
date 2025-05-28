@@ -28,26 +28,44 @@ export default function Home() {
         
         {/* ==================== MOBILE TOP AD AREA - START ==================== */}
         <div className="absolute top-20 left-4 right-4 z-20 block lg:hidden">
-          {/* REPLACE THIS ENTIRE DIV WITH YOUR GOOGLE ADSENSE CODE */}
-          <div className="bg-yellow-500/20 rounded-lg p-2 text-center text-yellow-300 border-2 border-yellow-500/50">
-            <div className="h-12 flex items-center justify-center text-xs font-bold">
-              📱 MOBILE AD SPACE (320x50) - Replace with AdSense Code
-            </div>
-          </div>
-          {/* REPLACE ABOVE DIV WITH YOUR GOOGLE ADSENSE CODE */}
+          {/* PASTE YOUR AD SCRIPT HERE */}
+          <div dangerouslySetInnerHTML={{
+            __html: `
+              <script type="text/javascript">
+                atOptions = {
+                  'key' : 'YOUR_AD_KEY_HERE',
+                  'format' : 'iframe',
+                  'height' : 50,
+                  'width' : 320,
+                  'params' : {}
+                };
+              </script>
+              <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
+            `
+          }} />
+          {/* PASTE YOUR AD SCRIPT ABOVE */}
         </div>
         {/* ==================== MOBILE TOP AD AREA - END ==================== */}
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           {/* ==================== DESKTOP TOP AD AREA - START ==================== */}
           <div className="hidden lg:block mb-8">
-            {/* REPLACE THIS ENTIRE DIV WITH YOUR GOOGLE ADSENSE CODE */}
-            <div className="bg-yellow-500/20 rounded-lg p-4 text-center text-yellow-300 border-2 border-yellow-500/50">
-              <div className="h-24 flex items-center justify-center text-sm font-bold">
-                💻 DESKTOP TOP AD SPACE (728x90) - Replace with AdSense Code
-              </div>
-            </div>
-            {/* REPLACE ABOVE DIV WITH YOUR GOOGLE ADSENSE CODE */}
+            {/* PASTE YOUR AD SCRIPT HERE */}
+            <div dangerouslySetInnerHTML={{
+              __html: `
+                <script type="text/javascript">
+                  atOptions = {
+                    'key' : 'YOUR_AD_KEY_HERE',
+                    'format' : 'iframe',
+                    'height' : 90,
+                    'width' : 728,
+                    'params' : {}
+                  };
+                </script>
+                <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
+              `
+            }} />
+            {/* PASTE YOUR AD SCRIPT ABOVE */}
           </div>
           {/* ==================== DESKTOP TOP AD AREA - END ==================== */}
 

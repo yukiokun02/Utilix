@@ -723,14 +723,26 @@ export default function ColorPicker() {
           </CardContent>
         </Card>
 
-        {/* Bottom Ad */}
+        {/* ==================== BOTTOM AD AREA - START ==================== */}
         <div className="mt-8">
-          <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
-            <div className="h-20 sm:h-24 lg:h-28 flex items-center justify-center text-sm">
-              Bottom Ad Area (728x90 / 320x100)
-            </div>
-          </div>
+          {/* PASTE YOUR AD SCRIPT HERE */}
+          <div dangerouslySetInnerHTML={{
+            __html: `
+              <script type="text/javascript">
+                atOptions = {
+                  'key' : 'YOUR_AD_KEY_HERE',
+                  'format' : 'iframe',
+                  'height' : 90,
+                  'width' : 728,
+                  'params' : {}
+                };
+              </script>
+              <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
+            `
+          }} />
+          {/* PASTE YOUR AD SCRIPT ABOVE */}
         </div>
+        {/* ==================== BOTTOM AD AREA - END ==================== */}
       </div>
     </div>
   );

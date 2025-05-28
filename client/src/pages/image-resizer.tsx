@@ -580,35 +580,71 @@ export default function ImageTool() {
       <BackgroundShapes />
       
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Top Mobile Ad Banner */}
+        {/* ==================== MOBILE TOP AD AREA - START ==================== */}
         <div className="block lg:hidden mb-6">
-          <div className="bg-gray-800/30 rounded-lg p-3 text-center text-gray-400 border border-gray-600/30">
-            <div className="h-12 flex items-center justify-center text-xs">
-              Mobile Ad Space (320x50)
-            </div>
-          </div>
+          {/* PASTE YOUR AD SCRIPT HERE */}
+          <div dangerouslySetInnerHTML={{
+            __html: `
+              <script type="text/javascript">
+                atOptions = {
+                  'key' : 'YOUR_AD_KEY_HERE',
+                  'format' : 'iframe',
+                  'height' : 50,
+                  'width' : 320,
+                  'params' : {}
+                };
+              </script>
+              <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
+            `
+          }} />
+          {/* PASTE YOUR AD SCRIPT ABOVE */}
         </div>
+        {/* ==================== MOBILE TOP AD AREA - END ==================== */}
         
-        {/* Top Desktop Ad Banner */}
+        {/* ==================== DESKTOP TOP AD AREA - START ==================== */}
         <div className="hidden lg:block mb-6">
-          <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
-            <div className="h-24 flex items-center justify-center text-sm">
-              Desktop Ad Space (728x90)
-            </div>
-          </div>
+          {/* PASTE YOUR AD SCRIPT HERE */}
+          <div dangerouslySetInnerHTML={{
+            __html: `
+              <script type="text/javascript">
+                atOptions = {
+                  'key' : 'YOUR_AD_KEY_HERE',
+                  'format' : 'iframe',
+                  'height' : 90,
+                  'width' : 728,
+                  'params' : {}
+                };
+              </script>
+              <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
+            `
+          }} />
+          {/* PASTE YOUR AD SCRIPT ABOVE */}
         </div>
+        {/* ==================== DESKTOP TOP AD AREA - END ==================== */}
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Left Sidebar Ad (Desktop Only) */}
+          {/* ==================== LEFT SIDEBAR AD AREA - START ==================== */}
           <div className="hidden lg:block">
             <div className="sticky top-4">
-              <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
-                <div className="h-60 flex items-center justify-center text-xs">
-                  Sidebar Ad<br />160x600
-                </div>
-              </div>
+              {/* PASTE YOUR AD SCRIPT HERE */}
+              <div dangerouslySetInnerHTML={{
+                __html: `
+                  <script type="text/javascript">
+                    atOptions = {
+                      'key' : 'YOUR_AD_KEY_HERE',
+                      'format' : 'iframe',
+                      'height' : 600,
+                      'width' : 160,
+                      'params' : {}
+                    };
+                  </script>
+                  <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
+                `
+              }} />
+              {/* PASTE YOUR AD SCRIPT ABOVE */}
             </div>
           </div>
+          {/* ==================== LEFT SIDEBAR AD AREA - END ==================== */}
           
           {/* Main Content */}
           <div className="lg:col-span-2">
@@ -1249,36 +1285,72 @@ export default function ImageTool() {
           </CardContent>
         </Card>
 
-        {/* Mobile Bottom Ad */}
+        {/* ==================== MOBILE BOTTOM AD AREA - START ==================== */}
         <div className="block lg:hidden mt-8">
-          <div className="bg-gray-800/30 rounded-lg p-3 text-center text-gray-400 border border-gray-600/30">
-            <div className="h-12 flex items-center justify-center text-xs">
-              Mobile Bottom Ad (320x50)
-            </div>
-          </div>
+          {/* PASTE YOUR AD SCRIPT HERE */}
+          <div dangerouslySetInnerHTML={{
+            __html: `
+              <script type="text/javascript">
+                atOptions = {
+                  'key' : 'YOUR_AD_KEY_HERE',
+                  'format' : 'iframe',
+                  'height' : 50,
+                  'width' : 320,
+                  'params' : {}
+                };
+              </script>
+              <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
+            `
+          }} />
+          {/* PASTE YOUR AD SCRIPT ABOVE */}
         </div>
+        {/* ==================== MOBILE BOTTOM AD AREA - END ==================== */}
       </div>
       
-      {/* Right Sidebar Ad (Desktop Only) */}
+      {/* ==================== RIGHT SIDEBAR AD AREA - START ==================== */}
       <div className="hidden lg:block">
         <div className="sticky top-4">
-          <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
-            <div className="h-60 flex items-center justify-center text-xs">
-              Right Sidebar Ad<br />160x600
-            </div>
-          </div>
+          {/* PASTE YOUR AD SCRIPT HERE */}
+          <div dangerouslySetInnerHTML={{
+            __html: `
+              <script type="text/javascript">
+                atOptions = {
+                  'key' : 'YOUR_AD_KEY_HERE',
+                  'format' : 'iframe',
+                  'height' : 600,
+                  'width' : 160,
+                  'params' : {}
+                };
+              </script>
+              <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
+            `
+          }} />
+          {/* PASTE YOUR AD SCRIPT ABOVE */}
         </div>
       </div>
+      {/* ==================== RIGHT SIDEBAR AD AREA - END ==================== */}
     </div>
 
-        {/* Desktop Bottom Ad */}
+        {/* ==================== DESKTOP BOTTOM AD AREA - START ==================== */}
         <div className="hidden lg:block mt-8">
-          <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
-            <div className="h-24 flex items-center justify-center text-sm">
-              Bottom Desktop Ad (728x90)
-            </div>
-          </div>
+          {/* PASTE YOUR AD SCRIPT HERE */}
+          <div dangerouslySetInnerHTML={{
+            __html: `
+              <script type="text/javascript">
+                atOptions = {
+                  'key' : 'YOUR_AD_KEY_HERE',
+                  'format' : 'iframe',
+                  'height' : 90,
+                  'width' : 728,
+                  'params' : {}
+                };
+              </script>
+              <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
+            `
+          }} />
+          {/* PASTE YOUR AD SCRIPT ABOVE */}
         </div>
+        {/* ==================== DESKTOP BOTTOM AD AREA - END ==================== */}
       </div>
       
       {/* Download Popup with Ads and Timer */}
