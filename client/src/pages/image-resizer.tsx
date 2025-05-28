@@ -399,40 +399,41 @@ export default function ImageTool() {
       const ctx = canvas.getContext('2d')!;
       const img = cropImageRef.current;
       
-      // Get container and image bounds
-      const container = cropContainerRef.current!;
-      const containerRect = container.getBoundingClientRect();
-      const imgRect = img.getBoundingClientRect();
+      // Get the actual displayed image dimensions
+      const displayedWidth = img.offsetWidth;
+      const displayedHeight = img.offsetHeight;
       
-      // Calculate image position relative to container
-      const imageLeft = imgRect.left - containerRect.left;
-      const imageTop = imgRect.top - containerRect.top;
+      // Calculate the scale factor between displayed image and actual image
+      const scaleX = img.naturalWidth / displayedWidth;
+      const scaleY = img.naturalHeight / displayedHeight;
       
-      // Calculate actual crop position relative to the image
-      const cropX = (cropArea.x - imageLeft) / zoomLevel;
-      const cropY = (cropArea.y - imageTop) / zoomLevel;
-      const cropWidth = cropArea.width / zoomLevel;
-      const cropHeight = cropArea.height / zoomLevel;
+      // Convert crop area coordinates to actual image coordinates
+      const actualCropX = cropArea.x * scaleX;
+      const actualCropY = cropArea.y * scaleY;
+      const actualCropWidth = cropArea.width * scaleX;
+      const actualCropHeight = cropArea.height * scaleY;
       
-      // Calculate scaling factors from displayed size to natural size
-      const scaleX = img.naturalWidth / (imgRect.width / zoomLevel);
-      const scaleY = img.naturalHeight / (imgRect.height / zoomLevel);
+      // Ensure crop area is within image bounds
+      const clampedX = Math.max(0, Math.min(actualCropX, img.naturalWidth - 1));
+      const clampedY = Math.max(0, Math.min(actualCropY, img.naturalHeight - 1));
+      const clampedWidth = Math.max(1, Math.min(actualCropWidth, img.naturalWidth - clampedX));
+      const clampedHeight = Math.max(1, Math.min(actualCropHeight, img.naturalHeight - clampedY));
       
-      // Set canvas size to crop dimensions
-      canvas.width = cropWidth * scaleX;
-      canvas.height = cropHeight * scaleY;
+      // Set canvas size to the cropped dimensions
+      canvas.width = clampedWidth;
+      canvas.height = clampedHeight;
       
-      // Draw cropped portion
+      // Draw the cropped portion of the image
       ctx.drawImage(
         img,
-        cropX * scaleX,
-        cropY * scaleY,
-        cropWidth * scaleX,
-        cropHeight * scaleY,
+        clampedX,
+        clampedY,
+        clampedWidth,
+        clampedHeight,
         0,
         0,
-        canvas.width,
-        canvas.height
+        clampedWidth,
+        clampedHeight
       );
       
       // Convert to blob
