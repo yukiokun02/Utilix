@@ -6,6 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import BackgroundShapes from "@/components/background-shapes";
+import AdsterraAdMobile from "@/components/AdsterraAdMobile";
+import AdsterraAdDesktop from "@/components/AdsterraAdDesktop";
 import DownloadPopup from "@/components/download-popup";
 import { ArrowLeftIcon, FileArchiveIcon, PlusIcon, XIcon, DownloadIcon, LockIcon, PackageIcon, ArchiveIcon } from "lucide-react";
 import { Link } from "wouter";

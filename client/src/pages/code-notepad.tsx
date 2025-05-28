@@ -5,7 +5,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import BackgroundShapes from "@/components/background-shapes";
-import AdsterraAd from "@/components/AdsterraAd";
+import AdsterraAdMobile from "@/components/AdsterraAdMobile";
+import AdsterraAdDesktop from "@/components/AdsterraAdDesktop";
 import DownloadPopup from "@/components/download-popup";
 import { ArrowLeftIcon, SaveIcon, DownloadIcon, CopyIcon, FileTextIcon, PlusIcon, TrashIcon } from "lucide-react";
 import { Link } from "wouter";
@@ -209,12 +210,11 @@ export default function CodeNotepad() {
         </Card>
 
         {/* ==================== MIDDLE AD AREA - START ==================== */}
-        <div className="my-8">
-          <AdsterraAd 
-            adKey="9713846a01389bccb7945a5638e800ae"
-            width={728}
-            height={90}
-          />
+        <div className="my-8 flex justify-center">
+          <div className="w-full max-w-4xl">
+            <AdsterraAdMobile />
+            <AdsterraAdDesktop />
+          </div>
         </div>
         {/* ==================== MIDDLE AD AREA - END ==================== */}
 
