@@ -2,7 +2,8 @@ import { Button } from "@/components/ui/button";
 import ToolCard from "@/components/tool-card";
 import BackgroundShapes from "@/components/background-shapes";
 import EnderHostFooter from "@/components/enderhost-footer";
-import AdsterraAd from "@/components/AdsterraAd";
+import AdsterraAdMobile from "@/components/AdsterraAdMobile";
+import AdsterraAdDesktop from "@/components/AdsterraAdDesktop";
 import { 
   RocketIcon, 
   PlayIcon, 
@@ -28,42 +29,12 @@ export default function Home() {
         <BackgroundShapes variant="hero" />
         
         {/* ==================== MOBILE TOP AD AREA - START ==================== */}
-        <div className="absolute top-20 left-4 right-4 z-20 block lg:hidden">
-          <div dangerouslySetInnerHTML={{
-            __html: `
-              <script type="text/javascript">
-                atOptions = {
-                  'key' : '9713846a01389bccb7945a5638e800ae',
-                  'format' : 'iframe',
-                  'height' : 50,
-                  'width' : 320,
-                  'params' : {}
-                };
-              </script>
-              <script type="text/javascript" src="//www.highperformanceformat.com/9713846a01389bccb7945a5638e800ae/invoke.js"></script>
-            `
-          }} />
-        </div>
+        <AdsterraAdMobile />
         {/* ==================== MOBILE TOP AD AREA - END ==================== */}
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           {/* ==================== DESKTOP TOP AD AREA - START ==================== */}
-          <div className="hidden lg:block mb-8">
-            <div dangerouslySetInnerHTML={{
-              __html: `
-                <script type="text/javascript">
-                  atOptions = {
-                    'key' : '9713846a01389bccb7945a5638e800ae',
-                    'format' : 'iframe',
-                    'height' : 90,
-                    'width' : 728,
-                    'params' : {}
-                  };
-                </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/9713846a01389bccb7945a5638e800ae/invoke.js"></script>
-              `
-            }} />
-          </div>
+          <AdsterraAdDesktop />
           {/* ==================== DESKTOP TOP AD AREA - END ==================== */}
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 animate-fade-scale mt-32 lg:mt-0">
@@ -140,39 +111,13 @@ export default function Home() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* ==================== MOBILE MIDDLE AD AREA - START ==================== */}
           <div className="block lg:hidden mb-8">
-            <div dangerouslySetInnerHTML={{
-              __html: `
-                <script type="text/javascript">
-                  atOptions = {
-                    'key' : '9713846a01389bccb7945a5638e800ae',
-                    'format' : 'iframe',
-                    'height' : 50,
-                    'width' : 320,
-                    'params' : {}
-                  };
-                </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/9713846a01389bccb7945a5638e800ae/invoke.js"></script>
-              `
-            }} />
+            <AdsterraAdMobile />
           </div>
           {/* ==================== MOBILE MIDDLE AD AREA - END ==================== */}
           
           {/* ==================== DESKTOP MIDDLE AD AREA - START ==================== */}
           <div className="hidden lg:block mb-8">
-            <div dangerouslySetInnerHTML={{
-              __html: `
-                <script type="text/javascript">
-                  atOptions = {
-                    'key' : '9713846a01389bccb7945a5638e800ae',
-                    'format' : 'iframe',
-                    'height' : 90,
-                    'width' : 728,
-                    'params' : {}
-                  };
-                </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/9713846a01389bccb7945a5638e800ae/invoke.js"></script>
-              `
-            }} />
+            <AdsterraAdDesktop />
           </div>
           {/* ==================== DESKTOP MIDDLE AD AREA - END ==================== */}
           
