@@ -103,14 +103,26 @@ export default function Privacy() {
                 </p>
               </section>
 
-              {/* Middle Ad Between Sections */}
+              {/* ==================== MIDDLE AD AREA - START ==================== */}
               <div className="my-8">
-                <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
-                  <div className="h-20 sm:h-24 lg:h-28 flex items-center justify-center text-sm">
-                    Middle Ad Area (728x90 / 320x100)
-                  </div>
-                </div>
+                {/* PASTE YOUR AD SCRIPT HERE */}
+                <div dangerouslySetInnerHTML={{
+                  __html: `
+                    <script type="text/javascript">
+                      atOptions = {
+                        'key' : 'YOUR_AD_KEY_HERE',
+                        'format' : 'iframe',
+                        'height' : 90,
+                        'width' : 728,
+                        'params' : {}
+                      };
+                    </script>
+                    <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
+                  `
+                }} />
+                {/* PASTE YOUR AD SCRIPT ABOVE */}
               </div>
+              {/* ==================== MIDDLE AD AREA - END ==================== */}
 
               <section>
                 <h2 className="text-lg sm:text-xl font-bold mb-4 text-emerald-400">7. Changes to This Policy</h2>
@@ -129,14 +141,26 @@ export default function Privacy() {
           </CardContent>
         </Card>
 
-        {/* Bottom Ad */}
+        {/* ==================== BOTTOM AD AREA - START ==================== */}
         <div className="mt-8">
-          <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
-            <div className="h-20 sm:h-24 lg:h-28 flex items-center justify-center text-sm">
-              Bottom Ad Area (728x90 / 320x100)
-            </div>
-          </div>
+          {/* PASTE YOUR AD SCRIPT HERE */}
+          <div dangerouslySetInnerHTML={{
+            __html: `
+              <script type="text/javascript">
+                atOptions = {
+                  'key' : 'YOUR_AD_KEY_HERE',
+                  'format' : 'iframe',
+                  'height' : 90,
+                  'width' : 728,
+                  'params' : {}
+                };
+              </script>
+              <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
+            `
+          }} />
+          {/* PASTE YOUR AD SCRIPT ABOVE */}
         </div>
+        {/* ==================== BOTTOM AD AREA - END ==================== */}
       </div>
     </div>
   );

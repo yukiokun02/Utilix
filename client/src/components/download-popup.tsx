@@ -58,13 +58,26 @@ export default function DownloadPopup({ isOpen, onClose, onDownload, filename }:
         </DialogHeader>
         
         <div className="p-4 pt-2 space-y-4">
-          {/* Google AdSense Ad Space */}
-          <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-600/30">
-            <div className="text-center text-gray-400 text-xs mb-2">Advertisement</div>
-            <div className="bg-gray-700/30 rounded h-20 sm:h-24 flex items-center justify-center">
-              <span className="text-xs text-gray-500">Google AdSense (320x100)</span>
-            </div>
+          {/* ==================== TOP POPUP AD AREA - START ==================== */}
+          <div>
+            {/* PASTE YOUR AD SCRIPT HERE */}
+            <div dangerouslySetInnerHTML={{
+              __html: `
+                <script type="text/javascript">
+                  atOptions = {
+                    'key' : 'YOUR_AD_KEY_HERE',
+                    'format' : 'iframe',
+                    'height' : 100,
+                    'width' : 320,
+                    'params' : {}
+                  };
+                </script>
+                <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
+              `
+            }} />
+            {/* PASTE YOUR AD SCRIPT ABOVE */}
           </div>
+          {/* ==================== TOP POPUP AD AREA - END ==================== */}
 
           {/* Download Progress */}
           <div className="space-y-3">
@@ -85,13 +98,26 @@ export default function DownloadPopup({ isOpen, onClose, onDownload, filename }:
             )}
           </div>
 
-          {/* Adsterra Ad Space */}
-          <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-600/30">
-            <div className="text-center text-gray-400 text-xs mb-2">Advertisement</div>
-            <div className="bg-gray-700/30 rounded h-16 sm:h-20 flex items-center justify-center">
-              <span className="text-xs text-gray-500">Adsterra (300x75)</span>
-            </div>
+          {/* ==================== BOTTOM POPUP AD AREA - START ==================== */}
+          <div>
+            {/* PASTE YOUR AD SCRIPT HERE */}
+            <div dangerouslySetInnerHTML={{
+              __html: `
+                <script type="text/javascript">
+                  atOptions = {
+                    'key' : 'YOUR_AD_KEY_HERE',
+                    'format' : 'iframe',
+                    'height' : 75,
+                    'width' : 300,
+                    'params' : {}
+                  };
+                </script>
+                <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
+              `
+            }} />
+            {/* PASTE YOUR AD SCRIPT ABOVE */}
           </div>
+          {/* ==================== BOTTOM POPUP AD AREA - END ==================== */}
 
           {/* Download Button */}
           <Button

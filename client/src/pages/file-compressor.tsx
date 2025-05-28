@@ -176,14 +176,26 @@ export default function FileCompressor() {
     <div className="min-h-screen pt-20 relative">
       <BackgroundShapes />
       
-      {/* Top Ad Banner */}
+      {/* ==================== TOP AD AREA - START ==================== */}
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-        <div className="bg-gray-800/30 rounded-lg p-3 text-center text-gray-400 border border-gray-600/30 mb-6">
-          <div className="h-16 sm:h-20 flex items-center justify-center text-xs sm:text-sm">
-            Top Ad Banner (728x90 / 320x50)
-          </div>
-        </div>
+        {/* PASTE YOUR AD SCRIPT HERE */}
+        <div dangerouslySetInnerHTML={{
+          __html: `
+            <script type="text/javascript">
+              atOptions = {
+                'key' : 'YOUR_AD_KEY_HERE',
+                'format' : 'iframe',
+                'height' : 90,
+                'width' : 728,
+                'params' : {}
+              };
+            </script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
+          `
+        }} />
+        {/* PASTE YOUR AD SCRIPT ABOVE */}
       </div>
+      {/* ==================== TOP AD AREA - END ==================== */}
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 space-y-4 sm:space-y-0">
@@ -352,14 +364,26 @@ export default function FileCompressor() {
             </Card>
           </div>
 
-          {/* Middle Ad Between Compression Settings and Ready Compress */}
+          {/* ==================== MIDDLE AD AREA - START ==================== */}
           <div className="my-8">
-            <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
-              <div className="h-24 flex items-center justify-center text-sm">
-                Middle Ad Area (728x90)
-              </div>
-            </div>
+            {/* PASTE YOUR AD SCRIPT HERE */}
+            <div dangerouslySetInnerHTML={{
+              __html: `
+                <script type="text/javascript">
+                  atOptions = {
+                    'key' : 'YOUR_AD_KEY_HERE',
+                    'format' : 'iframe',
+                    'height' : 90,
+                    'width' : 728,
+                    'params' : {}
+                  };
+                </script>
+                <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
+              `
+            }} />
+            {/* PASTE YOUR AD SCRIPT ABOVE */}
           </div>
+          {/* ==================== MIDDLE AD AREA - END ==================== */}
 
           {/* Download Section */}
           <div className="space-y-6">
