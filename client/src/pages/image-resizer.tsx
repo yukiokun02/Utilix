@@ -9,6 +9,7 @@ import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BackgroundShapes from "@/components/background-shapes";
 import DownloadPopup from "@/components/download-popup";
+import AdsterraAd from "@/components/AdsterraAd";
 import { ArrowLeftIcon, CloudUploadIcon, DownloadIcon, XIcon, CropIcon, RotateCcwIcon, SquareIcon, RectangleHorizontalIcon, RectangleVerticalIcon, MonitorIcon, SmartphoneIcon, CreditCardIcon, BookOpenIcon, ImageIcon, Palette } from "lucide-react";
 import { Link } from "wouter";
 import { resizeImage, convertImage } from "@/lib/image-utils";
@@ -582,43 +583,21 @@ export default function ImageTool() {
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* ==================== MOBILE TOP AD AREA - START ==================== */}
         <div className="block lg:hidden mb-6">
-          {/* PASTE YOUR AD SCRIPT HERE */}
-          <div dangerouslySetInnerHTML={{
-            __html: `
-              <script type="text/javascript">
-                atOptions = {
-                  'key' : 'YOUR_AD_KEY_HERE',
-                  'format' : 'iframe',
-                  'height' : 50,
-                  'width' : 320,
-                  'params' : {}
-                };
-              </script>
-              <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
-            `
-          }} />
-          {/* PASTE YOUR AD SCRIPT ABOVE */}
+          <AdsterraAd 
+            adKey="9713846a01389bccb7945a5638e800ae"
+            width={320}
+            height={50}
+          />
         </div>
         {/* ==================== MOBILE TOP AD AREA - END ==================== */}
         
         {/* ==================== DESKTOP TOP AD AREA - START ==================== */}
         <div className="hidden lg:block mb-6">
-          {/* PASTE YOUR AD SCRIPT HERE */}
-          <div dangerouslySetInnerHTML={{
-            __html: `
-              <script type="text/javascript">
-                atOptions = {
-                  'key' : 'YOUR_AD_KEY_HERE',
-                  'format' : 'iframe',
-                  'height' : 90,
-                  'width' : 728,
-                  'params' : {}
-                };
-              </script>
-              <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
-            `
-          }} />
-          {/* PASTE YOUR AD SCRIPT ABOVE */}
+          <AdsterraAd 
+            adKey="9713846a01389bccb7945a5638e800ae"
+            width={728}
+            height={90}
+          />
         </div>
         {/* ==================== DESKTOP TOP AD AREA - END ==================== */}
 
@@ -626,22 +605,11 @@ export default function ImageTool() {
           {/* ==================== LEFT SIDEBAR AD AREA - START ==================== */}
           <div className="hidden lg:block">
             <div className="sticky top-4">
-              {/* PASTE YOUR AD SCRIPT HERE */}
-              <div dangerouslySetInnerHTML={{
-                __html: `
-                  <script type="text/javascript">
-                    atOptions = {
-                      'key' : 'YOUR_AD_KEY_HERE',
-                      'format' : 'iframe',
-                      'height' : 600,
-                      'width' : 160,
-                      'params' : {}
-                    };
-                  </script>
-                  <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
-                `
-              }} />
-              {/* PASTE YOUR AD SCRIPT ABOVE */}
+              <AdsterraAd 
+                adKey="9713846a01389bccb7945a5638e800ae"
+                width={160}
+                height={600}
+              />
             </div>
           </div>
           {/* ==================== LEFT SIDEBAR AD AREA - END ==================== */}
@@ -1287,22 +1255,11 @@ export default function ImageTool() {
 
         {/* ==================== MOBILE BOTTOM AD AREA - START ==================== */}
         <div className="block lg:hidden mt-8">
-          {/* PASTE YOUR AD SCRIPT HERE */}
-          <div dangerouslySetInnerHTML={{
-            __html: `
-              <script type="text/javascript">
-                atOptions = {
-                  'key' : 'YOUR_AD_KEY_HERE',
-                  'format' : 'iframe',
-                  'height' : 50,
-                  'width' : 320,
-                  'params' : {}
-                };
-              </script>
-              <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
-            `
-          }} />
-          {/* PASTE YOUR AD SCRIPT ABOVE */}
+          <AdsterraAd 
+            adKey="9713846a01389bccb7945a5638e800ae"
+            width={320}
+            height={50}
+          />
         </div>
         {/* ==================== MOBILE BOTTOM AD AREA - END ==================== */}
       </div>
@@ -1310,22 +1267,11 @@ export default function ImageTool() {
       {/* ==================== RIGHT SIDEBAR AD AREA - START ==================== */}
       <div className="hidden lg:block">
         <div className="sticky top-4">
-          {/* PASTE YOUR AD SCRIPT HERE */}
-          <div dangerouslySetInnerHTML={{
-            __html: `
-              <script type="text/javascript">
-                atOptions = {
-                  'key' : 'YOUR_AD_KEY_HERE',
-                  'format' : 'iframe',
-                  'height' : 600,
-                  'width' : 160,
-                  'params' : {}
-                };
-              </script>
-              <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
-            `
-          }} />
-          {/* PASTE YOUR AD SCRIPT ABOVE */}
+          <AdsterraAd 
+            adKey="9713846a01389bccb7945a5638e800ae"
+            width={160}
+            height={600}
+          />
         </div>
       </div>
       {/* ==================== RIGHT SIDEBAR AD AREA - END ==================== */}
@@ -1333,22 +1279,11 @@ export default function ImageTool() {
 
         {/* ==================== DESKTOP BOTTOM AD AREA - START ==================== */}
         <div className="hidden lg:block mt-8">
-          {/* PASTE YOUR AD SCRIPT HERE */}
-          <div dangerouslySetInnerHTML={{
-            __html: `
-              <script type="text/javascript">
-                atOptions = {
-                  'key' : 'YOUR_AD_KEY_HERE',
-                  'format' : 'iframe',
-                  'height' : 90,
-                  'width' : 728,
-                  'params' : {}
-                };
-              </script>
-              <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
-            `
-          }} />
-          {/* PASTE YOUR AD SCRIPT ABOVE */}
+          <AdsterraAd 
+            adKey="9713846a01389bccb7945a5638e800ae"
+            width={728}
+            height={90}
+          />
         </div>
         {/* ==================== DESKTOP BOTTOM AD AREA - END ==================== */}
       </div>

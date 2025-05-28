@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
 import { DownloadIcon, XIcon } from "lucide-react";
+import AdsterraAd from "@/components/AdsterraAd";
 
 interface DownloadPopupProps {
   isOpen: boolean;
