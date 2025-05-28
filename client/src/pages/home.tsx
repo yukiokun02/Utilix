@@ -125,25 +125,43 @@ export default function Home() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* ==================== MOBILE MIDDLE AD AREA - START ==================== */}
           <div className="block lg:hidden mb-8">
-            {/* REPLACE THIS ENTIRE DIV WITH YOUR GOOGLE ADSENSE CODE */}
-            <div className="bg-yellow-500/20 rounded-lg p-3 text-center text-yellow-300 border-2 border-yellow-500/50">
-              <div className="h-12 flex items-center justify-center text-xs font-bold">
-                📱 MOBILE MIDDLE AD (320x50) - Replace with AdSense Code
-              </div>
-            </div>
-            {/* REPLACE ABOVE DIV WITH YOUR GOOGLE ADSENSE CODE */}
+            <div 
+              dangerouslySetInnerHTML={{
+                __html: `
+                  <script type="text/javascript">
+                    atOptions = {
+                      'key' : '9713846a01389bccb7945a5638e800ae',
+                      'format' : 'iframe',
+                      'height' : 50,
+                      'width' : 320,
+                      'params' : {}
+                    };
+                  </script>
+                  <script type="text/javascript" src="//www.highperformanceformat.com/9713846a01389bccb7945a5638e800ae/invoke.js"></script>
+                `
+              }}
+            />
           </div>
           {/* ==================== MOBILE MIDDLE AD AREA - END ==================== */}
           
           {/* ==================== DESKTOP MIDDLE AD AREA - START ==================== */}
           <div className="hidden lg:block mb-8">
-            {/* REPLACE THIS ENTIRE DIV WITH YOUR GOOGLE ADSENSE CODE */}
-            <div className="bg-yellow-500/20 rounded-lg p-4 text-center text-yellow-300 border-2 border-yellow-500/50">
-              <div className="h-24 flex items-center justify-center text-sm font-bold">
-                💻 DESKTOP MIDDLE AD (728x90) - Replace with AdSense Code
-              </div>
-            </div>
-            {/* REPLACE ABOVE DIV WITH YOUR GOOGLE ADSENSE CODE */}
+            <div 
+              dangerouslySetInnerHTML={{
+                __html: `
+                  <script type="text/javascript">
+                    atOptions = {
+                      'key' : '9713846a01389bccb7945a5638e800ae',
+                      'format' : 'iframe',
+                      'height' : 90,
+                      'width' : 728,
+                      'params' : {}
+                    };
+                  </script>
+                  <script type="text/javascript" src="//www.highperformanceformat.com/9713846a01389bccb7945a5638e800ae/invoke.js"></script>
+                `
+              }}
+            />
           </div>
           {/* ==================== DESKTOP MIDDLE AD AREA - END ==================== */}
           
