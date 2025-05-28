@@ -180,22 +180,12 @@ export default function FileCompressor() {
       
       {/* ==================== TOP AD AREA - START ==================== */}
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-        {/* PASTE YOUR AD SCRIPT HERE */}
-        <div dangerouslySetInnerHTML={{
-          __html: `
-            <script type="text/javascript">
-              atOptions = {
-                'key' : 'YOUR_AD_KEY_HERE',
-                'format' : 'iframe',
-                'height' : 90,
-                'width' : 728,
-                'params' : {}
-              };
-            </script>
-            <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
-          `
-        }} />
-        {/* PASTE YOUR AD SCRIPT ABOVE */}
+        <div className="mb-6 flex justify-center">
+          <div className="w-full max-w-4xl">
+            <AdsterraAdMobile />
+            <AdsterraAdDesktop />
+          </div>
+        </div>
       </div>
       {/* ==================== TOP AD AREA - END ==================== */}
 
