@@ -53,8 +53,7 @@ sudo apt install postgresql postgresql-contrib -y
 # Install Nginx (web server)
 sudo apt install nginx -y
 
-# Install PM2 (process manager)
-sudo npm install -g pm2
+# No additional process managers needed
 
 # Install Git
 sudo apt install git -y
@@ -106,15 +105,40 @@ npm run build
 ### Step 5: Start Application
 
 ```bash
-# Start the application with PM2
-pm2 start ecosystem.config.js
+# Start the application in background
+nohup npm start > utilitix.log 2>&1 &
 
-# Save PM2 configuration
-pm2 save
+# Or create a simple systemd service (recommended)
+sudo nano /etc/systemd/system/utilitix.service
+```
 
-# Setup PM2 to start on boot
-pm2 startup
-# Follow the command it gives you
+Add this content to the service file:
+
+```ini
+[Unit]
+Description=Utilitix Web Application
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/var/www/utilitix
+ExecStart=/usr/bin/node server/index.js
+Restart=always
+RestartSec=10
+Environment=NODE_ENV=production
+Environment=PORT=3000
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Then enable and start the service:
+
+```bash
+sudo systemctl enable utilitix
+sudo systemctl start utilitix
+sudo systemctl status utilitix
 ```
 
 ### Step 6: Configure Nginx
@@ -168,7 +192,7 @@ sudo certbot --nginx -d your-domain.com -d www.your-domain.com
 
 ### Step 8: Verify Deployment
 
-1. Check if the application is running: `pm2 status`
+1. Check if the application is running: `sudo systemctl status utilitix`
 2. Check Nginx status: `sudo systemctl status nginx`
 3. Visit your domain in a browser
 
@@ -181,20 +205,20 @@ cd /var/www/utilitix
 git pull origin main
 npm install
 npm run build
-pm2 restart utilitix
+sudo systemctl restart utilitix
 ```
 
 ### Monitor Application
 
 ```bash
 # View logs
-pm2 logs utilitix
+sudo journalctl -u utilitix -f
 
-# Monitor status
-pm2 monit
+# Check status
+sudo systemctl status utilitix
 
 # Restart application
-pm2 restart utilitix
+sudo systemctl restart utilitix
 ```
 
 ### Database Management
