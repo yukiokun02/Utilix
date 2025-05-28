@@ -5,6 +5,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import BackgroundShapes from "@/components/background-shapes";
+import AdsterraAdMobile from "@/components/AdsterraAdMobile";
+import AdsterraAdDesktop from "@/components/AdsterraAdDesktop";
 import DownloadPopup from "@/components/download-popup";
 import { ArrowLeftIcon, TypeIcon, CopyIcon, CodeIcon, DownloadIcon } from "lucide-react";
 import { Link } from "wouter";
@@ -476,22 +478,8 @@ letter-spacing: ${letterSpacing[0]}px;`;
 
         {/* ==================== BOTTOM AD AREA - START ==================== */}
         <div className="mt-8">
-          {/* PASTE YOUR AD SCRIPT HERE */}
-          <div dangerouslySetInnerHTML={{
-            __html: `
-              <script type="text/javascript">
-                atOptions = {
-                  'key' : 'YOUR_AD_KEY_HERE',
-                  'format' : 'iframe',
-                  'height' : 90,
-                  'width' : 728,
-                  'params' : {}
-                };
-              </script>
-              <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
-            `
-          }} />
-          {/* PASTE YOUR AD SCRIPT ABOVE */}
+          <AdsterraAdMobile />
+          <AdsterraAdDesktop />
         </div>
         {/* ==================== BOTTOM AD AREA - END ==================== */}
       </div>
