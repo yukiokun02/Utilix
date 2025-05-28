@@ -26,8 +26,8 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Serve static files from dist directory
-app.use(express.static(path.join(__dirname, '../dist'), {
+// Serve static files from dist/public directory
+app.use(express.static(path.join(__dirname, '../dist/public'), {
   maxAge: '1y',
   etag: false
 }));
@@ -49,7 +49,7 @@ app.get('*', (req, res) => {
   }
   
   // Serve React app for all other routes (handles /color-picker, /image-converter, etc.)
-  res.sendFile(path.join(__dirname, '../dist/index.html'), (err) => {
+  res.sendFile(path.join(__dirname, '../dist/public/index.html'), (err) => {
     if (err) {
       console.error('Error serving index.html:', err);
       res.status(500).send('Server Error');
