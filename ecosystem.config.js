@@ -1,15 +1,10 @@
 module.exports = {
   apps: [{
     name: 'utilitix',
-    script: 'server/index.js',
-    cwd: '/var/www/utilitix',
-    instances: 'max',
-    exec_mode: 'cluster',
+    script: './dist/server/index.js',
+    instances: 1,
+    exec_mode: 'fork',
     env: {
-      NODE_ENV: 'development',
-      PORT: 3000
-    },
-    env_production: {
       NODE_ENV: 'production',
       PORT: 3000
     },
@@ -18,6 +13,9 @@ module.exports = {
     log_file: './logs/combined.log',
     time: true,
     max_memory_restart: '1G',
+    restart_delay: 4000,
+    watch: false,
+    ignore_watch: ['node_modules', 'logs'],
     node_args: '--max-old-space-size=1024'
   }]
 };

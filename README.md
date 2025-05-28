@@ -112,6 +112,9 @@ DATABASE_URL=postgresql://utilitix_user:your_secure_password_here@localhost:5432
 ### Step 6: Setup Database Schema
 
 ```bash
+# Set DATABASE_URL environment variable for the current session
+export DATABASE_URL="postgresql://utilitix_user:your_secure_password_here@localhost:5432/utilitix"
+
 # Push database schema
 npm run db:push
 ```
@@ -156,15 +159,18 @@ sudo systemctl restart nginx
 ### Step 8: Start Application with PM2
 
 ```bash
+# First, build the application for production
+npm run build
+
 # Start the application
-pm2 start ecosystem.config.js
+pm2 start ecosystem.config.js --env production
 
 # Save PM2 configuration
 pm2 save
 
 # Setup PM2 to start on boot
 pm2 startup
-# Follow the command it gives you
+# Follow the command it gives you (copy and run the generated command)
 ```
 
 ### Step 9: Setup SSL Certificate (Optional but Recommended)
@@ -195,6 +201,7 @@ git pull origin main
 npm install
 npm run build
 pm2 restart utilitix
+pm2 save
 ```
 
 ### Monitor Application
