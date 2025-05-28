@@ -209,23 +209,21 @@ export default function ImageTool() {
       
       <div className="relative z-10 container mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center space-x-4">
-            <Link href="/">
-              <Button variant="ghost" size="sm" className="text-white hover:bg-white/10">
-                <ArrowLeftIcon className="w-4 h-4 mr-2" />
-                Back to Home
-              </Button>
-            </Link>
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                <ImageIcon className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-white">Image Resizer</h1>
-                <p className="text-purple-200">Resize, convert and optimize your images</p>
-              </div>
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <ImageIcon className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-white">Image Resizer</h1>
+              <p className="text-purple-200">Resize, convert and optimize your images</p>
             </div>
           </div>
+          <Link href="/">
+            <Button variant="ghost" size="sm" className="text-white hover:bg-white/10 rounded-xl">
+              <ArrowLeftIcon className="w-4 h-4 mr-2" />
+              Back to Home
+            </Button>
+          </Link>
         </div>
 
         {/* Top Ad Space */}
@@ -264,13 +262,6 @@ export default function ImageTool() {
           </Card>
         ) : (
           <div className="space-y-6">
-            {/* Middle Ad Space */}
-            <div className="flex justify-center">
-              <div className="w-full max-w-4xl h-20 bg-gray-800/50 rounded-lg border border-gray-700 flex items-center justify-center">
-                <span className="text-gray-400 text-sm">Advertisement Space</span>
-              </div>
-            </div>
-
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="grid grid-cols-3 bg-card">
                 <TabsTrigger value="resize" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
@@ -335,7 +326,7 @@ export default function ImageTool() {
                         <Checkbox
                           id="maintain-ratio"
                           checked={maintainRatio}
-                          onCheckedChange={setMaintainRatio}
+                          onCheckedChange={(checked) => setMaintainRatio(checked === true)}
                         />
                         <Label htmlFor="maintain-ratio" className="text-foreground">Maintain aspect ratio</Label>
                       </div>
@@ -360,6 +351,13 @@ export default function ImageTool() {
                       </Button>
                     </CardContent>
                   </Card>
+                </div>
+
+                {/* Middle Ad Space */}
+                <div className="flex justify-center my-8">
+                  <div className="w-full max-w-4xl h-20 bg-gray-800/50 rounded-lg border border-gray-700 flex items-center justify-center">
+                    <span className="text-gray-400 text-sm">Advertisement Space</span>
+                  </div>
                 </div>
 
                 {resizedUrl && (
@@ -430,6 +428,7 @@ export default function ImageTool() {
                   <Card className="solid-card">
                     <CardHeader>
                       <CardTitle className="text-foreground">Converted Result</CardTitle>
+                      <p className="text-muted-foreground">Format: {outputFormat.toUpperCase()}</p>
                     </CardHeader>
                     <CardContent>
                       <div className="border border-border rounded-xl p-4 bg-background mb-4">
@@ -501,6 +500,7 @@ export default function ImageTool() {
                   <Card className="solid-card">
                     <CardHeader>
                       <CardTitle className="text-foreground">Optimized Result</CardTitle>
+                      <p className="text-muted-foreground">Quality: {qualitySlider}% • Target: {targetSizeSlider} KB</p>
                     </CardHeader>
                     <CardContent>
                       <div className="border border-border rounded-xl p-4 bg-background mb-4">
