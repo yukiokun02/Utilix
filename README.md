@@ -98,70 +98,26 @@ cd utilitix
 # Set proper permissions
 sudo chown -R $USER:$USER /var/www/utilitix
 
-# Install dependencies
+# Install dependencies and build
 npm install
-
-# Build the project
 npm run build
 ```
 
-### Step 5: Environment Configuration
-
-Create environment file:
+### Step 5: Start Application
 
 ```bash
-sudo nano .env.production
+# Start the application with PM2
+pm2 start ecosystem.config.js
+
+# Save PM2 configuration
+pm2 save
+
+# Setup PM2 to start on boot
+pm2 startup
+# Follow the command it gives you
 ```
 
-Add these variables (replace with your actual values):
-
-```env
-NODE_ENV=production
-PORT=3000
-DATABASE_URL=postgresql://utilitix_user:your_secure_password_here@localhost:5432/utilitix
-```
-
-### Step 6: Setup Database Schema
-
-```bash
-# First, test the database connection
-sudo -u postgres psql -d utilitix -c "\dt"
-
-# Set DATABASE_URL environment variable (replace with YOUR actual password)
-export DATABASE_URL="postgresql://utilitix_user:your_secure_password_here@localhost:5432/utilitix"
-
-# Test connection with psql directly
-psql "$DATABASE_URL" -c "\dt"
-
-# If connection works, push database schema
-npm run db:push
-```
-
-**Troubleshooting Database Connection:**
-
-If you get authentication errors, try these steps:
-
-1. **Reset the user password:**
-```bash
-sudo -u postgres psql
-ALTER USER utilitix_user WITH PASSWORD 'new_password_here';
-\q
-```
-
-2. **Check PostgreSQL authentication:**
-```bash
-sudo nano /etc/postgresql/*/main/pg_hba.conf
-# Ensure this line exists:
-# local   all             all                                     peer
-# host    all             all             127.0.0.1/32            md5
-```
-
-3. **Restart PostgreSQL:**
-```bash
-sudo systemctl restart postgresql
-```
-
-### Step 7: Configure Nginx
+### Step 6: Configure Nginx
 
 Create Nginx configuration:
 
@@ -198,24 +154,7 @@ sudo nginx -t
 sudo systemctl restart nginx
 ```
 
-### Step 8: Start Application with PM2
-
-```bash
-# First, build the application for production
-npm run build
-
-# Start the application
-pm2 start ecosystem.config.js --env production
-
-# Save PM2 configuration
-pm2 save
-
-# Setup PM2 to start on boot
-pm2 startup
-# Follow the command it gives you (copy and run the generated command)
-```
-
-### Step 9: Setup SSL Certificate (Optional but Recommended)
+### Step 7: Setup SSL Certificate (Optional but Recommended)
 
 ```bash
 # Install Certbot
@@ -227,7 +166,7 @@ sudo snap install --classic certbot
 sudo certbot --nginx -d your-domain.com -d www.your-domain.com
 ```
 
-### Step 10: Verify Deployment
+### Step 8: Verify Deployment
 
 1. Check if the application is running: `pm2 status`
 2. Check Nginx status: `sudo systemctl status nginx`
@@ -243,7 +182,6 @@ git pull origin main
 npm install
 npm run build
 pm2 restart utilitix
-pm2 save
 ```
 
 ### Monitor Application
