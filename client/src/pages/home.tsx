@@ -109,17 +109,16 @@ export default function Home() {
         <BackgroundShapes variant="tools" />
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* ==================== MOBILE MIDDLE AD AREA - START ==================== */}
-          <div className="block lg:hidden mb-8">
-            <AdsterraAdMobile />
+          {/* ==================== MIDDLE AD AREA - START ==================== */}
+          <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+            <div className="mb-6 flex justify-center">
+              <div className="w-full max-w-4xl">
+                <AdsterraAdMobile />
+                <AdsterraAdDesktop />
+              </div>
+            </div>
           </div>
-          {/* ==================== MOBILE MIDDLE AD AREA - END ==================== */}
-          
-          {/* ==================== DESKTOP MIDDLE AD AREA - START ==================== */}
-          <div className="hidden lg:block mb-8">
-            <AdsterraAdDesktop />
-          </div>
-          {/* ==================== DESKTOP MIDDLE AD AREA - END ==================== */}
+          {/* ==================== MIDDLE AD AREA - END ==================== */}
           
           <div className="text-center mb-8 sm:mb-12 md:mb-16">
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">

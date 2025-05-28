@@ -2,6 +2,8 @@ import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import BackgroundShapes from "@/components/background-shapes";
+import AdsterraAdMobile from "@/components/AdsterraAdMobile";
+import AdsterraAdDesktop from "@/components/AdsterraAdDesktop";
 import DownloadPopup from "@/components/download-popup";
 import { ArrowLeftIcon, ImageIcon, DownloadIcon, FileImageIcon, PaletteIcon, ZapIcon } from "lucide-react";
 import { Link } from "wouter";

@@ -1254,25 +1254,38 @@ export default function ImageTool() {
           </CardContent>
         </Card>
 
-        {/* ==================== MOBILE BOTTOM AD AREA - START ==================== */}
-        <div className="block lg:hidden mt-8">
-          <AdsterraAdMobile />
+        {/* ==================== BOTTOM AD AREA - START ==================== */}
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+          <div className="mb-6 flex justify-center">
+            <div className="w-full max-w-4xl">
+              <AdsterraAdMobile />
+              <AdsterraAdDesktop />
+            </div>
+          </div>
         </div>
-        {/* ==================== MOBILE BOTTOM AD AREA - END ==================== */}
+        {/* ==================== BOTTOM AD AREA - END ==================== */}
       </div>
       
       {/* ==================== RIGHT SIDEBAR AD AREA - START ==================== */}
-      <div className="hidden lg:block">
-        <div className="sticky top-4">
-          <AdsterraAdDesktop />
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <div className="mb-6 flex justify-center">
+          <div className="w-full max-w-4xl">
+            <AdsterraAdMobile />
+            <AdsterraAdDesktop />
+          </div>
         </div>
       </div>
       {/* ==================== RIGHT SIDEBAR AD AREA - END ==================== */}
     </div>
 
         {/* ==================== DESKTOP BOTTOM AD AREA - START ==================== */}
-        <div className="hidden lg:block mt-8">
-          <AdsterraAdDesktop />
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+          <div className="mb-6 flex justify-center">
+            <div className="w-full max-w-4xl">
+              <AdsterraAdMobile />
+              <AdsterraAdDesktop />
+            </div>
+          </div>
         </div>
         {/* ==================== DESKTOP BOTTOM AD AREA - END ==================== */}
       </div>
