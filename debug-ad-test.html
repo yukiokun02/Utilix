@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ad Debug Test</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>Ad Debug Test</h1>
+    
+    <!-- Test your exact ad code here -->
+    <div id="test-ad">
+        <script type="text/javascript">
+            console.log('Ad script starting...');
+            atOptions = {
+                'key' : '9713846a01389bccb7945a5638e800ae',
+                'format' : 'iframe',
+                'height' : 50,
+                'width' : 320,
+                'params' : {}
+            };
+            console.log('atOptions set:', atOptions);
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/9713846a01389bccb7945a5638e800ae/invoke.js"></script>
+    </div>
+    
+    <script>
+        // Debug logging
+        console.log('Page loaded');
+        setTimeout(() => {
+            console.log('Checking for ad content after 3 seconds...');
+            const adDiv = document.getElementById('test-ad');
+            console.log('Ad div content:', adDiv.innerHTML);
+            console.log('Ad div children:', adDiv.children.length);
+        }, 3000);
+    </script>
+</body>
+</html>

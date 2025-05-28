@@ -143,22 +143,24 @@ export default function Home() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* ==================== MOBILE MIDDLE AD AREA - START ==================== */}
           <div className="block lg:hidden mb-8">
-            <div 
-              dangerouslySetInnerHTML={{
-                __html: `
-                  <script type="text/javascript">
-                    atOptions = {
-                      'key' : '9713846a01389bccb7945a5638e800ae',
-                      'format' : 'iframe',
-                      'height' : 50,
-                      'width' : 320,
-                      'params' : {}
-                    };
-                  </script>
-                  <script type="text/javascript" src="//www.highperformanceformat.com/9713846a01389bccb7945a5638e800ae/invoke.js"></script>
-                `
-              }}
-            />
+            <div id="mobile-ad-1" style={{minHeight: '50px', width: '320px', margin: '0 auto'}}>
+              <script type="text/javascript">
+                {`
+                  window.atOptions_mobile_1 = {
+                    'key' : '9713846a01389bccb7945a5638e800ae',
+                    'format' : 'iframe',
+                    'height' : 50,
+                    'width' : 320,
+                    'params' : {}
+                  };
+                `}
+              </script>
+              <script 
+                type="text/javascript" 
+                src="//www.highperformanceformat.com/9713846a01389bccb7945a5638e800ae/invoke.js"
+                defer
+              />
+            </div>
           </div>
           {/* ==================== MOBILE MIDDLE AD AREA - END ==================== */}
           
