@@ -15,7 +15,6 @@ import FileCompressor from "@/pages/file-compressor";
 import FontChanger from "@/pages/font-changer";
 import CodeNotepad from "@/pages/code-notepad";
 import ColorPicker from "@/pages/color-picker";
-import TempEmail from "@/pages/temp-email";
 import About from "@/pages/about";
 import Terms from "@/pages/terms";
 import Privacy from "@/pages/privacy";
@@ -53,7 +52,6 @@ function Router() {
           <Route path="/font-changer" component={FontChanger} />
           <Route path="/code-notepad" component={CodeNotepad} />
           <Route path="/color-picker" component={ColorPicker} />
-          <Route path="/temp-email" component={TempEmail} />
           <Route path="/about" component={About} />
           <Route path="/terms" component={Terms} />
           <Route path="/privacy" component={Privacy} />

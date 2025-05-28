@@ -69,7 +69,7 @@ export default function Home() {
           <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6 max-w-4xl mx-auto px-4">
             <div className="flex items-center space-x-3 bg-gray-800/50 rounded-lg px-4 py-3 border border-gray-700/50 hover:border-emerald-500/50 transition-all duration-300 hover:scale-105 animate-slide-up stagger-1">
               <div className="w-8 h-8 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 flex items-center justify-center">
-                <span className="text-white text-sm font-bold">8+</span>
+                <span className="text-white text-sm font-bold">7+</span>
               </div>
               <div>
                 <h3 className="text-sm font-bold text-white">Tools Available</h3>
@@ -198,16 +198,6 @@ export default function Home() {
             </div>
             
             <div className="animate-slide-up stagger-6 hover-lift">
-              <ToolCard
-                title="Temp Email"
-                description="Generate temporary email addresses for privacy and testing"
-                icon={MailIcon}
-                href="/temp-email"
-                gradient="from-green-500 to-emerald-600"
-              />
-            </div>
-            
-            <div className="animate-slide-up stagger-7 hover-lift">
               <ToolCard
                 title="Color Picker"
                 description="Pick and convert colors in HEX, RGB, HSL, HSV, and CMYK formats"

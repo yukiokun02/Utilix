@@ -15,7 +15,6 @@ export default function Navigation() {
     { name: "Text Editor", icon: CodeIcon, href: "/code-notepad" },
     { name: "File Compressor", icon: RefreshCwIcon, href: "/file-compressor" },
     { name: "Color Picker", icon: MoreVerticalIcon, href: "/color-picker" },
-    { name: "Temp Email", icon: MailIcon, href: "/temp-email" },
   ];
 
   return (

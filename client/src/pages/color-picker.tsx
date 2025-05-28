@@ -34,7 +34,7 @@ export default function ColorPicker() {
     htmlName: ""
   });
   
-  const [pickerMode, setPickerMode] = useState<'palette' | 'wheel'>('palette');
+  const [pickerMode, setPickerMode] = useState<'spectrum' | 'palette'>('spectrum');
   const [isDragging, setIsDragging] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const { toast } = useToast();
@@ -335,20 +335,20 @@ export default function ColorPicker() {
             {/* Picker Mode Toggle */}
             <div className="flex gap-4">
               <Button
+                variant={pickerMode === 'spectrum' ? 'default' : 'outline'}
+                onClick={() => setPickerMode('spectrum')}
+                className="flex items-center gap-2"
+              >
+                <PaletteIcon className="w-4 h-4" />
+                Spectrum
+              </Button>
+              <Button
                 variant={pickerMode === 'palette' ? 'default' : 'outline'}
                 onClick={() => setPickerMode('palette')}
                 className="flex items-center gap-2"
               >
-                <PaletteIcon className="w-4 h-4" />
-                Palette Mode
-              </Button>
-              <Button
-                variant={pickerMode === 'wheel' ? 'default' : 'outline'}
-                onClick={() => setPickerMode('wheel')}
-                className="flex items-center gap-2"
-              >
                 <CircleIcon className="w-4 h-4" />
-                Wheel Mode
+                Palette
               </Button>
             </div>
 
@@ -358,7 +358,7 @@ export default function ColorPicker() {
                 <CardTitle className="text-foreground">Color Picker</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                {pickerMode === 'palette' ? (
+                {pickerMode === 'spectrum' ? (
                   <div className="space-y-4">
                     {/* Color Palette */}
                     <div className="relative">
@@ -407,11 +407,55 @@ export default function ColorPicker() {
                     </div>
                   </div>
                 ) : (
-                  /* Color Wheel Mode */
-                  <div className="flex items-center justify-center">
-                    <div className="w-64 h-64 rounded-full border border-border bg-gradient-conic from-red-500 via-yellow-500 via-green-500 via-cyan-500 via-blue-500 via-purple-500 to-red-500 cursor-crosshair relative">
-                      <div className="absolute inset-4 rounded-full bg-white"></div>
-                      <div className="absolute inset-8 rounded-full" style={{ backgroundColor: currentColor.hex }}></div>
+                  /* Honeycomb Palette Mode */
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-foreground">Color Palette</h3>
+                    <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 gap-2">
+                      {Array.from({ length: 60 }, (_, i) => {
+                        const hue = (i * 6) % 360;
+                        const saturation = 70 + (i % 3) * 15;
+                        const lightness = 40 + (i % 4) * 15;
+                        const color = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+                        return (
+                          <div
+                            key={i}
+                            className="w-8 h-8 rounded-md cursor-pointer border-2 border-transparent hover:border-white transition-all duration-200 hover:scale-110"
+                            style={{ backgroundColor: color }}
+                            onClick={() => {
+                              // Convert HSL to RGB
+                              const h = hue / 360;
+                              const s = saturation / 100;
+                              const l = lightness / 100;
+                              
+                              let r, g, b;
+                              if (s === 0) {
+                                r = g = b = l;
+                              } else {
+                                const hue2rgb = (p: number, q: number, t: number) => {
+                                  if (t < 0) t += 1;
+                                  if (t > 1) t -= 1;
+                                  if (t < 1/6) return p + (q - p) * 6 * t;
+                                  if (t < 1/2) return q;
+                                  if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                                  return p;
+                                };
+                                
+                                const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                                const p = 2 * l - q;
+                                r = hue2rgb(p, q, h + 1/3);
+                                g = hue2rgb(p, q, h);
+                                b = hue2rgb(p, q, h - 1/3);
+                              }
+                              
+                              updateAllFormats({
+                                r: Math.round(r * 255),
+                                g: Math.round(g * 255),
+                                b: Math.round(b * 255)
+                              });
+                            }}
+                          />
+                        );
+                      })}
                     </div>
                   </div>
                 )}
