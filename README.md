@@ -124,11 +124,41 @@ DATABASE_URL=postgresql://utilitix_user:your_secure_password_here@localhost:5432
 ### Step 6: Setup Database Schema
 
 ```bash
-# Set DATABASE_URL environment variable for the current session
+# First, test the database connection
+sudo -u postgres psql -d utilitix -c "\dt"
+
+# Set DATABASE_URL environment variable (replace with YOUR actual password)
 export DATABASE_URL="postgresql://utilitix_user:your_secure_password_here@localhost:5432/utilitix"
 
-# Push database schema
+# Test connection with psql directly
+psql "$DATABASE_URL" -c "\dt"
+
+# If connection works, push database schema
 npm run db:push
+```
+
+**Troubleshooting Database Connection:**
+
+If you get authentication errors, try these steps:
+
+1. **Reset the user password:**
+```bash
+sudo -u postgres psql
+ALTER USER utilitix_user WITH PASSWORD 'new_password_here';
+\q
+```
+
+2. **Check PostgreSQL authentication:**
+```bash
+sudo nano /etc/postgresql/*/main/pg_hba.conf
+# Ensure this line exists:
+# local   all             all                                     peer
+# host    all             all             127.0.0.1/32            md5
+```
+
+3. **Restart PostgreSQL:**
+```bash
+sudo systemctl restart postgresql
 ```
 
 ### Step 7: Configure Nginx
