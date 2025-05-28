@@ -36,7 +36,9 @@ export default function ColorPicker() {
   
   const [pickerMode, setPickerMode] = useState<'spectrum' | 'palette'>('spectrum');
   const [isDragging, setIsDragging] = useState(false);
+  const [isHueDragging, setIsHueDragging] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const [hueSliderPosition, setHueSliderPosition] = useState(0);
   const { toast } = useToast();
   
   const paletteRef = useRef<HTMLDivElement>(null);
@@ -186,12 +188,14 @@ export default function ColorPicker() {
     });
   }, [currentColor.hsl.h, updateAllFormats]);
 
-  const handleHueChange = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+  const handleHueChange = useCallback((clientX: number) => {
     if (!hueSliderRef.current) return;
     
     const rect = hueSliderRef.current.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const hue = Math.min(360, Math.max(0, (x / rect.width) * 360));
+    const x = Math.max(0, Math.min(rect.width, clientX - rect.left));
+    const hue = (x / rect.width) * 360;
+    
+    setHueSliderPosition(x);
     
     // Update with new hue, keeping current saturation and lightness
     const h = hue / 360;
@@ -226,6 +230,17 @@ export default function ColorPicker() {
     });
   }, [currentColor.hsl.s, currentColor.hsl.l, updateAllFormats]);
 
+  const handleHueMouseDown = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+    setIsHueDragging(true);
+    handleHueChange(event.clientX);
+  }, [handleHueChange]);
+
+  const handleHueTouchStart = useCallback((event: React.TouchEvent<HTMLDivElement>) => {
+    setIsHueDragging(true);
+    const touch = event.touches[0];
+    handleHueChange(touch.clientX);
+  }, [handleHueChange]);
+
   const handleCopyToClipboard = useCallback(async (text: string, label: string) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -257,30 +272,56 @@ export default function ColorPicker() {
 
   // Touch event handlers for mobile support
   const handleTouchMove = useCallback((event: TouchEvent) => {
-    if (!isDragging) return;
+    if (!isDragging && !isHueDragging) return;
     event.preventDefault();
     
     const touch = event.touches[0];
-    if (paletteRef.current?.contains(event.target as Node)) {
+    
+    if (isDragging && paletteRef.current?.contains(event.target as Node)) {
       const rect = paletteRef.current.getBoundingClientRect();
       const x = touch.clientX - rect.left;
       const y = touch.clientY - rect.top;
       setCursorPosition({ x, y });
-      // Handle palette color selection
     }
-  }, [isDragging]);
+    
+    if (isHueDragging) {
+      handleHueChange(touch.clientX);
+    }
+  }, [isDragging, isHueDragging, handleHueChange]);
+
+  const handleMouseMove = useCallback((event: MouseEvent) => {
+    if (isHueDragging) {
+      handleHueChange(event.clientX);
+    }
+  }, [isHueDragging, handleHueChange]);
 
   useEffect(() => {
-    if (isDragging) {
+    if (isDragging || isHueDragging) {
       document.addEventListener('touchmove', handleTouchMove, { passive: false });
-      document.addEventListener('touchend', () => setIsDragging(false));
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('touchend', () => {
+        setIsDragging(false);
+        setIsHueDragging(false);
+      });
+      document.addEventListener('mouseup', () => {
+        setIsDragging(false);
+        setIsHueDragging(false);
+      });
       
       return () => {
         document.removeEventListener('touchmove', handleTouchMove);
-        document.removeEventListener('touchend', () => setIsDragging(false));
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('touchend', () => {
+          setIsDragging(false);
+          setIsHueDragging(false);
+        });
+        document.removeEventListener('mouseup', () => {
+          setIsDragging(false);
+          setIsHueDragging(false);
+        });
       };
     }
-  }, [isDragging, handleTouchMove]);
+  }, [isDragging, isHueDragging, handleTouchMove, handleMouseMove]);
 
   return (
     <div className="min-h-screen pt-20 relative">
@@ -396,14 +437,25 @@ export default function ColorPicker() {
                     {/* Hue Slider */}
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-foreground">Hue</label>
-                      <div
-                        ref={hueSliderRef}
-                        className="w-full h-6 rounded-lg cursor-pointer border border-border"
-                        style={{
-                          background: 'linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000)',
-                        }}
-                        onClick={handleHueChange}
-                      />
+                      <div className="relative">
+                        <div
+                          ref={hueSliderRef}
+                          className="w-full h-6 rounded-lg cursor-pointer border border-border relative"
+                          style={{
+                            background: 'linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000)',
+                          }}
+                          onMouseDown={handleHueMouseDown}
+                          onTouchStart={handleHueTouchStart}
+                        >
+                          {/* Slider Handle */}
+                          <div
+                            className="absolute top-0 w-4 h-6 bg-white border-2 border-gray-300 rounded-sm shadow-lg cursor-grab active:cursor-grabbing transform -translate-x-1/2 hover:scale-110 transition-transform"
+                            style={{
+                              left: `${(currentColor.hsl.h / 360) * 100}%`,
+                            }}
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ) : (
