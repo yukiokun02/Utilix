@@ -26,8 +26,8 @@ export default function Home() {
       <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
         <BackgroundShapes variant="hero" />
         
-        {/* Top Mobile Ad Banner - Fixed Position */}
-        <div className="absolute top-4 left-4 right-4 z-20 block lg:hidden">
+        {/* Top Mobile Ad Banner - Below Navbar */}
+        <div className="absolute top-20 left-4 right-4 z-20 block lg:hidden">
           <div className="bg-gray-800/30 rounded-lg p-2 text-center text-gray-400 border border-gray-600/30">
             <div className="h-12 flex items-center justify-center text-xs">
               Mobile Ad (320x50)
@@ -45,7 +45,7 @@ export default function Home() {
             </div>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 animate-fade-scale mt-16 lg:mt-0">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 animate-fade-scale mt-32 lg:mt-0">
             <span className="gradient-text">UTILITIX</span>
             <br />
             <span className="text-foreground">Free Online Tools for Everyday Tasks</span>
