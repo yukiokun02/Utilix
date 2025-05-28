@@ -70,6 +70,18 @@ sudo -u postgres psql
 CREATE DATABASE utilitix;
 CREATE USER utilitix_user WITH PASSWORD 'your_secure_password_here';
 GRANT ALL PRIVILEGES ON DATABASE utilitix TO utilitix_user;
+ALTER USER utilitix_user CREATEDB;
+\q
+
+# Now connect to the utilitix database and grant schema permissions
+sudo -u postgres psql -d utilitix
+
+# Grant permissions on public schema:
+GRANT ALL ON SCHEMA public TO utilitix_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO utilitix_user;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO utilitix_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO utilitix_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO utilitix_user;
 \q
 ```
 
