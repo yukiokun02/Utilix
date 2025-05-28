@@ -2,6 +2,8 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import BackgroundShapes from "@/components/background-shapes";
+import AdsterraAdMobile from "@/components/AdsterraAdMobile";
+import AdsterraAdDesktop from "@/components/AdsterraAdDesktop";
 import { ArrowLeftIcon } from "lucide-react";
 
 export default function Privacy() {
@@ -142,23 +144,11 @@ export default function Privacy() {
         </Card>
 
         {/* ==================== BOTTOM AD AREA - START ==================== */}
-        <div className="mt-8">
-          {/* PASTE YOUR AD SCRIPT HERE */}
-          <div dangerouslySetInnerHTML={{
-            __html: `
-              <script type="text/javascript">
-                atOptions = {
-                  'key' : 'YOUR_AD_KEY_HERE',
-                  'format' : 'iframe',
-                  'height' : 90,
-                  'width' : 728,
-                  'params' : {}
-                };
-              </script>
-              <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
-            `
-          }} />
-          {/* PASTE YOUR AD SCRIPT ABOVE */}
+        <div className="mt-8 flex justify-center">
+          <div className="w-full max-w-4xl">
+            <AdsterraAdMobile />
+            <AdsterraAdDesktop />
+          </div>
         </div>
         {/* ==================== BOTTOM AD AREA - END ==================== */}
       </div>

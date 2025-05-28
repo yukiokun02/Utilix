@@ -477,9 +477,11 @@ letter-spacing: ${letterSpacing[0]}px;`;
         </Card>
 
         {/* ==================== BOTTOM AD AREA - START ==================== */}
-        <div className="mt-8">
-          <AdsterraAdMobile />
-          <AdsterraAdDesktop />
+        <div className="mt-8 flex justify-center">
+          <div className="w-full max-w-4xl">
+            <AdsterraAdMobile />
+            <AdsterraAdDesktop />
+          </div>
         </div>
         {/* ==================== BOTTOM AD AREA - END ==================== */}
       </div>

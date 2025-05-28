@@ -367,23 +367,11 @@ export default function FileCompressor() {
           </div>
 
           {/* ==================== MIDDLE AD AREA - START ==================== */}
-          <div className="my-8">
-            {/* PASTE YOUR AD SCRIPT HERE */}
-            <div dangerouslySetInnerHTML={{
-              __html: `
-                <script type="text/javascript">
-                  atOptions = {
-                    'key' : 'YOUR_AD_KEY_HERE',
-                    'format' : 'iframe',
-                    'height' : 90,
-                    'width' : 728,
-                    'params' : {}
-                  };
-                </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
-              `
-            }} />
-            {/* PASTE YOUR AD SCRIPT ABOVE */}
+          <div className="my-8 flex justify-center">
+            <div className="w-full max-w-4xl">
+              <AdsterraAdMobile />
+              <AdsterraAdDesktop />
+            </div>
           </div>
           {/* ==================== MIDDLE AD AREA - END ==================== */}
 
@@ -505,14 +493,14 @@ export default function FileCompressor() {
           </CardContent>
         </Card>
 
-        {/* Bottom Ad */}
-        <div className="mt-8">
-          <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
-            <div className="h-24 flex items-center justify-center text-sm">
-              Bottom Ad Area (728x90)
-            </div>
+        {/* ==================== BOTTOM AD AREA - START ==================== */}
+        <div className="mt-8 flex justify-center">
+          <div className="w-full max-w-4xl">
+            <AdsterraAdMobile />
+            <AdsterraAdDesktop />
           </div>
         </div>
+        {/* ==================== BOTTOM AD AREA - END ==================== */}
       </div>
 
       {/* Download Popup */}

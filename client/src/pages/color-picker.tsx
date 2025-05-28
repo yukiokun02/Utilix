@@ -726,12 +726,11 @@ export default function ColorPicker() {
         </Card>
 
         {/* ==================== BOTTOM AD AREA - START ==================== */}
-        <div className="mt-8">
-          <AdsterraAd 
-            adKey="9713846a01389bccb7945a5638e800ae"
-            width={728}
-            height={90}
-          />
+        <div className="mt-8 flex justify-center">
+          <div className="w-full max-w-4xl">
+            <AdsterraAdMobile />
+            <AdsterraAdDesktop />
+          </div>
         </div>
         {/* ==================== BOTTOM AD AREA - END ==================== */}
       </div>
