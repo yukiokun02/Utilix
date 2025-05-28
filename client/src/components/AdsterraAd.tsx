@@ -9,47 +9,46 @@ interface AdsterraAdProps {
 
 export default function AdsterraAd({ adKey, width, height, className = '' }: AdsterraAdProps) {
   const adRef = useRef<HTMLDivElement>(null);
-  const scriptLoadedRef = useRef(false);
 
   useEffect(() => {
-    if (!adRef.current || scriptLoadedRef.current) return;
+    if (!adRef.current) return;
 
-    // Create unique variable name to avoid conflicts
+    // Create a unique ID for this ad instance
     const uniqueId = Math.random().toString(36).substr(2, 9);
-    const optionsVar = `atOptions_${uniqueId}`;
     
-    // Set options on window object
-    (window as any)[optionsVar] = {
-      'key': adKey,
-      'format': 'iframe',
-      'height': height,
-      'width': width,
-      'params': {}
-    };
+    // Create the HTML content exactly as Adsterra expects
+    const adHTML = `
+      <script type="text/javascript">
+        atOptions = {
+          'key' : '${adKey}',
+          'format' : 'iframe',
+          'height' : ${height},
+          'width' : ${width},
+          'params' : {}
+        };
+      </script>
+      <script type="text/javascript" src="//www.highperformanceformat.com/${adKey}/invoke.js"></script>
+    `;
 
-    // Create and load the script
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = `//www.highperformanceformat.com/${adKey}/invoke.js`;
-    script.async = true;
-    
-    script.onload = () => {
-      console.log('Adsterra script loaded successfully');
-    };
-    
-    script.onerror = () => {
-      console.error('Failed to load Adsterra script');
-    };
+    // Insert the ad HTML directly
+    adRef.current.innerHTML = adHTML;
 
-    adRef.current.appendChild(script);
-    scriptLoadedRef.current = true;
-
-    return () => {
-      // Cleanup
-      if ((window as any)[optionsVar]) {
-        delete (window as any)[optionsVar];
+    // Execute the scripts manually
+    const scripts = adRef.current.querySelectorAll('script');
+    scripts.forEach((script) => {
+      const newScript = document.createElement('script');
+      newScript.type = script.type || 'text/javascript';
+      if (script.src) {
+        newScript.src = script.src;
+        newScript.async = true;
+      } else {
+        newScript.textContent = script.textContent;
       }
-    };
+      script.parentNode?.replaceChild(newScript, script);
+    });
+
+    console.log('Adsterra ad initialized for key:', adKey);
+
   }, [adKey, width, height]);
 
   return (
@@ -60,20 +59,9 @@ export default function AdsterraAd({ adKey, width, height, className = '' }: Ads
         minHeight: height, 
         width: width, 
         margin: '0 auto',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}
-    >
-      {/* Fallback content while ad loads */}
-      <div style={{ 
-        fontSize: '12px', 
-        color: '#666', 
         textAlign: 'center',
-        padding: '10px'
-      }}>
-        Loading ad...
-      </div>
-    </div>
+        display: 'block'
+      }}
+    />
   );
 }
