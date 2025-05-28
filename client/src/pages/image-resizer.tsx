@@ -9,7 +9,8 @@ import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BackgroundShapes from "@/components/background-shapes";
 import DownloadPopup from "@/components/download-popup";
-import AdsterraAd from "@/components/AdsterraAd";
+import AdsterraAdMobile from "@/components/AdsterraAdMobile";
+import AdsterraAdDesktop from "@/components/AdsterraAdDesktop";
 import { ArrowLeftIcon, CloudUploadIcon, DownloadIcon, XIcon, CropIcon, RotateCcwIcon, SquareIcon, RectangleHorizontalIcon, RectangleVerticalIcon, MonitorIcon, SmartphoneIcon, CreditCardIcon, BookOpenIcon, ImageIcon, Palette } from "lucide-react";
 import { Link } from "wouter";
 import { resizeImage, convertImage } from "@/lib/image-utils";
@@ -1255,11 +1256,7 @@ export default function ImageTool() {
 
         {/* ==================== MOBILE BOTTOM AD AREA - START ==================== */}
         <div className="block lg:hidden mt-8">
-          <AdsterraAd 
-            adKey="9713846a01389bccb7945a5638e800ae"
-            width={320}
-            height={50}
-          />
+          <AdsterraAdMobile />
         </div>
         {/* ==================== MOBILE BOTTOM AD AREA - END ==================== */}
       </div>
@@ -1267,11 +1264,7 @@ export default function ImageTool() {
       {/* ==================== RIGHT SIDEBAR AD AREA - START ==================== */}
       <div className="hidden lg:block">
         <div className="sticky top-4">
-          <AdsterraAd 
-            adKey="9713846a01389bccb7945a5638e800ae"
-            width={160}
-            height={600}
-          />
+          <AdsterraAdDesktop />
         </div>
       </div>
       {/* ==================== RIGHT SIDEBAR AD AREA - END ==================== */}
@@ -1279,11 +1272,7 @@ export default function ImageTool() {
 
         {/* ==================== DESKTOP BOTTOM AD AREA - START ==================== */}
         <div className="hidden lg:block mt-8">
-          <AdsterraAd 
-            adKey="9713846a01389bccb7945a5638e800ae"
-            width={728}
-            height={90}
-          />
+          <AdsterraAdDesktop />
         </div>
         {/* ==================== DESKTOP BOTTOM AD AREA - END ==================== */}
       </div>

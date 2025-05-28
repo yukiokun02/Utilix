@@ -4,7 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import BackgroundShapes from "@/components/background-shapes";
 import DownloadPopup from "@/components/download-popup";
-import AdsterraAd from "@/components/AdsterraAd";
+import AdsterraAdMobile from "@/components/AdsterraAdMobile";
+import AdsterraAdDesktop from "@/components/AdsterraAdDesktop";
 import { ArrowLeftIcon, FileTextIcon, DownloadIcon, FileIcon } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
@@ -180,10 +181,9 @@ export default function FileConverter() {
       
       {/* Top Ad Banner */}
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-        <div className="bg-gray-800/30 rounded-lg p-3 text-center text-gray-400 border border-gray-600/30 mb-6">
-          <div className="h-16 sm:h-20 flex items-center justify-center text-xs sm:text-sm">
-            Top Ad Banner (728x90 / 320x50)
-          </div>
+        <div className="mb-6">
+          <AdsterraAdMobile />
+          <AdsterraAdDesktop />
         </div>
       </div>
 
@@ -206,11 +206,8 @@ export default function FileConverter() {
 
         {/* ==================== MIDDLE AD AREA - START ==================== */}
         <div className="my-8">
-          <AdsterraAd 
-            adKey="9713846a01389bccb7945a5638e800ae"
-            width={728}
-            height={90}
-          />
+          <AdsterraAdMobile />
+          <AdsterraAdDesktop />
         </div>
         {/* ==================== MIDDLE AD AREA - END ==================== */}
         
@@ -401,11 +398,8 @@ export default function FileConverter() {
 
         {/* Bottom Ad */}
         <div className="mt-8">
-          <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
-            <div className="h-24 flex items-center justify-center text-sm">
-              Bottom Ad Area (728x90)
-            </div>
-          </div>
+          <AdsterraAdMobile />
+          <AdsterraAdDesktop />
         </div>
       </div>
 
