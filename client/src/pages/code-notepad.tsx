@@ -94,7 +94,8 @@ export default function CodeNotepad() {
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
         <div className="bg-gray-800/30 rounded-lg p-3 text-center text-gray-400 border border-gray-600/30 mb-6">
           <div className="h-16 sm:h-20 flex items-center justify-center text-xs sm:text-sm">
-            Top Ad Banner (728x90 / 320x50)
+            <AdsterraAdMobile />
+            <AdsterraAdDesktop />
           </div>
         </div>
       </div>
@@ -265,7 +266,8 @@ export default function CodeNotepad() {
         <div className="mt-8">
           <div className="bg-gray-800/30 rounded-lg p-4 text-center text-gray-400 border border-gray-600/30">
             <div className="h-24 flex items-center justify-center text-sm">
-              Bottom Ad Area (728x90)
+              <AdsterraAdMobile />
+              <AdsterraAdDesktop />
             </div>
           </div>
         </div>
