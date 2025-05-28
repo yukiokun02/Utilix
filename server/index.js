@@ -22,17 +22,35 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Serve static files from dist/client
-app.use(express.static(path.join(__dirname, '../dist')));
+// Serve static files from dist directory
+app.use(express.static(path.join(__dirname, '../dist'), {
+  maxAge: '1y',
+  etag: false
+}));
 
-// API placeholder for future expansion
-app.get('/api/*', (req, res) => {
-  res.json({ message: 'API endpoint not implemented' });
+// Health check for monitoring
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  });
 });
 
-// Serve React app for all other routes
+// Handle client-side routing - CRITICAL for React Router
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../dist/index.html'));
+  // Skip API routes
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ error: 'API endpoint not found' });
+  }
+  
+  // Serve React app for all other routes (handles /color-picker, /image-converter, etc.)
+  res.sendFile(path.join(__dirname, '../dist/index.html'), (err) => {
+    if (err) {
+      console.error('Error serving index.html:', err);
+      res.status(500).send('Server Error');
+    }
+  });
 });
 
 // Start server

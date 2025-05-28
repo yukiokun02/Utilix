@@ -102,43 +102,67 @@ npm install
 npm run build
 ```
 
-### Step 5: Start Application
+### Step 5: Create Systemd Service (Production-Ready)
+
+Create the systemd service file:
 
 ```bash
-# Start the application in background
-nohup npm start > utilitix.log 2>&1 &
-
-# Or create a simple systemd service (recommended)
 sudo nano /etc/systemd/system/utilitix.service
 ```
 
-Add this content to the service file:
+Add this exact content (copy/paste):
 
 ```ini
 [Unit]
-Description=Utilitix Web Application
+Description=Utilitix - Free Online Tools Platform
+Documentation=https://github.com/yourusername/utilitix
 After=network.target
+Wants=network.target
 
 [Service]
 Type=simple
 User=www-data
+Group=www-data
 WorkingDirectory=/var/www/utilitix
 ExecStart=/usr/bin/node server/index.js
+ExecReload=/bin/kill -s HUP $MAINPID
 Restart=always
-RestartSec=10
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=utilitix
 Environment=NODE_ENV=production
 Environment=PORT=3000
+KillMode=mixed
+KillSignal=SIGINT
+TimeoutStopSec=20
 
 [Install]
 WantedBy=multi-user.target
 ```
 
-Then enable and start the service:
+Set proper permissions and start the service:
 
 ```bash
+# Set proper ownership
+sudo chown -R www-data:www-data /var/www/utilitix
+
+# Reload systemd and enable service
+sudo systemctl daemon-reload
 sudo systemctl enable utilitix
 sudo systemctl start utilitix
+
+# Verify service is running
 sudo systemctl status utilitix
+```
+
+**Check logs if needed:**
+```bash
+# View live logs
+sudo journalctl -u utilitix -f
+
+# View recent logs
+sudo journalctl -u utilitix --since "10 minutes ago"
 ```
 
 ### Step 6: Configure Nginx
@@ -149,13 +173,51 @@ Create Nginx configuration:
 sudo nano /etc/nginx/sites-available/utilitix
 ```
 
-Add this configuration (replace `your-domain.com` with your actual domain):
+Add this bulletproof configuration (replace `your-domain.com` with your actual domain):
 
 ```nginx
 server {
     listen 80;
     server_name your-domain.com www.your-domain.com;
-
+    
+    # Security headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    
+    # Gzip compression
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript image/svg+xml;
+    
+    # Rate limiting
+    limit_req_zone $binary_remote_addr zone=api:10m rate=10r/s;
+    
+    # Health check (don't log)
+    location = /health {
+        proxy_pass http://localhost:3000;
+        access_log off;
+    }
+    
+    # API routes
+    location /api/ {
+        limit_req zone=api burst=20 nodelay;
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+        proxy_read_timeout 60s;
+        proxy_connect_timeout 10s;
+    }
+    
+    # All other routes (React app with client-side routing)
     location / {
         proxy_pass http://localhost:3000;
         proxy_http_version 1.1;
@@ -166,16 +228,42 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_cache_bypass $http_upgrade;
+        proxy_read_timeout 60s;
+        proxy_connect_timeout 10s;
+        
+        # Handle client-side routing fallback
+        proxy_intercept_errors on;
+        error_page 404 = @fallback;
+    }
+    
+    # Fallback for client-side routing
+    location @fallback {
+        proxy_pass http://localhost:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
 ```
 
-Enable the site:
+Enable the site and test configuration:
 
 ```bash
+# Enable the site
 sudo ln -s /etc/nginx/sites-available/utilitix /etc/nginx/sites-enabled/
+
+# Remove default site if it exists
+sudo rm -f /etc/nginx/sites-enabled/default
+
+# Test Nginx configuration
 sudo nginx -t
+
+# If test passes, restart Nginx
 sudo systemctl restart nginx
+
+# Check Nginx status
+sudo systemctl status nginx
 ```
 
 ### Step 7: Setup SSL Certificate (Optional but Recommended)
@@ -192,9 +280,39 @@ sudo certbot --nginx -d your-domain.com -d www.your-domain.com
 
 ### Step 8: Verify Deployment
 
-1. Check if the application is running: `sudo systemctl status utilitix`
-2. Check Nginx status: `sudo systemctl status nginx`
-3. Visit your domain in a browser
+1. **Check application status:**
+   ```bash
+   sudo systemctl status utilitix
+   ```
+
+2. **Check Nginx status:**
+   ```bash
+   sudo systemctl status nginx
+   ```
+
+3. **Test the application:**
+   ```bash
+   # Test health endpoint
+   curl http://localhost:3000/health
+   
+   # Test through Nginx
+   curl http://localhost/health
+   ```
+
+4. **Visit your website:**
+   - `http://your-domain.com`
+   - Test navigation: `/color-picker`, `/image-converter`, etc.
+   - Refresh pages to ensure routing works
+
+5. **Monitor logs in real-time:**
+   ```bash
+   # Application logs
+   sudo journalctl -u utilitix -f
+   
+   # Nginx logs
+   sudo tail -f /var/log/nginx/access.log
+   sudo tail -f /var/log/nginx/error.log
+   ```
 
 ## 🔧 Management Commands
 
@@ -238,26 +356,53 @@ psql -U utilitix_user -h localhost utilitix < backup.sql
 
 ### Common Issues
 
-1. **Port 3000 already in use**
+1. **Service won't start:**
+   ```bash
+   # Check detailed logs
+   sudo journalctl -u utilitix --no-pager
+   
+   # Check file permissions
+   sudo chown -R www-data:www-data /var/www/utilitix
+   
+   # Verify Node.js path
+   which node
+   # Update ExecStart in service file if needed
+   ```
+
+2. **Port 3000 already in use:**
    ```bash
    sudo lsof -i :3000
    sudo kill -9 PID_NUMBER
+   sudo systemctl restart utilitix
    ```
 
-2. **Permission denied errors**
+3. **Nginx errors:**
    ```bash
-   sudo chown -R $USER:$USER /var/www/utilitix
-   ```
-
-3. **Database connection failed**
-   - Check PostgreSQL is running: `sudo systemctl status postgresql`
-   - Verify database credentials in `.env.production`
-
-4. **Nginx errors**
-   ```bash
+   # Test configuration
    sudo nginx -t
-   sudo systemctl status nginx
-   tail -f /var/log/nginx/error.log
+   
+   # Check error logs
+   sudo tail -f /var/log/nginx/error.log
+   
+   # Restart services
+   sudo systemctl restart nginx
+   sudo systemctl restart utilitix
+   ```
+
+4. **Routing issues (404 on page refresh):**
+   ```bash
+   # Verify Nginx config has fallback location
+   # Check application logs
+   sudo journalctl -u utilitix -f
+   ```
+
+5. **SSL/HTTPS issues:**
+   ```bash
+   # Renew certificate
+   sudo certbot renew --dry-run
+   
+   # Check certificate status
+   sudo certbot certificates
    ```
 
 ## 📈 Performance Optimization
