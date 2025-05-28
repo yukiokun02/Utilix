@@ -196,6 +196,26 @@ export default function Home() {
                 gradient="from-violet-500 to-purple-600"
               />
             </div>
+            
+            <div className="animate-slide-up stagger-6 hover-lift">
+              <ToolCard
+                title="Temp Email"
+                description="Generate temporary email addresses for privacy and testing"
+                icon={MailIcon}
+                href="/temp-email"
+                gradient="from-green-500 to-emerald-600"
+              />
+            </div>
+            
+            <div className="animate-slide-up stagger-7 hover-lift">
+              <ToolCard
+                title="Color Picker"
+                description="Pick and convert colors in HEX, RGB, HSL, HSV, and CMYK formats"
+                icon={PaletteIcon}
+                href="/color-picker"
+                gradient="from-purple-500 to-pink-600"
+              />
+            </div>
           </div>
         </div>
       </section>

@@ -52,6 +52,8 @@ function Router() {
           <Route path="/file-compressor" component={FileCompressor} />
           <Route path="/font-changer" component={FontChanger} />
           <Route path="/code-notepad" component={CodeNotepad} />
+          <Route path="/color-picker" component={ColorPicker} />
+          <Route path="/temp-email" component={TempEmail} />
           <Route path="/about" component={About} />
           <Route path="/terms" component={Terms} />
           <Route path="/privacy" component={Privacy} />

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import BackgroundShapes from "@/components/background-shapes";
-import { ArrowLeftIcon, PaletteIcon, CopyIcon, EyeDropperIcon } from "lucide-react";
+import { ArrowLeftIcon, PaletteIcon, CopyIcon, CircleIcon } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
 
@@ -21,7 +21,7 @@ const HTML_COLORS: Record<string, string> = {
   "#FF00FF": "magenta", "#00FFFF": "cyan", "#000000": "black", "#FFFFFF": "white",
   "#808080": "gray", "#800000": "maroon", "#008000": "green", "#000080": "navy",
   "#808000": "olive", "#800080": "purple", "#008080": "teal", "#C0C0C0": "silver",
-  "#FFA500": "orange", "#FFC0CB": "pink", "#A52A2A": "brown", "#FFFF00": "yellow"
+  "#FFA500": "orange", "#FFC0CB": "pink", "#A52A2A": "brown"
 };
 
 export default function ColorPicker() {
@@ -347,7 +347,7 @@ export default function ColorPicker() {
                 onClick={() => setPickerMode('wheel')}
                 className="flex items-center gap-2"
               >
-                <EyeDropperIcon className="w-4 h-4" />
+                <CircleIcon className="w-4 h-4" />
                 Wheel Mode
               </Button>
             </div>
