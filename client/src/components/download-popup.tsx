@@ -61,22 +61,11 @@ export default function DownloadPopup({ isOpen, onClose, onDownload, filename }:
         <div className="p-4 pt-2 space-y-4">
           {/* ==================== TOP POPUP AD AREA - START ==================== */}
           <div>
-            {/* PASTE YOUR AD SCRIPT HERE */}
-            <div dangerouslySetInnerHTML={{
-              __html: `
-                <script type="text/javascript">
-                  atOptions = {
-                    'key' : 'YOUR_AD_KEY_HERE',
-                    'format' : 'iframe',
-                    'height' : 100,
-                    'width' : 320,
-                    'params' : {}
-                  };
-                </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
-              `
-            }} />
-            {/* PASTE YOUR AD SCRIPT ABOVE */}
+            <AdsterraAd 
+              adKey="9713846a01389bccb7945a5638e800ae"
+              width={320}
+              height={100}
+            />
           </div>
           {/* ==================== TOP POPUP AD AREA - END ==================== */}
 
@@ -101,22 +90,11 @@ export default function DownloadPopup({ isOpen, onClose, onDownload, filename }:
 
           {/* ==================== BOTTOM POPUP AD AREA - START ==================== */}
           <div>
-            {/* PASTE YOUR AD SCRIPT HERE */}
-            <div dangerouslySetInnerHTML={{
-              __html: `
-                <script type="text/javascript">
-                  atOptions = {
-                    'key' : 'YOUR_AD_KEY_HERE',
-                    'format' : 'iframe',
-                    'height' : 75,
-                    'width' : 300,
-                    'params' : {}
-                  };
-                </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
-              `
-            }} />
-            {/* PASTE YOUR AD SCRIPT ABOVE */}
+            <AdsterraAd 
+              adKey="9713846a01389bccb7945a5638e800ae"
+              width={300}
+              height={75}
+            />
           </div>
           {/* ==================== BOTTOM POPUP AD AREA - END ==================== */}
 

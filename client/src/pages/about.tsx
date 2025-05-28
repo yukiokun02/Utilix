@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import BackgroundShapes from "@/components/background-shapes";
+import AdsterraAd from "@/components/AdsterraAd";
 import { ArrowLeftIcon, ImageIcon, FileIcon, TypeIcon, CodeIcon, MailIcon, MessageCircleIcon } from "lucide-react";
 
 export default function About() {
@@ -102,22 +103,11 @@ export default function About() {
 
           {/* ==================== MIDDLE AD AREA - START ==================== */}
           <div className="my-8">
-            {/* PASTE YOUR AD SCRIPT HERE */}
-            <div dangerouslySetInnerHTML={{
-              __html: `
-                <script type="text/javascript">
-                  atOptions = {
-                    'key' : 'YOUR_AD_KEY_HERE',
-                    'format' : 'iframe',
-                    'height' : 90,
-                    'width' : 728,
-                    'params' : {}
-                  };
-                </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
-              `
-            }} />
-            {/* PASTE YOUR AD SCRIPT ABOVE */}
+            <AdsterraAd 
+              adKey="9713846a01389bccb7945a5638e800ae"
+              width={728}
+              height={90}
+            />
           </div>
           {/* ==================== MIDDLE AD AREA - END ==================== */}
 
@@ -203,22 +193,11 @@ export default function About() {
 
         {/* ==================== BOTTOM AD AREA - START ==================== */}
         <div className="mt-8">
-          {/* PASTE YOUR AD SCRIPT HERE */}
-          <div dangerouslySetInnerHTML={{
-            __html: `
-              <script type="text/javascript">
-                atOptions = {
-                  'key' : 'YOUR_AD_KEY_HERE',
-                  'format' : 'iframe',
-                  'height' : 90,
-                  'width' : 728,
-                  'params' : {}
-                };
-              </script>
-              <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
-            `
-          }} />
-          {/* PASTE YOUR AD SCRIPT ABOVE */}
+          <AdsterraAd 
+            adKey="9713846a01389bccb7945a5638e800ae"
+            width={728}
+            height={90}
+          />
         </div>
         {/* ==================== BOTTOM AD AREA - END ==================== */}
       </div>

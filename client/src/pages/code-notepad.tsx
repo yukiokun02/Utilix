@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import BackgroundShapes from "@/components/background-shapes";
+import AdsterraAd from "@/components/AdsterraAd";
 import DownloadPopup from "@/components/download-popup";
 import { ArrowLeftIcon, SaveIcon, DownloadIcon, CopyIcon, FileTextIcon, PlusIcon, TrashIcon } from "lucide-react";
 import { Link } from "wouter";
@@ -209,22 +210,11 @@ export default function CodeNotepad() {
 
         {/* ==================== MIDDLE AD AREA - START ==================== */}
         <div className="my-8">
-          {/* PASTE YOUR AD SCRIPT HERE */}
-          <div dangerouslySetInnerHTML={{
-            __html: `
-              <script type="text/javascript">
-                atOptions = {
-                  'key' : 'YOUR_AD_KEY_HERE',
-                  'format' : 'iframe',
-                  'height' : 90,
-                  'width' : 728,
-                  'params' : {}
-                };
-              </script>
-              <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
-            `
-          }} />
-          {/* PASTE YOUR AD SCRIPT ABOVE */}
+          <AdsterraAd 
+            adKey="9713846a01389bccb7945a5638e800ae"
+            width={728}
+            height={90}
+          />
         </div>
         {/* ==================== MIDDLE AD AREA - END ==================== */}
 

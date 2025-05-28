@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import BackgroundShapes from "@/components/background-shapes";
 import DownloadPopup from "@/components/download-popup";
+import AdsterraAd from "@/components/AdsterraAd";
 import { ArrowLeftIcon, FileTextIcon, DownloadIcon, FileIcon } from "lucide-react";
 import { Link } from "wouter";
 import { useToast } from "@/hooks/use-toast";
@@ -205,22 +206,11 @@ export default function FileConverter() {
 
         {/* ==================== MIDDLE AD AREA - START ==================== */}
         <div className="my-8">
-          {/* PASTE YOUR AD SCRIPT HERE */}
-          <div dangerouslySetInnerHTML={{
-            __html: `
-              <script type="text/javascript">
-                atOptions = {
-                  'key' : 'YOUR_AD_KEY_HERE',
-                  'format' : 'iframe',
-                  'height' : 90,
-                  'width' : 728,
-                  'params' : {}
-                };
-              </script>
-              <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_AD_KEY_HERE/invoke.js"></script>
-            `
-          }} />
-          {/* PASTE YOUR AD SCRIPT ABOVE */}
+          <AdsterraAd 
+            adKey="9713846a01389bccb7945a5638e800ae"
+            width={728}
+            height={90}
+          />
         </div>
         {/* ==================== MIDDLE AD AREA - END ==================== */}
         

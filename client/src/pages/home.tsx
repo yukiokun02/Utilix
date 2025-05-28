@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import ToolCard from "@/components/tool-card";
 import BackgroundShapes from "@/components/background-shapes";
 import EnderHostFooter from "@/components/enderhost-footer";
+import AdsterraAd from "@/components/AdsterraAd";
 import { 
   RocketIcon, 
   PlayIcon, 
