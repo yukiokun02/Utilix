@@ -29,22 +29,40 @@ export default function Home() {
         
         {/* ==================== MOBILE TOP AD AREA - START ==================== */}
         <div className="absolute top-20 left-4 right-4 z-20 block lg:hidden">
-          <AdsterraAd 
-            adKey="9713846a01389bccb7945a5638e800ae"
-            width={320}
-            height={50}
-          />
+          <div dangerouslySetInnerHTML={{
+            __html: `
+              <script type="text/javascript">
+                atOptions = {
+                  'key' : '9713846a01389bccb7945a5638e800ae',
+                  'format' : 'iframe',
+                  'height' : 50,
+                  'width' : 320,
+                  'params' : {}
+                };
+              </script>
+              <script type="text/javascript" src="//www.highperformanceformat.com/9713846a01389bccb7945a5638e800ae/invoke.js"></script>
+            `
+          }} />
         </div>
         {/* ==================== MOBILE TOP AD AREA - END ==================== */}
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           {/* ==================== DESKTOP TOP AD AREA - START ==================== */}
           <div className="hidden lg:block mb-8">
-            <AdsterraAd 
-              adKey="9713846a01389bccb7945a5638e800ae"
-              width={728}
-              height={90}
-            />
+            <div dangerouslySetInnerHTML={{
+              __html: `
+                <script type="text/javascript">
+                  atOptions = {
+                    'key' : '9713846a01389bccb7945a5638e800ae',
+                    'format' : 'iframe',
+                    'height' : 90,
+                    'width' : 728,
+                    'params' : {}
+                  };
+                </script>
+                <script type="text/javascript" src="//www.highperformanceformat.com/9713846a01389bccb7945a5638e800ae/invoke.js"></script>
+              `
+            }} />
           </div>
           {/* ==================== DESKTOP TOP AD AREA - END ==================== */}
 
@@ -122,21 +140,39 @@ export default function Home() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* ==================== MOBILE MIDDLE AD AREA - START ==================== */}
           <div className="block lg:hidden mb-8">
-            <AdsterraAd 
-              adKey="9713846a01389bccb7945a5638e800ae"
-              width={320}
-              height={50}
-            />
+            <div dangerouslySetInnerHTML={{
+              __html: `
+                <script type="text/javascript">
+                  atOptions = {
+                    'key' : '9713846a01389bccb7945a5638e800ae',
+                    'format' : 'iframe',
+                    'height' : 50,
+                    'width' : 320,
+                    'params' : {}
+                  };
+                </script>
+                <script type="text/javascript" src="//www.highperformanceformat.com/9713846a01389bccb7945a5638e800ae/invoke.js"></script>
+              `
+            }} />
           </div>
           {/* ==================== MOBILE MIDDLE AD AREA - END ==================== */}
           
           {/* ==================== DESKTOP MIDDLE AD AREA - START ==================== */}
           <div className="hidden lg:block mb-8">
-            <AdsterraAd 
-              adKey="9713846a01389bccb7945a5638e800ae"
-              width={728}
-              height={90}
-            />
+            <div dangerouslySetInnerHTML={{
+              __html: `
+                <script type="text/javascript">
+                  atOptions = {
+                    'key' : '9713846a01389bccb7945a5638e800ae',
+                    'format' : 'iframe',
+                    'height' : 90,
+                    'width' : 728,
+                    'params' : {}
+                  };
+                </script>
+                <script type="text/javascript" src="//www.highperformanceformat.com/9713846a01389bccb7945a5638e800ae/invoke.js"></script>
+              `
+            }} />
           </div>
           {/* ==================== DESKTOP MIDDLE AD AREA - END ==================== */}
           
