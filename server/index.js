@@ -32,6 +32,12 @@ app.use(express.static(path.join(__dirname, '../dist/public'), {
   etag: false
 }));
 
+// Serve ads.txt file specifically for Google AdSense
+app.get('/ads.txt', (req, res) => {
+  res.type('text/plain');
+  res.send('google.com, pub-7651606911286911, DIRECT, f08c47fec0942fa0');
+});
+
 // Health check for monitoring
 app.get('/api/health', (req, res) => {
   res.json({ 
