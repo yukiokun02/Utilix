@@ -329,6 +329,17 @@ export default function ColorPicker() {
     <div className="min-h-screen pt-20 relative">
       <BackgroundShapes />
       
+      {/* ==================== TOP AD AREA - START ==================== */}
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <div className="mb-6 flex justify-center">
+          <div className="w-full max-w-4xl">
+            <AdsterraAdMobile />
+            <AdsterraAdDesktop />
+          </div>
+        </div>
+      </div>
+      {/* ==================== TOP AD AREA - END ==================== */}
+      
       {/* Top Ad Banner */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
         <div className="bg-gray-800/30 rounded-lg p-3 text-center text-gray-400 border border-gray-600/30 mb-6">
