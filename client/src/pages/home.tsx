@@ -29,14 +29,16 @@ export default function Home() {
         <BackgroundShapes variant="hero" />
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          {/* ==================== MOBILE TOP AD AREA - START ==================== */}
-          <AdsterraAdMobile />
-          {/* ==================== MOBILE TOP AD AREA - END ==================== */}
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          {/* ==================== DESKTOP TOP AD AREA - START ==================== */}
-          <AdsterraAdDesktop />
-          {/* ==================== DESKTOP TOP AD AREA - END ==================== */}
+          {/* ==================== TOP AD AREA - START ==================== */}
+          <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+            <div className="mb-6 flex justify-center">
+              <div className="w-full max-w-4xl">
+                <AdsterraAdMobile />
+                <AdsterraAdDesktop />
+              </div>
+            </div>
+          </div>
+          {/* ==================== TOP AD AREA - END ==================== */}
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 animate-fade-scale mt-32 lg:mt-0">
             <span className="gradient-text">UTILITIX</span>
@@ -111,13 +113,14 @@ export default function Home() {
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* ==================== MIDDLE AD AREA - START ==================== */}
-          
+          <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
             <div className="mb-6 flex justify-center">
               <div className="w-full max-w-4xl">
                 <AdsterraAdMobile />
                 <AdsterraAdDesktop />
               </div>
             </div>
+          </div>
           {/* ==================== MIDDLE AD AREA - END ==================== */}
           
           <div className="text-center mb-8 sm:mb-12 md:mb-16">

@@ -1261,7 +1261,6 @@ export default function ImageTool() {
         </div>
       </div>
       {/* ==================== RIGHT SIDEBAR AD AREA - END ==================== */}
-    </div>
 
         {/* ==================== DESKTOP BOTTOM AD AREA - START ==================== */}
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
