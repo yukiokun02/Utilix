@@ -187,6 +187,17 @@ letter-spacing: ${letterSpacing[0]}px;`;
         </div>
       </div>
       {/* ==================== TOP AD AREA - END ==================== */}
+      
+      {/* ==================== TOP AD AREA - START ==================== */}
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <div className="mb-6 flex justify-center">
+          <div className="w-full max-w-4xl">
+            <AdsterraAdMobile />
+            <AdsterraAdDesktop />
+          </div>
+        </div>
+      </div>
+      {/* ==================== TOP AD AREA - END ==================== */}
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 space-y-4 sm:space-y-0">
