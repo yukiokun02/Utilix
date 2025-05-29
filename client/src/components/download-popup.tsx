@@ -61,11 +61,8 @@ export default function DownloadPopup({ isOpen, onClose, onDownload, filename }:
         <div className="p-4 pt-2 space-y-4">
           {/* ==================== TOP POPUP AD AREA - START ==================== */}
           <div>
-            <AdsterraAd 
-              adKey="9713846a01389bccb7945a5638e800ae"
-              width={320}
-              height={100}
-            />
+            <AdsterraAdMobile />
+            <AdsterraAdDesktop />
           </div>
           {/* ==================== TOP POPUP AD AREA - END ==================== */}
 
@@ -90,11 +87,8 @@ export default function DownloadPopup({ isOpen, onClose, onDownload, filename }:
 
           {/* ==================== BOTTOM POPUP AD AREA - START ==================== */}
           <div>
-            <AdsterraAd 
-              adKey="9713846a01389bccb7945a5638e800ae"
-              width={300}
-              height={75}
-            />
+            <AdsterraAdMobile />
+            <AdsterraAdDesktop />
           </div>
           {/* ==================== BOTTOM POPUP AD AREA - END ==================== */}
 
